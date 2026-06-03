@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nos Produits — Bayt Bio</title>
+
+  <!-- ── FONTS (Cormorant Garamond · DM Sans · Amiri) ─────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       RESET
+    ══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
+
+    /* ══════════════════════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════════════════════ */
+    :root {
+      --cream:        #faf8f5;
+      --cream-two:    #f5edd8;
+      --linen:        #ead9bc;
+      --terracotta:   #d4883c;
+      --terra-light:  #e09a55;
+      --terra-dark:   #b06a28;
+      --olive:        #163b26;
+      --olive-light:  #3d7a55;
+      --brown:        #2c2c2c;
+      --brown-mid:    #3a2810;
+      --warm-white:   #faf8f5;
+      --sand:         #8b7355;
+      --text:         #2c2c2c;
+      --text-muted:   #8b7355;
+
+      /* shorthand aliases */
+      --warm:         #faf8f5;
+      --muted:        #8b7355;
+      --terracottacotta: #e09a55;
+      --olive-m:      #3d7a55;
+      --olive-mid:    #3d7a55;
+      --olive-pale:   rgba(61,122,85,.08);
+      --brown-m:      #3a2810;
+
+      /* per-product accent colours */
+      --egg-accent:    #c8901a;
+      --milk-accent:   #5a7a8a;
+      --cheese-accent: #b87030;
+      --yogurt-accent: #4a6840;
+      --pack-accent:   #b85a28;
+
+      /* typography */
+      --font-display: "Cormorant Garamond", Georgia, serif;
+      --font-arabic:  "Amiri", serif;
+      --font-body:    "DM Sans", sans-serif;
+      --font-d:       "Cormorant Garamond", Georgia, serif;
+      --font-b:       "DM Sans", sans-serif;
+      --font-ar:      "Amiri", serif;
+
+      /* easing */
+      --ease:         cubic-bezier(.25,.46,.45,.94);
+      --ease-smooth:  cubic-bezier(.25,.46,.45,.94);
+      --ease-out:     cubic-bezier(.22,.68,0,1.2);
+      --spring:       cubic-bezier(.22,.68,0,1.2);
+    }
+
+    html { scroll-behavior:smooth }
+    body {
+      font-family: var(--font-body);
+      background: var(--warm-white);
+      color: var(--brown);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a, button { cursor:none; text-decoration:none }
+
+    /* ── CUSTOM CURSOR ─────────────────────────────────────────── */
+    #cur {
+      width:8px; height:8px; background:var(--terracotta);
+      border-radius:50%; position:fixed; top:0; left:0;
+      pointer-events:none; z-index:9990;
+    }
+    #curR {
+      width:32px; height:32px;
+      border:1.5px solid var(--terracotta); border-radius:50%;
+      position:fixed; top:0; left:0; pointer-events:none;
+      z-index:9989; opacity:.65;
+      transition:width .3s, height .3s, border-color .3s, opacity .3s;
+    }
+    #curR.big { width:56px; height:56px; border-color:var(--olive); opacity:.4 }
+
+    /* ── GRAIN OVERLAY ─────────────────────────────────────────── */
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity:.025; pointer-events:none; z-index:9000;
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      padding:24px 48px; display:flex; align-items:center;
+      justify-content:space-between;
+      transition:background .5s, padding .4s, backdrop-filter .5s;
+    }
+    nav.scrolled {
+      background:rgba(250,248,245,.88);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      padding:16px 48px; border-bottom:1px solid rgba(212,136,60,.12);
+    }
+    .nav-logo {
+      font-family:var(--font-display); font-size:1.5rem; font-weight:600;
+      color:var(--cream); letter-spacing:.02em; text-decoration:none;
+      display:flex; align-items:center; gap:10px;
+    }
+    /* Products page has an olive-green header, so logo starts cream */
+    nav.scrolled .nav-logo { color:var(--brown) }
+    .nav-logo-mark {
+      width:28px; height:28px; background:var(--olive-light);
+      border-radius:50% 50% 50% 0; transform:rotate(-45deg); flex-shrink:0;
+    }
+    .nav-links { display:flex; gap:40px; list-style:none }
+    .nav-links a {
+      font-family:var(--font-body); font-size:.82rem; font-weight:400;
+      letter-spacing:.12em; text-transform:uppercase; color:var(--cream);
+      text-decoration:none; transition:color .3s; position:relative;
+    }
+    nav.scrolled .nav-links a { color:var(--brown) }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-3px; left:0;
+      width:0; height:1px; background:var(--terracotta);
+      transition:width .35s var(--ease);
+    }
+    .nav-links a:hover { color:var(--terracotta) }
+    .nav-links a:hover::after { width:100% }
+    .nav-links a.active { color:var(--terracotta) }
+    .nav-right { display:flex; align-items:center; gap:24px }
+    .nav-cart {
+      display:flex; align-items:center; gap:8px;
+      font-family:var(--font-body); font-size:.82rem;
+      letter-spacing:.08em; text-transform:uppercase;
+      color:var(--cream); background:none; border:none;
+    }
+    nav.scrolled .nav-cart { color:var(--brown) }
+    .cart-dot {
+      width:18px; height:18px; background:var(--terracotta);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-size:.65rem; color:#fff; font-weight:500;
+      transition:transform .28s;
+    }
+    .cart-dot.pop { transform:scale(1.5) }
+    .nav-whatsapp {
+      padding:9px 22px; background:var(--olive); color:var(--cream);
+      border:none; font-family:var(--font-body); font-size:.78rem;
+      letter-spacing:.1em; text-transform:uppercase; border-radius:2px;
+      transition:background .3s, transform .2s;
+    }
+    .nav-whatsapp:hover { background:var(--olive-light); transform:translateY(-1px) }
+    @media (max-width:768px) {
+      nav { padding:16px 20px }
+      nav.scrolled { padding:12px 20px }
+      .nav-links { display:none }
+      .nav-whatsapp { font-size:.7rem; padding:8px 14px }
+    }
+
+    /* ── PAGE TRANSITIONS ──────────────────────────────────────── */
+    .page { opacity:1; transition:opacity .4s var(--ease-smooth) }
+    .page.hidden { opacity:0; pointer-events:none; position:absolute; inset:0 }
+
+    /* ══════════════════════════════════════════════════════════════
+       PAGE: PRODUCTS LIST
+    ══════════════════════════════════════════════════════════════ */
+
+    /* Hero header */
+    .pl-header {
+      min-height:44vh; background:var(--olive);
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding:100px 72px 64px; position:relative; overflow:hidden;
+    }
+    .pl-header-bg {
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(184,90,40,.18), transparent),
+        radial-gradient(ellipse 50% 80% at 10% 90%, rgba(61,73,38,.35), transparent);
+    }
+    .pl-header-label {
+      font-family:var(--font-body);
+      font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+      color:rgba(200,178,133,.55); margin-bottom:18px;
+      display:flex; align-items:center; gap:14px; position:relative; z-index:1;
+    }
+    .pl-header-label::before { content:''; width:28px; height:1px; background:var(--sand); flex-shrink:0 }
+    .pl-title {
+      font-family:var(--font-display);
+      font-size:clamp(3.2rem,6vw,6.5rem); font-weight:300; line-height:1;
+      color:var(--cream); position:relative; z-index:1;
+    }
+    .pl-title em { font-style:italic; color:var(--terra-light) }
+    .pl-subtitle {
+      font-family:var(--font-body);
+      margin-top:20px; font-size:.9rem; font-weight:300;
+      color:rgba(250,248,245,.72); max-width:480px; line-height:1.75;
+      position:relative; z-index:1;
+    }
+    .pl-header-num {
+      position:absolute; right:56px; bottom:-20px;
+      font-family:var(--font-display); font-size:28vw; font-weight:300;
+      line-height:1; color:rgba(255,255,255,.025);
+      pointer-events:none; user-select:none;
+    }
+
+    /* Catalog rows */
+    .products-catalog { padding:0 }
+    .prod-row {
+      display:grid; min-height:60vh; position:relative; overflow:hidden;
+    }
+    .prod-row.layout-a { grid-template-columns:1.15fr 1fr }
+    .prod-row.layout-b { grid-template-columns:1fr 1.15fr }
+    .prod-row.layout-pack { grid-template-columns:1fr 1fr; min-height:70vh }
+
+    /* Image side */
+    .prod-img-side { position:relative; overflow:hidden }
+    .prod-img-side img {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform 1.2s var(--ease-smooth), filter .6s;
+      filter:saturate(.82) contrast(1.06);
+    }
+    .prod-row:hover .prod-img-side img { transform:scale(1.055); filter:saturate(.95) contrast(1.04) }
+    .prod-img-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(120deg, transparent 55%, rgba(28,18,8,.55));
+      transition:opacity .5s;
+    }
+    .prod-row.layout-b .prod-img-overlay {
+      background:linear-gradient(-120deg, transparent 55%, rgba(28,18,8,.55));
+    }
+
+    /* Text side */
+    .prod-text-side {
+      display:flex; flex-direction:column; justify-content:center;
+      padding:72px 80px; background:var(--warm-white); position:relative;
+      transition:background .4s;
+    }
+    .prod-row:hover .prod-text-side { background:var(--linen) }
+
+    /* Product number — huge decorative */
+    .prod-num {
+      position:absolute; font-family:var(--font-display);
+      font-size:10rem; font-weight:300; line-height:1;
+      pointer-events:none; user-select:none; opacity:.05; top:20px;
+    }
+    .prod-row.layout-a .prod-num { right:64px }
+    .prod-row.layout-b .prod-num { left:64px }
+
+    /* Accent line */
+    .prod-accent-line {
+      width:0; height:2px; border-radius:1px; margin-bottom:28px;
+      transition:width .8s var(--ease-smooth);
+    }
+    .prod-row:hover .prod-accent-line { width:56px }
+
+    .prod-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      font-family:var(--font-body);
+      font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+      padding:5px 14px; border-radius:1px; margin-bottom:18px;
+      width:fit-content; font-weight:400;
+    }
+    .prod-arabic-name {
+      font-family:var(--font-arabic); font-size:1.05rem;
+      color:var(--text-muted); margin-bottom:10px; opacity:.7;
+    }
+    .prod-name {
+      font-family:var(--font-display);
+      font-size:clamp(2rem,3.2vw,3.4rem); font-weight:400; line-height:1.08;
+      color:var(--brown); margin-bottom:14px;
+    }
+    .prod-name em { font-style:italic }
+    .prod-unit-tag {
+      font-family:var(--font-body);
+      font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--text-muted); margin-bottom:24px; font-weight:300;
+    }
+    .prod-description {
+      font-family:var(--font-body);
+      font-size:.9rem; font-weight:300; line-height:1.85;
+      color:var(--text-muted); max-width:400px; margin-bottom:36px;
+    }
+    .prod-description strong { color:var(--terracotta); font-weight:400 }
+
+    /* Price + CTA */
+    .prod-buy-row { display:flex; align-items:center; gap:24px; flex-wrap:wrap }
+    .prod-price-display { display:flex; align-items:baseline; gap:6px }
+    .prod-price-main {
+      font-family:var(--font-display); font-size:2.6rem; font-weight:400;
+      color:var(--terra-light); line-height:1;
+    }
+    .prod-price-unit { font-family:var(--font-body); font-size:.8rem; font-weight:300; color:var(--text-muted) }
+
+    .btn-add {
+      padding:14px 32px; border:none; border-radius:2px;
+      font-family:var(--font-body); font-size:.78rem;
+      letter-spacing:.12em; text-transform:uppercase;
+      display:flex; align-items:center; gap:9px; font-weight:400;
+      transition:all .3s var(--ease-smooth);
+    }
+    .btn-add:hover { transform:translateY(-2px) }
+    .btn-add-icon {
+      width:22px; height:22px; border-radius:50%;
+      background:rgba(255,255,255,.25);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; line-height:1; transition:transform .35s var(--ease-out);
+    }
+    .btn-add:hover .btn-add-icon { transform:rotate(90deg) }
+
+    .btn-detail {
+      background:none; border:none; font-family:var(--font-body);
+      font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--text-muted); display:flex; align-items:center; gap:8px;
+      transition:color .3s, gap .3s; padding:0;
+    }
+    .btn-detail:hover { color:var(--terracotta); gap:14px }
+
+    /* Divider between rows */
+    .prod-divider { height:1px; background:var(--linen); margin:0 72px }
+
+    /* Pack special row */
+    .prod-row.layout-pack .prod-text-side { background:var(--brown-mid); padding:80px 72px }
+    .prod-row.layout-pack:hover .prod-text-side { background:var(--olive) }
+    .prod-row.layout-pack .prod-num { color:rgba(255,255,255,1) }
+    .prod-row.layout-pack .prod-name { color:var(--cream) }
+    .prod-row.layout-pack .prod-arabic-name { color:rgba(200,178,133,.6) }
+    .prod-row.layout-pack .prod-description { color:var(--cream) }
+    .prod-row.layout-pack .prod-unit-tag { color:rgba(200,178,133,.45) }
+    .prod-row.layout-pack .prod-price-main { color:var(--terra-light) }
+    .prod-row.layout-pack .prod-price-unit { color:var(--sand) }
+    .prod-row.layout-pack .btn-detail { color:var(--sand) }
+    .prod-row.layout-pack .btn-detail:hover { color:var(--terra-light) }
+
+    .savings-pill {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(184,90,40,.18); color:var(--terra-light);
+      border:1px solid rgba(184,90,40,.3);
+      font-family:var(--font-body);
+      font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+      padding:5px 14px; border-radius:99px; margin-bottom:20px; width:fit-content;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       PAGE: PRODUCT DETAIL
+    ══════════════════════════════════════════════════════════════ */
+    #page-detail { background:var(--warm-white); min-height:100vh }
+
+    .breadcrumb {
+      padding:108px 72px 0;
+      display:flex; align-items:center; gap:10px;
+      font-family:var(--font-body);
+      font-size:.74rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--text-muted);
+    }
+    .breadcrumb a { color:var(--text-muted); text-decoration:none; transition:color .2s }
+    .breadcrumb a:hover { color:var(--terracotta) }
+    .breadcrumb span { color:rgba(122,102,72,.4) }
+    .breadcrumb strong { color:var(--text); font-weight:400 }
+
+    .detail-main {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:0; padding:48px 0 0;
+    }
+
+    /* Image column — sticky */
+    .detail-imgs {
+      position:sticky; top:80px;
+      height:calc(100vh - 100px);
+      padding:0 0 0 72px;
+      display:flex; flex-direction:column; gap:16px;
+    }
+    .detail-main-img {
+      flex:1; border-radius:4px; overflow:hidden; position:relative;
+    }
+    .detail-main-img img {
+      width:100%; height:100%; object-fit:cover;
+      filter:saturate(.88) contrast(1.06);
+      transition:transform .8s var(--ease-smooth), filter .5s;
+    }
+    .detail-main-img:hover img { transform:scale(1.03); filter:saturate(.98) }
+    .detail-img-badge {
+      position:absolute; top:20px; left:20px;
+      font-family:var(--font-body);
+      font-size:.65rem; letter-spacing:.16em; text-transform:uppercase;
+      padding:6px 14px; border-radius:1px; color:#fff;
+    }
+    .detail-thumbs { display:flex; gap:10px; height:90px; flex-shrink:0 }
+    .detail-thumb {
+      flex:1; border-radius:3px; overflow:hidden;
+      border:2px solid transparent; transition:border-color .2s;
+    }
+    .detail-thumb.active { border-color:var(--terracotta) }
+    .detail-thumb img {
+      width:100%; height:100%; object-fit:cover;
+      filter:saturate(.7); transition:filter .3s;
+    }
+    .detail-thumb:hover img, .detail-thumb.active img { filter:saturate(1) }
+
+    /* Info column */
+    .detail-info { padding:0 72px 80px 64px; display:flex; flex-direction:column }
+    .detail-product-num {
+      font-family:var(--font-display); font-size:.9rem; font-weight:300;
+      color:var(--text-muted); letter-spacing:.1em; margin-bottom:10px;
+    }
+    .detail-arabic {
+      font-family:var(--font-arabic); font-size:1.2rem;
+      color:var(--text-muted); margin-bottom:12px; line-height:1;
+    }
+    .detail-title {
+      font-family:var(--font-display);
+      font-size:clamp(2.8rem,4vw,4.5rem); font-weight:300; line-height:1.05;
+      color:var(--brown); margin-bottom:8px;
+    }
+    .detail-title em { font-style:italic; color:var(--terracotta) }
+    .detail-unit {
+      font-family:var(--font-body);
+      font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--text-muted); font-weight:300; margin-bottom:20px;
+    }
+    .detail-rating { display:flex; align-items:center; gap:10px; margin-bottom:28px }
+    .stars { color:var(--terracotta); font-size:.9rem; letter-spacing:2px }
+    .rating-num { font-family:var(--font-display); font-size:1.1rem; font-weight:400; color:var(--brown) }
+    .rating-count { font-family:var(--font-body); font-size:.78rem; color:var(--text-muted) }
+    .verified-wa {
+      font-family:var(--font-body);
+      font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+      color:var(--olive-light); padding:3px 10px;
+      background:rgba(61,122,85,.08); border-radius:99px;
+    }
+
+    .detail-price-block {
+      padding:24px 0; border-top:1px solid var(--linen);
+      border-bottom:1px solid var(--linen); margin-bottom:28px;
+      display:flex; align-items:baseline; gap:12px;
+    }
+    .detail-price {
+      font-family:var(--font-display); font-size:3.2rem; font-weight:400;
+      color:var(--brown); line-height:1;
+    }
+    .detail-price-unit {
+      font-family:var(--font-body); font-size:.9rem; font-weight:300; color:var(--text-muted)
+    }
+    .detail-freshness {
+      display:flex; align-items:center; gap:6px;
+      font-family:var(--font-body);
+      font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--olive-light); padding:5px 12px;
+      background:rgba(61,122,85,.08); border-radius:99px;
+      font-weight:400; margin-left:auto;
+    }
+    .freshness-dot {
+      width:7px; height:7px; background:#5A9A40; border-radius:50%;
+      animation:blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .detail-description {
+      font-family:var(--font-body); font-size:.92rem; font-weight:300;
+      line-height:1.88; color:var(--text-muted); margin-bottom:32px;
+    }
+    .detail-description strong { color:var(--text); font-weight:400 }
+
+    .detail-trust { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:36px }
+    .trust-item {
+      display:flex; align-items:flex-start; gap:10px;
+      font-family:var(--font-body); font-size:.82rem;
+      color:var(--text-muted); line-height:1.5; font-weight:300;
+    }
+    .trust-item-icon {
+      width:22px; height:22px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.65rem; flex-shrink:0; margin-top:1px;
+    }
+
+    .detail-qty-row { display:flex; align-items:center; gap:16px; margin-bottom:16px }
+    .qty-ctrl {
+      display:flex; align-items:center;
+      border:1.5px solid var(--linen); border-radius:2px; overflow:hidden;
+    }
+    .qty-btn {
+      width:42px; height:48px; background:none; border:none;
+      font-size:1.2rem; color:var(--brown); display:flex;
+      align-items:center; justify-content:center; transition:background .2s;
+    }
+    .qty-btn:hover { background:var(--linen) }
+    .qty-val {
+      width:52px; height:48px; text-align:center;
+      font-family:var(--font-display); font-size:1.3rem;
+      font-weight:300; border:none; background:none; color:var(--brown);
+    }
+    .btn-cart-main {
+      flex:1; padding:16px 28px; border:none; border-radius:2px;
+      font-family:var(--font-body); font-size:.82rem;
+      letter-spacing:.12em; text-transform:uppercase;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      font-weight:400; transition:all .3s var(--ease-smooth);
+    }
+    .btn-cart-main:hover { transform:translateY(-2px) }
+
+    .btn-whatsapp-order {
+      width:100%; padding:15px; border:none; border-radius:2px;
+      background:#25D366; color:#fff; font-family:var(--font-body);
+      font-size:.8rem; letter-spacing:.1em; text-transform:uppercase;
+      display:flex; align-items:center; justify-content:center; gap:9px;
+      font-weight:400; transition:all .3s;
+    }
+    .btn-whatsapp-order:hover { background:#1cbf5a; transform:translateY(-1px); box-shadow:0 10px 28px rgba(37,211,102,.3) }
+
+    .detail-story { margin-top:48px; padding-top:48px; border-top:1px solid var(--linen) }
+    .story-block { padding:20px 0; border-bottom:1px solid var(--linen) }
+    .story-block-header {
+      display:flex; justify-content:space-between; align-items:center;
+      font-family:var(--font-body);
+      font-size:.82rem; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--text); font-weight:400; user-select:none;
+    }
+    .story-block-header:hover { color:var(--terracotta) }
+    .story-block-icon { font-size:1rem; transition:transform .3s }
+    .story-block.open .story-block-icon { transform:rotate(45deg) }
+    .story-block-body { max-height:0; overflow:hidden; transition:max-height .5s var(--ease-smooth), padding .3s }
+    .story-block.open .story-block-body { max-height:300px; padding-top:16px }
+    .story-block-text {
+      font-family:var(--font-body); font-size:.86rem;
+      font-weight:300; line-height:1.85; color:var(--text-muted);
+    }
+
+    /* Other products */
+    .other-products { padding:80px 72px; border-top:1px solid var(--linen) }
+    .op-title {
+      font-family:var(--font-display);
+      font-size:clamp(1.8rem,2.5vw,2.6rem); font-weight:300; color:var(--brown); margin-bottom:8px;
+    }
+    .op-subtitle {
+      font-family:var(--font-body); font-size:.82rem;
+      color:var(--text-muted); font-weight:300; margin-bottom:48px; letter-spacing:.04em;
+    }
+    .op-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px }
+    .op-card {
+      border-radius:3px; overflow:hidden; position:relative; min-height:300px;
+      transition:transform .4s var(--ease-smooth), box-shadow .4s;
+    }
+    .op-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(28,18,8,.12) }
+    .op-card img {
+      width:100%; height:100%; object-fit:cover; position:absolute; inset:0;
+      filter:saturate(.8) contrast(1.08); transition:transform .8s var(--ease-smooth), filter .5s;
+    }
+    .op-card:hover img { transform:scale(1.07); filter:saturate(.95) }
+    .op-card-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(28,18,8,.82) 0%, rgba(28,18,8,.1) 55%, transparent 100%);
+      z-index:1;
+    }
+    .op-card-info { position:absolute; bottom:0; left:0; right:0; padding:24px; z-index:2 }
+    .op-card-name { font-family:var(--font-display); font-size:1.35rem; font-weight:400; color:var(--cream); margin-bottom:6px }
+    .op-card-price { font-family:var(--font-display); font-size:1.1rem; color:rgba(244,237,216,.7); margin-bottom:14px }
+    .op-card-btn {
+      display:inline-flex; align-items:center; gap:7px;
+      font-family:var(--font-body); font-size:.7rem; letter-spacing:.14em;
+      text-transform:uppercase; color:rgba(244,237,216,.6);
+      background:none; border:none; transition:color .3s, gap .3s;
+    }
+    .op-card:hover .op-card-btn { color:var(--terra-light); gap:12px }
+
+    /* Back button */
+    .back-btn {
+      display:inline-flex; align-items:center; gap:9px;
+      background:none; border:none; font-family:var(--font-body);
+      font-size:.76rem; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--text-muted); transition:color .3s, gap .3s; padding:0;
+    }
+    .back-btn:hover { color:var(--terracotta); gap:14px }
+
+    /* Scroll reveal */
+    .rv { opacity:0; transform:translateY(32px); transition:opacity .8s var(--ease-smooth), transform .8s var(--ease-smooth) }
+    .rv.v { opacity:1; transform:none }
+    .rv-l { opacity:0; transform:translateX(-32px); transition:opacity .8s var(--ease-smooth), transform .8s var(--ease-smooth) }
+    .rv-l.v { opacity:1; transform:none }
+    .rv-r { opacity:0; transform:translateX(32px); transition:opacity .8s var(--ease-smooth), transform .8s var(--ease-smooth) }
+    .rv-r.v { opacity:1; transform:none }
+
+    /* Floating WhatsApp */
+    .float-wa {
+      position:fixed; bottom:28px; right:28px;
+      width:54px; height:54px; background:#25D366;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      text-decoration:none; z-index:600;
+      box-shadow:0 8px 24px rgba(37,211,102,.4);
+      transition:transform .3s, box-shadow .3s;
+    }
+    .float-wa:hover { transform:scale(1.12) translateY(-3px); box-shadow:0 14px 40px rgba(37,211,102,.5) }
+    .float-wa::before {
+      content:''; position:absolute; width:54px; height:54px; border-radius:50%;
+      background:rgba(37,211,102,.3); animation:wapulse 2.5s infinite;
+    }
+    @keyframes wapulse { 0%{transform:scale(1);opacity:.8} 70%{transform:scale(1.8);opacity:0} 100%{opacity:0} }
+
+    /* Toast */
+    .toast {
+      position:fixed; bottom:94px; right:28px;
+      background:var(--brown); color:var(--cream);
+      padding:16px 22px; border-radius:3px;
+      border-left:3px solid var(--terracotta); z-index:700;
+      transform:translateX(160%); transition:transform .4s var(--ease-smooth);
+      max-width:270px; box-shadow:0 12px 40px rgba(0,0,0,.25);
+    }
+    .toast.show { transform:translateX(0) }
+    .toast-title {
+      font-family:var(--font-body); font-size:.72rem; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--terra-light); margin-bottom:5px; font-weight:500;
+    }
+    .toast-body { font-family:var(--font-body); font-size:.84rem; font-weight:300; line-height:1.5 }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer { background:var(--cream); padding:80px 80px 0 }
+    .footer-top {
+      display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr;
+      gap:64px; padding-bottom:30px;
+      border-bottom:1px solid rgba(44,44,44,.08);
+    }
+    .footer-brand { display:flex; flex-direction:column; gap:20px }
+    .footer-logo {
+      font-family:var(--font-display); font-size:1.8rem; font-weight:400;
+      color:var(--brown); display:flex; align-items:center; gap:10px; text-decoration:none;
+    }
+    .footer-tagline {
+      font-family:var(--font-body); font-size:.88rem;
+      color:var(--sand); line-height:1.75; font-weight:300; max-width:260px;
+    }
+    .footer-arabic { font-family:var(--font-arabic); font-size:.95rem; color:var(--brown); margin-top:4px }
+    .footer-whatsapp {
+      padding:9px 22px; background:var(--olive); color:var(--cream);
+      border:none; font-family:var(--font-body); font-size:.78rem;
+      letter-spacing:.1em; text-transform:capitalize;
+      border-radius:2px; text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center; gap:6px;
+      transition:background .3s;
+    }
+    .footer-whatsapp:hover { background:var(--olive-light) }
+    .footer-col-title {
+      font-family:var(--font-body); font-size:.72rem; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--sand); margin-bottom:24px; font-weight:500;
+    }
+    .footer-links { list-style:none; display:flex; flex-direction:column; gap:12px }
+    .footer-links a {
+      font-family:var(--font-body); font-size:.88rem;
+      color:var(--brown); text-decoration:none; font-weight:400;
+      transition:color .3s; display:flex; align-items:center; gap:8px;
+    }
+    .footer-links a::before { content:''; width:0; height:1px; background:var(--terracotta); transition:width .3s; flex-shrink:0 }
+    .footer-links a:hover::before { width:12px }
+    .footer-contact-item {
+      display:flex; align-items:center; gap:12px;
+      font-family:var(--font-body); font-size:.85rem;
+      color:var(--brown); font-weight:400; margin-bottom:12px;
+    }
+    .footer-contact-item svg { width:16px; flex-shrink:0; color:var(--terracotta) }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; margin-top:8px }
+    .footer-copy { font-family:var(--font-body); font-size:.75rem; color:var(--brown); letter-spacing:.06em; margin:0 auto }
+    .footer-socials { display:flex; gap:16px }
+    .social-link {
+      width:26px; height:26px; border:1px solid var(--brown); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      text-decoration:none; color:var(--brown); font-size:.75rem; transition:all .3s;
+    }
+    .social-link:hover { border-color:var(--terracotta); color:var(--terracotta); transform:translateY(-2px) }
+    @media (max-width:1024px) { .footer-top { grid-template-columns:1fr 1fr } }
+    @media (max-width:768px) {
+      footer { padding:48px 24px 0 }
+      .footer-top { grid-template-columns:1fr; gap:36px }
+      .footer-bottom { flex-direction:column; gap:16px; text-align:center }
+    }
+
+    /* ── MOBILE ─────────────────────────────────────────────────── */
+    @media (max-width:768px) {
+      .pl-header { padding:100px 24px 48px }
+      .pl-header-num { font-size:40vw }
+      .prod-row.layout-a, .prod-row.layout-b, .prod-row.layout-pack { grid-template-columns:1fr; min-height:auto }
+      .prod-img-side { min-height:280px }
+      .prod-text-side { padding:48px 24px }
+      .prod-row.layout-pack .prod-text-side { padding:48px 24px }
+      .prod-row.layout-b .prod-img-side { order:2 }
+      .prod-row.layout-b .prod-text-side { order:1 }
+      .prod-divider { margin:0 24px }
+      .detail-main { grid-template-columns:1fr; padding:0 }
+      .detail-imgs { position:static; height:auto; padding:24px 24px 0 }
+      .detail-thumbs { height:72px }
+      .detail-info { padding:24px }
+      .breadcrumb { padding:88px 24px 0 }
+      .other-products { padding:48px 24px }
+      .op-grid { grid-template-columns:1fr }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+  <div id="curR"></div>
+
+  <!-- ── NAV ─────────────────────────────────────────────────── -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark"></div>
+      Bayt Bio | بيت بيو
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="products-reference.html" class="active">Nos produits</a></li>
+      <li><a href="about.html">Notre histoire</a></li>
+      <li><a href="#">Livraison</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="nav-cart" id="cart-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <div class="cart-dot" id="cartN">0</div>
+      </button>
+      <button class="nav-whatsapp">Commander sur WhatsApp</button>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE: PRODUCTS LIST ═══════════════════════════════════ -->
+  <div id="page-products" class="page">
+
+    <header class="pl-header">
+      <div class="pl-header-bg"></div>
+      <p class="pl-header-label">Bayt Bio · Casablanca</p>
+      <h1 class="pl-title">Nos <em>cinq</em><br>produits.</h1>
+      <p class="pl-subtitle">Cinq produits, une obsession : la qualité absolue. Pas de catalogue infini — chaque produit est maîtrisé de l'étable à votre porte.</p>
+      <div class="pl-header-num">5</div>
+    </header>
+
+    <div class="products-catalog">
+
+      <!-- 01 · ŒUFS FERMIERS -->
+      <div class="prod-row layout-a rv-l" id="row-1">
+        <div class="prod-img-side">
+          <img src="https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1400&h=900&q=82" alt="Œufs Fermiers Beldi" onerror="this.src='https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?auto=format&fit=crop&w=1400&h=900&q=80'">
+          <div class="prod-img-overlay"></div>
+        </div>
+        <div class="prod-text-side">
+          <span class="prod-num" style="color:var(--egg-accent)">01</span>
+          <div class="prod-accent-line" style="background:var(--egg-accent)"></div>
+          <div class="prod-badge" style="background:rgba(200,144,26,.12);color:var(--egg-accent);border:1px solid rgba(200,144,26,.25)">★ Le plus demandé</div>
+          <p class="prod-arabic-name">بيض بلدي طازج</p>
+          <h2 class="prod-name">Plateau d'Œufs<br><em>Fermiers Beldi</em></h2>
+          <p class="prod-unit-tag">Plateau de 15 unités · Ramassés à l'aube</p>
+          <p class="prod-description">Nos poules vivent en plein air, se nourrissent naturellement de grains et d'herbes fraîches. Chaque œuf est <strong>ramassé à la main chaque matin à 5h00</strong>, inspecté, et emballé pour vous. Le jaune est d'un orange profond — signe d'une alimentation saine et sans artifice.</p>
+          <div class="prod-buy-row">
+            <div class="prod-price-display">
+              <span class="prod-price-main">25</span>
+              <span class="prod-price-unit">DH / plateau</span>
+            </div>
+            <button class="btn-add" style="background:var(--egg-accent);color:#fff" onclick="addCart('Œufs Fermiers Beldi','25 DH')">
+              <span class="btn-add-icon">+</span> Ajouter au panier
+            </button>
+            <button class="btn-detail" onclick="showDetail(0)">Voir le détail →</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-divider"></div>
+
+      <!-- 02 · LAIT FRAIS -->
+      <div class="prod-row layout-b rv-r" id="row-2">
+        <div class="prod-text-side">
+          <span class="prod-num" style="color:var(--milk-accent)">02</span>
+          <div class="prod-accent-line" style="background:var(--milk-accent)"></div>
+          <div class="prod-badge" style="background:rgba(74,104,64,.1);color:var(--cheese-accent);border:1px solid rgba(74,104,64,.22)">Trait ce matin</div>
+          <p class="prod-arabic-name">حليب طازج كامل الدسم</p>
+          <h2 class="prod-name">Lait Frais<br><em>Entier 1L</em></h2>
+          <p class="prod-unit-tag">Bouteille 1 litre · Non pasteurisé</p>
+          <p class="prod-description">Directement de nos vaches qui paissent dans les prairies aux abords de Casablanca. <strong>Trait à l'aube, sur votre table avant midi.</strong> Un goût que vous reconnaissiez depuis l'enfance — riche, crémeux, authentique.</p>
+          <div class="prod-buy-row">
+            <div class="prod-price-display">
+              <span class="prod-price-main">12</span>
+              <span class="prod-price-unit">DH / litre</span>
+            </div>
+            <button class="btn-add" style="background:var(--milk-accent);color:#fff" onclick="addCart('Lait Frais Entier','12 DH')">
+              <span class="btn-add-icon">+</span> Ajouter au panier
+            </button>
+            <button class="btn-detail" onclick="showDetail(1)">Voir le détail →</button>
+          </div>
+        </div>
+        <div class="prod-img-side">
+          <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=1400&h=900&q=82" alt="Lait Frais Entier" onerror="this.src='https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=1400&h=900&q=80'">
+          <div class="prod-img-overlay"></div>
+        </div>
+      </div>
+      <div class="prod-divider"></div>
+
+      <!-- 03 · FROMAGE BELDI -->
+      <div class="prod-row layout-a rv-l" id="row-3">
+        <div class="prod-img-side">
+          <img src="https://images.unsplash.com/photo-1452195100486-9cc805987862?auto=format&fit=crop&w=1400&h=900&q=82" alt="Fromage Beldi Artisanal" onerror="this.src='https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1400&h=900&q=80'">
+          <div class="prod-img-overlay"></div>
+        </div>
+        <div class="prod-text-side">
+          <span class="prod-num" style="color:var(--cheese-accent)">03</span>
+          <div class="prod-accent-line" style="background:var(--cheese-accent)"></div>
+          <div class="prod-badge" style="background:rgba(184,112,48,.12);color:var(--cheese-accent);border:1px solid rgba(184,112,48,.25)">Artisanal · Méthode traditionnelle</div>
+          <p class="prod-arabic-name">جبن بلدي تقليدي</p>
+          <h2 class="prod-name">Fromage<br><em>Beldi Artisanal</em></h2>
+          <p class="prod-unit-tag">300 grammes · Affiné 2 semaines</p>
+          <p class="prod-description">Fabriqué selon les recettes de nos grand-mères, avec le lait frais de nos propres vaches. <strong>Affiné deux semaines minimum</strong> dans notre cave naturelle. Sa texture est ferme, son goût légèrement salé et profond.</p>
+          <div class="prod-buy-row">
+            <div class="prod-price-display">
+              <span class="prod-price-main">45</span>
+              <span class="prod-price-unit">DH / 300g</span>
+            </div>
+            <button class="btn-add" style="background:var(--cheese-accent);color:#fff" onclick="addCart('Fromage Beldi Artisanal','45 DH')">
+              <span class="btn-add-icon">+</span> Ajouter au panier
+            </button>
+            <button class="btn-detail" onclick="showDetail(2)">Voir le détail →</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-divider"></div>
+
+      <!-- 04 · YAOURT NATUREL -->
+      <div class="prod-row layout-b rv-r" id="row-4">
+        <div class="prod-text-side">
+          <span class="prod-num" style="color:var(--yogurt-accent)">04</span>
+          <div class="prod-accent-line" style="background:var(--yogurt-accent)"></div>
+          <div class="prod-badge" style="background:rgba(74,104,64,.1);color:var(--cheese-accent);border:1px solid rgba(74,104,64,.22)">Sans additifs · Fermenté 24h</div>
+          <p class="prod-arabic-name">زبادي طبيعي</p>
+          <h2 class="prod-name">Yaourt<br><em>Naturel Maison</em></h2>
+          <p class="prod-unit-tag">Pot 500 ml · Nature ou avec miel du Maroc</p>
+          <p class="prod-description">Fermenté lentement pendant 24 heures avec nos ferments lactiques naturels. <strong>Aucun sucre ajouté, aucun conservateur, aucun épaississant.</strong> Une texture onctueuse obtenue uniquement par le temps et la qualité du lait.</p>
+          <div class="prod-buy-row">
+            <div class="prod-price-display">
+              <span class="prod-price-main">18</span>
+              <span class="prod-price-unit">DH / 500ml</span>
+            </div>
+            <button class="btn-add" style="background:var(--yogurt-accent);color:#fff" onclick="addCart('Yaourt Naturel Maison','18 DH')">
+              <span class="btn-add-icon">+</span> Ajouter au panier
+            </button>
+            <button class="btn-detail" onclick="showDetail(3)">Voir le détail →</button>
+          </div>
+        </div>
+        <div class="prod-img-side">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1400&h=900&q=82" alt="Yaourt Naturel Maison" onerror="this.src='https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=1400&h=900&q=80'">
+          <div class="prod-img-overlay"></div>
+        </div>
+      </div>
+      <div class="prod-divider"></div>
+
+      <!-- 05 · PACK FAMILLE -->
+      <div class="prod-row layout-pack rv" id="row-5">
+        <div class="prod-img-side">
+          <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1400&h=900&q=82" alt="Pack Famille Semaine" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&h=900&q=80'">
+          <div class="prod-img-overlay" style="background:linear-gradient(120deg,transparent 50%,rgba(28,18,8,.7))"></div>
+        </div>
+        <div class="prod-text-side">
+          <span class="prod-num" style="color:rgba(212,114,74,.08)">05</span>
+          <div class="prod-accent-line" style="background:var(--terra-light)"></div>
+          <div class="savings-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Économisez 30 DH · Meilleure valeur
+          </div>
+          <p class="prod-arabic-name">حزمة العائلة الأسبوعية</p>
+          <h2 class="prod-name">Pack Famille<br><em>de la Semaine</em></h2>
+          <p class="prod-unit-tag">Œufs + Lait + Fromage + Yaourt · 1 semaine</p>
+          <p class="prod-description">Tout ce qu'une famille marocaine a besoin pour une semaine de petits-déjeuners authentiques. <strong>Un plateau d'œufs, deux litres de lait, un fromage et deux pots de yaourt</strong> — livrés le même matin, dans un panier isotherme réutilisable.</p>
+          <div class="prod-buy-row" style="margin-bottom:0">
+            <div class="prod-price-display">
+              <span class="prod-price-main" style="font-size:3rem">120</span>
+              <span class="prod-price-unit">DH / semaine</span>
+            </div>
+            <button class="btn-add" style="background:var(--terracotta);color:#fff" onclick="addCart('Pack Famille Semaine','120 DH')">
+              <span class="btn-add-icon">+</span> Commander le pack
+            </button>
+            <button class="btn-detail" onclick="showDetail(4)">Voir le détail →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /catalog -->
+  </div><!-- /page-products -->
+
+  <!-- ══ PAGE: PRODUCT DETAIL ══════════════════════════════════ -->
+  <div id="page-detail" class="page hidden">
+    <div class="breadcrumb">
+      <button class="back-btn" onclick="showProducts(event)">← Retour aux produits</button>
+      <span>/</span>
+      <strong id="detail-breadcrumb">Produit</strong>
+    </div>
+    <div class="detail-main">
+      <div class="detail-imgs">
+        <div class="detail-main-img">
+          <img id="detail-img-main-img" src="" alt="">
+          <div class="detail-img-badge" id="detail-badge"></div>
+        </div>
+        <div class="detail-thumbs" id="detail-thumbs"></div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-product-num" id="detail-num">01 / 05</div>
+        <p class="detail-arabic" id="detail-arabic"></p>
+        <h1 class="detail-title" id="detail-title"></h1>
+        <p class="detail-unit" id="detail-unit"></p>
+        <div class="detail-rating">
+          <div class="stars">★★★★★</div>
+          <span class="rating-num" id="detail-rating">4.9</span>
+          <span class="rating-count" id="detail-reviews">(84 avis)</span>
+          <span class="verified-wa">✓ Via WhatsApp</span>
+        </div>
+        <div class="detail-price-block">
+          <div class="detail-price" id="detail-price">25</div>
+          <div class="detail-price-unit" id="detail-price-unit">DH / plateau</div>
+          <div class="detail-freshness" id="detail-freshness">
+            <div class="freshness-dot"></div>Disponible
+          </div>
+        </div>
+        <p class="detail-description" id="detail-desc"></p>
+        <div class="detail-trust" id="detail-trust"></div>
+        <div class="detail-qty-row">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input class="qty-val" id="qty-input" type="text" value="1" readonly>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="btn-cart-main" id="detail-add-btn" onclick="addCartFromDetail()">Ajouter au panier</button>
+        </div>
+        <button class="btn-whatsapp-order" onclick="orderWhatsapp()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          Commander directement par WhatsApp
+        </button>
+        <div class="detail-story" id="detail-story"></div>
+      </div>
+    </div>
+    <div class="other-products">
+      <h2 class="op-title">Vous pourriez aussi aimer</h2>
+      <p class="op-subtitle">Nos autres produits, avec le même soin</p>
+      <div class="op-grid" id="other-grid"></div>
+    </div>
+  </div><!-- /page-detail -->
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <div class="nav-logo-mark" style="width:22px;height:22px;background:var(--olive-light)"></div>
+          Bayt Bio | بيت بيو
+        </a>
+        <p class="footer-tagline">Œufs fermiers et produits laitiers 100% naturels, livrés frais chez vous à Casablanca et Rabat depuis 2018.</p>
+        <p class="footer-arabic">من المزرعة لمائدتك</p>
+        <a href="#" class="footer-whatsapp">Commander via WhatsApp</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Produits</p>
+        <ul class="footer-links">
+          <li><a href="#">Œufs Fermiers</a></li>
+          <li><a href="#">Lait Frais</a></li>
+          <li><a href="#">Fromages &amp; Beurre</a></li>
+          <li><a href="#">Yaourts Naturels</a></li>
+          <li><a href="#">Packs Famille</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Informations</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Notre Histoire</a></li>
+          <li><a href="#">Livraison &amp; Zones</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Abonnement Hebdo</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          06 XX XX XX XX
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          contact@baytbio.ma
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Casablanca, Maroc
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Bayt Bio · Tous droits réservés · Produit au Maroc 🇲🇦</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link">f</a>
+        <a href="#" class="social-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="#" class="float-wa">
+    <svg width="25" height="25" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-title" id="toast-title">Ajouté ✓</div>
+    <div class="toast-body" id="toast-body"></div>
+  </div>
+
+  <script>
+    /* ─── PRODUCT DATA (static reference — will be replaced by API in Next.js) ── */
+    const PRODUCTS = [
+      { id:0, num:'01', name:'Plateau d\'Œufs Fermiers Beldi', nameShort:'Œufs Fermiers', arabic:'بيض بلدي طازج', unit:'Plateau de 15 unités · Ramassés à l\'aube', price:'25', priceUnit:'DH / plateau', badge:'★ Le plus demandé', badgeBg:'rgba(212,136,60,.85)', accent:'#d4883c', rating:'4.9', reviews:'124 avis', freshness:'Ramassés ce matin',
+        images:['https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1559598467-f8b76c8155d0?auto=format&fit=crop&w=1200&h=900&q=83'],
+        desc:'Nos poules vivent en plein air, se nourrissent naturellement de grains et d\'herbes fraîches. Chaque œuf est <strong>ramassé à la main chaque matin à 5h00</strong>, inspecté à contre-jour et emballé délicatement. Le jaune est d\'un orange profond — signe d\'une alimentation saine et sans aucun artifice chimique.',
+        trust:[{icon:'🌿',text:'100% sans antibiotiques ni hormones'},{icon:'🐓',text:'Poules élevées en plein air'},{icon:'🕔',text:'Récoltés à 5h · livrés avant midi'},{icon:'✓',text:'Inspectés œuf par œuf'}],
+        story:[{q:'Comment nos poules sont-elles élevées ?',a:'Nos 200 poules circulent librement sur 3 hectares de prairie. Elles se nourrissent de grains biologiques, d\'insectes et d\'herbes fraîches. Aucune cage, aucune lumière artificielle — leur rythme suit le soleil.'},{q:'Quelle est la fraîcheur garantie ?',a:'Nos œufs sont récoltés le matin et livrés le jour même. Nous n\'utilisons aucun entrepôt frigorifique — les œufs vont directement de la ferme à votre panier.'},{q:'Comment les conserver ?',a:'À température ambiante, ils se conservent 3 semaines. Au frais, jusqu\'à 5 semaines.'}]
+      },
+      { id:1, num:'02', name:'Lait Frais Entier 1L', nameShort:'Lait Frais', arabic:'حليب طازج كامل الدسم', unit:'Bouteille 1 litre · Non pasteurisé', price:'12', priceUnit:'DH / litre', badge:'Trait ce matin', badgeBg:'rgba(61,122,85,.85)', accent:'#3d7a55', rating:'4.8', reviews:'96 avis', freshness:'Trait à l\'aube',
+        images:['https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1471194402529-8e0f5a675de6?auto=format&fit=crop&w=1200&h=900&q=83'],
+        desc:'Directement de nos vaches qui paissent dans les prairies. <strong>Trait à l\'aube, mis en bouteille, sur votre table avant midi.</strong> Un goût que vous reconnaissiez depuis l\'enfance — riche, crémeux, légèrement sucré naturellement.',
+        trust:[{icon:'🐄',text:'Vaches nourries à l\'herbe fraîche'},{icon:'🚫',text:'Non pasteurisé · Non homogénéisé'},{icon:'⏱️',text:'Trait à 4h · Livré avant midi'},{icon:'🧪',text:'Testé chaque lot en laboratoire'}],
+        story:[{q:'Pourquoi du lait non pasteurisé ?',a:'La pasteurisation détruit les enzymes bénéfiques et les vitamines thermosensibles. Notre lait provient de vaches saines, testées régulièrement.'},{q:'Comment le conserver ?',a:'Au réfrigérateur entre 2 et 4°C, jusqu\'à 5 jours. Secouez doucement avant usage — la crème remonte naturellement en surface.'}]
+      },
+      { id:2, num:'03', name:'Fromage Beldi Artisanal', nameShort:'Fromage Beldi', arabic:'جبن بلدي تقليدي', unit:'300 grammes · Affiné 2 semaines minimum', price:'45', priceUnit:'DH / 300g', badge:'Artisanal', badgeBg:'rgba(176,106,40,.85)', accent:'#b06a28', rating:'4.9', reviews:'67 avis', freshness:'Affiné cette semaine',
+        images:['https://images.unsplash.com/photo-1452195100486-9cc805987862?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=1200&h=900&q=83'],
+        desc:'Fabriqué selon les recettes de nos grand-mères, avec le lait frais de nos propres vaches. <strong>Affiné deux semaines minimum dans notre cave naturelle.</strong> Sa texture est ferme, son goût légèrement salé et profond.',
+        trust:[{icon:'🧀',text:'Façonné à la main, pièce par pièce'},{icon:'🕰️',text:'Affiné minimum 14 jours'},{icon:'🥛',text:'Fabriqué avec notre propre lait'},{icon:'🚫',text:'Sans présure chimique'}],
+        story:[{q:'Comment est-il fabriqué ?',a:'Nous chauffons le lait frais du matin, ajoutons notre présure naturelle et laissons cailler. Le caillé est découpé, égoutté dans des moules traditionnels, salé à la main puis placé en cave d\'affinage.'},{q:'Comment le servir ?',a:'À température ambiante avec du pain chobz chaud, des olives et un filet d\'huile d\'olive.'}]
+      },
+      { id:3, num:'04', name:'Yaourt Naturel Maison', nameShort:'Yaourt Naturel', arabic:'زبادي طبيعي', unit:'Pot 500 ml · Fermenté 24h', price:'18', priceUnit:'DH / 500ml', badge:'Sans additifs', badgeBg:'rgba(22,59,38,.85)', accent:'#163b26', rating:'4.8', reviews:'88 avis', freshness:'Préparé ce matin',
+        images:['https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1571212515416-fef01fc43637?auto=format&fit=crop&w=1200&h=900&q=83'],
+        desc:'Fermenté lentement pendant 24 heures avec nos ferments lactiques naturels. <strong>Aucun sucre ajouté, aucun conservateur, aucun épaississant artificiel.</strong> Une texture onctueuse obtenue uniquement par le temps et la qualité du lait.',
+        trust:[{icon:'⏱️',text:'Fermenté 24h · Texture naturelle'},{icon:'🚫',text:'0 sucre · 0 conservateur · 0 additif'},{icon:'🍯',text:'Option miel du Moyen Atlas'},{icon:'🥛',text:'Fabriqué avec notre lait frais'}],
+        story:[{q:'Qu\'est-ce qui le différencie du yaourt industriel ?',a:'Les yaourts industriels sont épaissis avec des amidons modifiés. Notre texture vient uniquement d\'un lait riche en matière grasse et d\'une fermentation longue et lente.'},{q:'Combien de temps se conserve-t-il ?',a:'Au réfrigérateur, jusqu\'à 10 jours. Nous vous recommandons de le consommer dans la première semaine pour profiter de tous ses probiotiques actifs.'}]
+      },
+      { id:4, num:'05', name:'Pack Famille de la Semaine', nameShort:'Pack Famille', arabic:'حزمة العائلة الأسبوعية', unit:'Œufs + Lait + Fromage + Yaourt · 1 semaine', price:'120', priceUnit:'DH / semaine', badge:'Économisez 30 DH', badgeBg:'rgba(212,136,60,.85)', accent:'#d4883c', rating:'5.0', reviews:'53 avis', freshness:'Livraison hebdomadaire',
+        images:['https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&h=900&q=83','https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&h=900&q=83'],
+        desc:'Tout ce qu\'une famille marocaine a besoin pour une semaine de petits-déjeuners authentiques. <strong>Un plateau d\'œufs (15 unités), deux litres de lait frais, un fromage beldi et deux pots de yaourt naturel</strong> — livrés ensemble dans un panier isotherme réutilisable offert.',
+        trust:[{icon:'🧺',text:'Panier isotherme réutilisable offert'},{icon:'📅',text:'Abonnement hebdomadaire possible'},{icon:'💰',text:'30 DH d\'économie vs. à l\'unité'},{icon:'🚚',text:'Livraison gratuite incluse'}],
+        story:[{q:'Que contient exactement le pack ?',a:'1 plateau d\'œufs (15 pièces) + 2L de lait frais entier + 1 fromage beldi 300g + 2 pots de yaourt naturel 500ml. Le tout livré dans un panier isotherme réutilisable.'},{q:'Puis-je personnaliser le pack ?',a:'Oui ! Contactez-nous sur WhatsApp et nous pouvons adapter les quantités selon la taille de votre famille.'},{q:'Comment fonctionne l\'abonnement hebdomadaire ?',a:'Commandez votre premier pack, puis dites-nous quel jour vous souhaitez être livré chaque semaine. Pas d\'engagement, pause possible à tout moment.'}]
+      }
+    ];
+
+    /* ─── CURSOR ────────────────────────────────────────────── */
+    const cur = document.getElementById('cur'), curR = document.getElementById('curR');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', e => {
+      mx=e.clientX; my=e.clientY;
+      cur.style.transform=`translate(${mx-4}px,${my-4}px)`;
+    });
+    (function loop(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; curR.style.transform=`translate(${rx-16}px,${ry-16}px)`; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a,button').forEach(el=>{
+      el.addEventListener('mouseenter',()=>curR.classList.add('big'));
+      el.addEventListener('mouseleave',()=>curR.classList.remove('big'));
+    });
+
+    /* ─── NAV SCROLL ────────────────────────────────────────── */
+    const nav = document.getElementById('main-nav');
+    function updateNav(){ nav.classList.toggle('scrolled', scrollY > 1) }
+    window.addEventListener('scroll', updateNav, {passive:true});
+    updateNav();
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────────── */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('v'); obs.unobserve(e.target); } });
+    }, { threshold:.08, rootMargin:'0px 0px -40px 0px' });
+    document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => obs.observe(el));
+
+    /* ─── CART ──────────────────────────────────────────────── */
+    let cartCount = 0;
+    const cartN = document.getElementById('cartN');
+    let toastTimer;
+    function showToast(title, body) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-body').textContent = body;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    function addCart(name, price) {
+      cartCount++;
+      cartN.textContent = cartCount;
+      cartN.classList.add('pop');
+      setTimeout(()=>cartN.classList.remove('pop'), 280);
+      showToast('Ajouté au panier ✓', `${name} — ${price}`);
+    }
+
+    /* ─── PAGE TRANSITIONS ──────────────────────────────────── */
+    function showProducts(e) {
+      if(e) e.preventDefault();
+      document.getElementById('page-detail').classList.add('hidden');
+      document.getElementById('page-products').classList.remove('hidden');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function showDetail(idx) {
+      const p = PRODUCTS[idx];
+      document.getElementById('detail-breadcrumb').textContent = p.nameShort;
+      document.getElementById('detail-num').textContent = `${p.num} / 05`;
+      document.getElementById('detail-arabic').textContent = p.arabic;
+      document.getElementById('detail-unit').textContent = p.unit;
+      document.getElementById('detail-rating').textContent = p.rating;
+      document.getElementById('detail-reviews').textContent = `(${p.reviews})`;
+      document.getElementById('detail-price').textContent = p.price;
+      document.getElementById('detail-price-unit').textContent = p.priceUnit;
+      document.getElementById('detail-freshness').innerHTML = `<div class="freshness-dot"></div>${p.freshness}`;
+      document.getElementById('detail-desc').innerHTML = p.desc;
+      document.getElementById('qty-input').value = 1;
+
+      const titleEl = document.getElementById('detail-title');
+      titleEl.innerHTML = `<em>${p.nameShort}</em>`;
+
+      const badge = document.getElementById('detail-badge');
+      badge.textContent = p.badge; badge.style.background = p.badgeBg;
+
+      const addBtn = document.getElementById('detail-add-btn');
+      addBtn.style.background = p.accent; addBtn.style.color = '#fff';
+      addBtn.dataset.name = p.name; addBtn.dataset.price = p.price;
+
+      const mainImg = document.getElementById('detail-img-main-img');
+      mainImg.src = p.images[0];
+
+      const thumbsEl = document.getElementById('detail-thumbs');
+      thumbsEl.innerHTML = '';
+      p.images.forEach((src,i) => {
+        thumbsEl.innerHTML += `<div class="detail-thumb ${i===0?'active':''}" onclick="switchThumb(this,'${src}')"><img src="${src}" alt=""></div>`;
+      });
+
+      const trustEl = document.getElementById('detail-trust');
+      trustEl.innerHTML = p.trust.map(t => `<div class="trust-item"><div class="trust-item-icon" style="background:${p.accent}22;color:${p.accent}">${t.icon}</div><span>${t.text}</span></div>`).join('');
+
+      const storyEl = document.getElementById('detail-story');
+      storyEl.innerHTML = p.story.map(s => `<div class="story-block" onclick="toggleStory(this)"><div class="story-block-header"><span>${s.q}</span><span class="story-block-icon">+</span></div><div class="story-block-body"><p class="story-block-text">${s.a}</p></div></div>`).join('');
+
+      const others = PRODUCTS.filter(pr=>pr.id!==idx).slice(0,3);
+      document.getElementById('other-grid').innerHTML = others.map(pr => `<div class="op-card" onclick="showDetail(${pr.id})"><img src="${pr.images[0]}" alt="${pr.nameShort}"><div class="op-card-overlay"></div><div class="op-card-info"><div class="op-card-name">${pr.nameShort}</div><div class="op-card-price">${pr.price} DH</div><button class="op-card-btn">Voir le produit →</button></div></div>`).join('');
+
+      document.getElementById('page-products').classList.add('hidden');
+      document.getElementById('page-detail').classList.remove('hidden');
+      window.scrollTo({top:0, behavior:'instant'});
+    }
+
+    function switchThumb(el, src) {
+      document.querySelectorAll('.detail-thumb').forEach(t=>t.classList.remove('active'));
+      el.classList.add('active');
+      const main = document.getElementById('detail-img-main-img');
+      main.style.opacity=0;
+      setTimeout(()=>{ main.src=src; main.style.opacity=1; }, 200);
+      main.style.transition='opacity .2s';
+    }
+    function changeQty(d) {
+      const inp=document.getElementById('qty-input');
+      inp.value=Math.max(1,Math.min(20,(parseInt(inp.value)||1)+d));
+    }
+    function addCartFromDetail() {
+      const btn=document.getElementById('detail-add-btn');
+      const qty=document.getElementById('qty-input').value;
+      addCart(btn.dataset.name, `${btn.dataset.price} DH × ${qty}`);
+    }
+    function orderWhatsapp() { showToast('Redirection WhatsApp','Ouverture de WhatsApp…') }
+    function toggleStory(el) { el.classList.toggle('open') }
+  </script>
+
+</body>
+</html>

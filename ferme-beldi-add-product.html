@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ajouter un produit — Ferme Beldi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:    #2D5A3D;
+  --green-d:  #1E3D29;
+  --green-m:  #3D7A54;
+  --green-l:  #E8F0E8;
+  --green-xl: #F2F7F2;
+  --brown:    #8B7355;
+  --brown-l:  #C4A882;
+  --brown-p:  #F5EDE0;
+  --orange:   #D4883C;
+  --orange-l: #FEF3E8;
+  --orange-d: #B86E20;
+  --cream:    #FAF8F5;
+  --charcoal: #2C2C2C;
+  --char-m:   #555550;
+  --char-l:   #888880;
+  --char-xl:  #C8C8C0;
+  --white:    #FFFFFF;
+  --border:   #E8E4DC;
+  --border-m: #D8D4CC;
+  --red:      #C44B3C;
+  --red-l:    #FAEAE8;
+  --blue:     #3A6B9E;
+  --blue-l:   #E8F0F8;
+  --font-d:'Instrument Serif',Georgia,serif;
+  --font-b:'DM Sans',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --r:8px; --r-s:6px; --r-l:12px; --r-xl:16px;
+  --sidebar:240px;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --spring:cubic-bezier(.22,.68,0,1.2);
+  --trans:.18s var(--ease);
+  --shadow-s:0 1px 3px rgba(44,44,44,.08),0 1px 2px rgba(44,44,44,.04);
+  --shadow-m:0 4px 12px rgba(44,44,44,.1),0 2px 4px rgba(44,44,44,.06);
+}
+html{height:100%;scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--cream);color:var(--charcoal);display:flex;min-height:100vh;overflow-x:hidden}
+button,a{cursor:pointer;font-family:var(--font-b);text-decoration:none}
+input,select,textarea{font-family:var(--font-b)}
+input:focus,select:focus,textarea:focus,button:focus{outline:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--char-xl);border-radius:99px}
+
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;background:var(--green);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:200;
+}
+.sb-logo{padding:20px 18px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.sb-gem{width:32px;height:32px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.sb-brand{font-family:var(--font-d);font-size:1.15rem;color:#fff;letter-spacing:.01em;line-height:1.1}
+.sb-brand span{display:block;font-size:.58rem;font-family:var(--font-b);color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+.sb-sec{padding:10px 14px 4px;font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);font-weight:600;margin-top:6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;margin:1px 6px;border-radius:var(--r-s);font-size:.81rem;font-weight:400;color:rgba(255,255,255,.6);transition:all var(--trans);text-decoration:none;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.09);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.14);color:#fff;font-weight:500}
+.nav-item.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--orange);border-radius:0 2px 2px 0}
+.nav-ico{width:17px;height:17px;flex-shrink:0;opacity:.65}
+.nav-item.active .nav-ico,.nav-item:hover .nav-ico{opacity:1}
+.nav-badge{margin-left:auto;min-width:17px;height:17px;padding:0 4px;background:var(--orange);color:#fff;border-radius:99px;font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sb-bottom{margin-top:auto;padding:14px 10px;border-top:1px solid rgba(255,255,255,.08)}
+.sb-user{display:flex;align-items:center;gap:10px}
+.su-av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff;font-weight:600;flex-shrink:0}
+.su-name{font-size:.78rem;color:#fff;font-weight:500}
+.su-role{font-size:.63rem;color:rgba(255,255,255,.38);margin-top:1px}
+
+/* ══════════════════════════════════════════
+   MAIN
+══════════════════════════════════════════ */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+.topbar{height:60px;background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.tb-left{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--char-l)}
+.tb-sep{color:var(--char-xl)}
+.tb-current{color:var(--charcoal);font-weight:500}
+.tb-breadlink{color:var(--char-l);transition:color var(--trans)}
+.tb-breadlink:hover{color:var(--green)}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-av{width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:#fff;font-weight:600}
+
+/* ══════════════════════════════════════════
+   PAGE LAYOUT — 2 col sticky
+══════════════════════════════════════════ */
+.page-layout{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:0;
+  flex:1;
+  align-items:start;
+}
+/* left col */
+.form-col{
+  padding:28px 28px 80px;
+  border-right:1px solid var(--border);
+  min-height:calc(100vh - 60px);
+}
+/* right col */
+.side-col{
+  padding:28px 24px 80px;
+  position:sticky;
+  top:60px;
+  height:calc(100vh - 60px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* ══════════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════════ */
+.page-head{margin-bottom:28px;display:flex;align-items:flex-end;justify-content:space-between}
+.ph-badge{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-l);padding:3px 10px;border-radius:99px;font-weight:600;margin-bottom:8px}
+.ph-title{font-family:var(--font-d);font-size:1.7rem;font-weight:400;color:var(--charcoal);line-height:1.1}
+.ph-sub{font-size:.76rem;color:var(--char-l);margin-top:5px;font-weight:300}
+.ph-right{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-bottom:4px}
+
+/* ══════════════════════════════════════════
+   SECTION CARDS
+══════════════════════════════════════════ */
+.form-section{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-l);overflow:hidden;
+  box-shadow:var(--shadow-s);
+  margin-bottom:16px;
+}
+.fs-header{
+  padding:16px 20px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.fs-icon{
+  width:34px;height:34px;border-radius:var(--r-s);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:1rem;
+}
+.fs-title{font-size:.88rem;font-weight:600;color:var(--charcoal)}
+.fs-sub{font-size:.72rem;color:var(--char-l);margin-top:1px;font-weight:300}
+.fs-body{padding:20px}
+
+/* ══════════════════════════════════════════
+   FORM FIELDS
+══════════════════════════════════════════ */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;gap:14px;margin-bottom:16px}
+.field-row:last-child{margin-bottom:0}
+.fr-2{grid-template-columns:1fr 1fr}
+.fr-3{grid-template-columns:1fr 1fr 1fr}
+.fr-2-1{grid-template-columns:2fr 1fr}
+
+.field-label{
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--char-m);font-weight:600;
+  display:flex;align-items:center;gap:6px;
+}
+.fl-required{color:var(--orange);margin-left:1px;font-size:.75rem}
+.fl-optional{color:var(--char-xl);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:400;margin-left:auto}
+.fl-tip{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--cream);border:1px solid var(--border);
+  font-size:.58rem;color:var(--char-l);cursor:help;
+  position:relative;
+}
+.fl-tip:hover::after{
+  content:attr(data-tip);
+  position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);
+  background:var(--charcoal);color:#fff;
+  font-size:.64rem;padding:5px 9px;border-radius:5px;
+  white-space:nowrap;z-index:10;font-family:var(--font-b);
+  letter-spacing:.02em;text-transform:none;font-weight:300;
+}
+
+.ff-input{
+  height:42px;padding:0 13px;
+  border:1.5px solid var(--border);border-radius:var(--r-s);
+  font-family:var(--font-b);font-size:.84rem;color:var(--charcoal);
+  background:var(--white);
+  transition:border-color var(--trans),box-shadow var(--trans),background var(--trans);
+}
+.ff-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,90,61,.1);background:var(--white)}
+.ff-input::placeholder{color:var(--char-xl)}
+.ff-input.err{border-color:var(--red);background:rgba(196,75,60,.03)}
+.ff-input.rtl{text-align:right;direction:rtl;font-family:'Amiri',serif,var(--font-b);font-size:.95rem}
+
+.ff-textarea{
+  padding:11px 13px;resize:vertical;min-height:90px;line-height:1.6;
+  border:1.5px solid var(--border);border-radius:var(--r-s);
+  font-family:var(--font-b);font-size:.84rem;color:var(--charcoal);
+  background:var(--white);
+  transition:border-color var(--trans),box-shadow var(--trans);
+}
+.ff-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,90,61,.1)}
+.ff-textarea::placeholder{color:var(--char-xl)}
+
+.ff-select{
+  height:42px;padding:0 32px 0 13px;
+  border:1.5px solid var(--border);border-radius:var(--r-s);
+  font-family:var(--font-b);font-size:.84rem;color:var(--charcoal);
+  background:var(--white);appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888880' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  transition:border-color var(--trans),box-shadow var(--trans);
+}
+.ff-select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,90,61,.1);outline:none}
+
+.field-hint{font-size:.7rem;color:var(--char-l);font-weight:300;margin-top:4px;display:flex;align-items:center;gap:4px}
+.field-hint.err{color:var(--red)}
+.field-error{font-size:.7rem;color:var(--red);font-weight:500;display:none}
+.field-error.show{display:block}
+
+/* Price input with unit label */
+.price-wrap{position:relative;display:flex;align-items:center}
+.price-wrap .ff-input{padding-right:44px;flex:1}
+.price-suffix{position:absolute;right:13px;font-size:.78rem;color:var(--char-l);font-weight:500;pointer-events:none}
+
+/* Number stepper */
+.num-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-s);overflow:hidden;background:var(--white);transition:border-color var(--trans),box-shadow var(--trans)}
+.num-wrap:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,90,61,.1)}
+.num-btn{width:38px;height:40px;background:none;border:none;color:var(--char-m);font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--trans),color var(--trans)}
+.num-btn:hover{background:var(--green-l);color:var(--green)}
+.num-input{flex:1;height:40px;border:none;background:none;text-align:center;font-family:var(--font-m);font-size:.9rem;font-weight:500;color:var(--charcoal)}
+
+/* ══════════════════════════════════════════
+   DRAG & DROP IMAGE UPLOAD
+══════════════════════════════════════════ */
+.drop-zone{
+  border:2px dashed var(--border-m);
+  border-radius:var(--r-l);
+  padding:36px 24px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+  background:var(--cream);
+  position:relative;
+}
+.drop-zone:hover,.drop-zone.dragover{
+  border-color:var(--green);
+  background:var(--green-xl);
+}
+.drop-zone.dragover{
+  border-color:var(--green);
+  background:var(--green-l);
+  transform:scale(1.01);
+}
+.drop-zone input[type="file"]{
+  position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;
+}
+.dz-icon{
+  width:56px;height:56px;border-radius:var(--r-l);
+  background:var(--white);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin:0 auto 14px;
+  box-shadow:var(--shadow-s);
+  transition:all .25s;
+}
+.drop-zone:hover .dz-icon,.drop-zone.dragover .dz-icon{
+  border-color:var(--green);background:var(--green-l);
+}
+.dz-title{font-size:.88rem;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.dz-title span{color:var(--green)}
+.dz-sub{font-size:.74rem;color:var(--char-l);font-weight:300;line-height:1.55}
+.dz-formats{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:14px;flex-wrap:wrap;
+}
+.dz-fmt-chip{
+  font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  padding:3px 8px;border-radius:99px;
+  background:var(--white);border:1px solid var(--border);color:var(--char-l);
+}
+
+/* Image previews */
+.images-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:16px;
+}
+.img-preview{
+  border-radius:var(--r);overflow:hidden;
+  position:relative;border:2px solid var(--border);
+  background:var(--cream);
+  transition:all .25s var(--ease);
+  aspect-ratio:1;
+  cursor:grab;
+}
+.img-preview:active{cursor:grabbing}
+.img-preview.main-img{border-color:var(--green);box-shadow:0 0 0 2px rgba(45,90,61,.15)}
+.img-preview.dragging{opacity:.4;border-style:dashed}
+.img-preview.drag-over{border-color:var(--orange);border-style:dashed;transform:scale(1.03)}
+.img-preview img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.img-overlay{
+  position:absolute;inset:0;
+  background:rgba(28,18,8,.55);
+  opacity:0;transition:opacity .2s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+}
+.img-preview:hover .img-overlay{opacity:1}
+.img-ov-btn{
+  width:30px;height:30px;border-radius:50%;border:none;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.img-ov-btn.delete{background:var(--red);color:#fff}
+.img-ov-btn.delete:hover{background:#E05548;transform:scale(1.1)}
+
+/* Main badge */
+.main-badge{
+  position:absolute;top:6px;left:6px;z-index:2;
+  font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  background:var(--green);color:#fff;
+  padding:2px 7px;border-radius:99px;
+}
+/* number badge */
+.order-badge{
+  position:absolute;bottom:6px;right:6px;z-index:2;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(28,18,8,.65);color:#fff;
+  font-size:.62rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+/* drag handle */
+.drag-handle{
+  position:absolute;top:6px;right:6px;z-index:2;
+  color:rgba(255,255,255,.7);
+  opacity:0;transition:opacity .2s;
+}
+.img-preview:hover .drag-handle{opacity:1}
+
+/* Add more slot */
+.img-add-slot{
+  border:2px dashed var(--border-m);border-radius:var(--r);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;cursor:pointer;transition:all .25s;aspect-ratio:1;
+  background:var(--cream);position:relative;
+}
+.img-add-slot:hover{border-color:var(--green);background:var(--green-xl)}
+.img-add-slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.img-add-slot svg{color:var(--char-xl);transition:color .2s}
+.img-add-slot:hover svg{color:var(--green)}
+.img-add-slot span{font-size:.65rem;color:var(--char-l);font-weight:500}
+.img-add-slot:hover span{color:var(--green)}
+
+/* Instructions below grid */
+.img-instructions{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 14px;
+  background:var(--blue-l);border-radius:var(--r-s);
+  border:1px solid rgba(58,107,158,.12);
+  margin-top:12px;
+}
+.ii-icon{color:var(--blue);flex-shrink:0;margin-top:1px}
+.ii-text{font-size:.74rem;color:var(--blue);font-weight:300;line-height:1.55}
+.ii-text strong{font-weight:600}
+
+/* ══════════════════════════════════════════
+   TAG INPUT
+══════════════════════════════════════════ */
+.tag-input-wrap{
+  min-height:42px;padding:4px 8px;
+  border:1.5px solid var(--border);border-radius:var(--r-s);
+  background:var(--white);
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px;
+  transition:border-color var(--trans),box-shadow var(--trans);
+  cursor:text;
+}
+.tag-input-wrap:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,90,61,.1)}
+.tag-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--green-l);color:var(--green);
+  border-radius:99px;padding:2px 9px;
+  font-size:.72rem;font-weight:500;
+}
+.tag-chip button{background:none;border:none;color:var(--green);display:flex;align-items:center;padding:0;line-height:1}
+.tag-chip button:hover{color:var(--green-d)}
+.tag-real-input{border:none;background:none;font-family:var(--font-b);font-size:.82rem;color:var(--charcoal);outline:none;min-width:80px;height:28px;padding:0 4px}
+.tag-real-input::placeholder{color:var(--char-xl)}
+
+/* ══════════════════════════════════════════
+   TOGGLE SWITCH
+══════════════════════════════════════════ */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:var(--cream);border-radius:var(--r-s);
+  border:1px solid var(--border);margin-bottom:10px;
+  transition:background var(--trans);
+}
+.toggle-row:last-child{margin-bottom:0}
+.toggle-row:hover{background:var(--green-xl)}
+.tr-left{}
+.tr-label{font-size:.82rem;font-weight:500;color:var(--charcoal)}
+.tr-sub{font-size:.7rem;color:var(--char-l);margin-top:2px;font-weight:300}
+.toggle{
+  width:42px;height:24px;border-radius:99px;border:none;
+  background:var(--border);position:relative;cursor:pointer;
+  transition:background var(--trans);flex-shrink:0;
+}
+.toggle.on{background:var(--green)}
+.toggle-knob{
+  width:18px;height:18px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+  position:absolute;top:3px;left:3px;
+  transition:transform .2s var(--spring);
+}
+.toggle.on .toggle-knob{transform:translateX(18px)}
+
+/* ══════════════════════════════════════════
+   RADIO GROUPS
+══════════════════════════════════════════ */
+.radio-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.radio-card{
+  padding:12px 14px;border-radius:var(--r-s);
+  border:1.5px solid var(--border);background:var(--white);
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.radio-card:hover{border-color:var(--green);background:var(--green-xl)}
+.radio-card.selected{border-color:var(--green);background:var(--green-l)}
+.rc-radio{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--border);flex-shrink:0;margin-top:2px;
+  position:relative;transition:all .2s;
+}
+.radio-card.selected .rc-radio{border-color:var(--green)}
+.radio-card.selected .rc-radio::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:var(--green);top:50%;left:50%;transform:translate(-50%,-50%)}
+.rc-label{font-size:.8rem;font-weight:500;color:var(--charcoal)}
+.rc-sub{font-size:.68rem;color:var(--char-l);margin-top:1px;font-weight:300}
+
+/* ══════════════════════════════════════════
+   SIDE COLUMN CARDS
+══════════════════════════════════════════ */
+.side-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-l);overflow:hidden;
+  box-shadow:var(--shadow-s);
+}
+.sc-head{
+  padding:14px 16px 12px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.sc-icon{width:30px;height:30px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem}
+.sc-title{font-size:.82rem;font-weight:600;color:var(--charcoal)}
+.sc-body{padding:14px 16px}
+
+/* Product preview card */
+.preview-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow-s);
+}
+.preview-img{
+  height:160px;background:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.preview-img img{width:100%;height:100%;object-fit:cover;display:none}
+.preview-emoji{font-size:3.5rem;transition:all .3s;color:var(--char-xl)}
+.preview-badge{
+  position:absolute;top:10px;left:10px;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:99px;color:#fff;font-weight:600;
+  background:var(--green);
+}
+.preview-body{padding:14px 16px}
+.preview-cat{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--char-l);margin-bottom:4px}
+.preview-name{font-family:var(--font-d);font-size:1.1rem;font-weight:400;color:var(--charcoal);line-height:1.2;margin-bottom:2px}
+.preview-unit{font-size:.72rem;color:var(--char-l);margin-bottom:10px}
+.preview-price-row{display:flex;align-items:center;justify-content:space-between}
+.preview-price{font-family:var(--font-m);font-size:1.2rem;font-weight:600;color:var(--charcoal)}
+.preview-btn{padding:7px 14px;background:var(--green);color:#fff;border:none;border-radius:var(--r-s);font-size:.72rem;font-weight:500;letter-spacing:.06em;cursor:default}
+.preview-ar{font-family:'Amiri',serif,var(--font-d);font-size:.82rem;color:var(--char-l);margin-top:4px}
+
+/* Progress tracker */
+.progress-steps{display:flex;flex-direction:column;gap:0}
+.ps-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative}
+.ps-item::before{content:'';position:absolute;left:11px;top:24px;width:1px;height:calc(100% - 8px);background:var(--border)}
+.ps-item:last-child::before{display:none}
+.ps-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;border:2px solid var(--border);background:var(--white);color:var(--char-l);z-index:1}
+.ps-item.done .ps-dot{background:var(--green);border-color:var(--green);color:#fff}
+.ps-item.active .ps-dot{border-color:var(--green);color:var(--green);font-weight:700}
+.ps-label{font-size:.78rem;font-weight:500;color:var(--char-l);margin-top:2px;transition:color .2s}
+.ps-item.done .ps-label,.ps-item.active .ps-label{color:var(--charcoal)}
+.ps-sub{font-size:.68rem;color:var(--char-xl);margin-top:1px;font-weight:300}
+.ps-item.active .ps-sub{color:var(--char-l)}
+
+/* completion bar */
+.completion-bar{
+  height:6px;background:var(--border);border-radius:99px;
+  overflow:hidden;margin:10px 0 6px;
+}
+.cb-fill{height:100%;border-radius:99px;background:var(--green);transition:width .5s var(--ease)}
+.cb-pct{font-size:.68rem;color:var(--char-l);text-align:right}
+
+/* ══════════════════════════════════════════
+   ACTION BAR (bottom sticky)
+══════════════════════════════════════════ */
+.action-bar{
+  position:fixed;bottom:0;left:var(--sidebar);right:0;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);
+  padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;z-index:90;
+}
+.ab-left{display:flex;align-items:center;gap:12px}
+.ab-status{font-size:.76rem;color:var(--char-l);display:flex;align-items:center;gap:6px}
+.ab-status-dot{width:7px;height:7px;border-radius:50%;background:var(--char-xl);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ab-status-dot.ready{background:var(--green);animation:none}
+.ab-right{display:flex;align-items:center;gap:10px}
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-family:var(--font-b);font-weight:500;
+  border:none;border-radius:var(--r-s);
+  transition:all var(--trans);white-space:nowrap;
+}
+.btn-sm{height:32px;padding:0 12px;font-size:.75rem}
+.btn-md{height:40px;padding:0 18px;font-size:.82rem}
+.btn-lg{height:48px;padding:0 28px;font-size:.86rem;letter-spacing:.01em}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-m);box-shadow:0 4px 14px rgba(45,90,61,.28);transform:translateY(-1px)}
+.btn-green:active{transform:none;box-shadow:none}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:var(--orange-d);transform:translateY(-1px)}
+.btn-bordered{background:transparent;border:1.5px solid var(--border);color:var(--char-m)}
+.btn-bordered:hover{border-color:var(--green);color:var(--green);background:var(--green-xl)}
+.btn-ghost{background:transparent;color:var(--char-m)}
+.btn-ghost:hover{background:var(--cream);color:var(--charcoal)}
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+.toast-stack{position:fixed;bottom:80px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;box-shadow:var(--shadow-m);display:flex;align-items:flex-start;gap:10px;min-width:270px;max-width:340px;pointer-events:all;transform:translateX(120%);opacity:0;transition:transform .35s var(--spring),opacity .3s var(--ease)}
+.toast.show{transform:translateX(0);opacity:1}
+.toast-ico{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toast-title{font-size:.78rem;font-weight:600;color:var(--charcoal);margin-bottom:1px}
+.toast-msg{font-size:.71rem;color:var(--char-m);font-weight:300}
+.toast.success .toast-ico{background:var(--green-l);color:var(--green)}
+.toast.error   .toast-ico{background:var(--red-l);color:var(--red)}
+.toast.info    .toast-ico{background:var(--blue-l);color:var(--blue)}
+</style>
+<!-- Amiri for Arabic preview -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ════ SIDEBAR ═══════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-gem">🌿</div>
+    <div class="sb-brand">FermeBeldi<span>Admin Dashboard</span></div>
+  </div>
+  <div class="sb-sec">Principal</div>
+  <a class="nav-item" href="ferme-beldi-dashboard.html">
+    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Vue d'ensemble
+  </a>
+  <a class="nav-item" href="#">
+    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Commandes<span class="nav-badge">12</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Livraisons<span class="nav-badge">5</span>
+  </a>
+  <a class="nav-item active" href="ferme-beldi-products-admin.html">
+    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Produits
+  </a>
+  <a class="nav-item" href="#">
+    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Clients
+  </a>
+  <div class="sb-sec">Finance</div>
+  <a class="nav-item" href="#"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Revenus</a>
+  <div class="sb-sec">Paramètres</div>
+  <a class="nav-item" href="#"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Paramètres</a>
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="su-av">YT</div>
+      <div><div class="su-name">Youssef Tazi</div><div class="su-role">Administrateur</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ════ MAIN ═══════════════════════════════════════════ -->
+<main class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <a href="ferme-beldi-dashboard.html" class="tb-breadlink">Dashboard</a>
+      <span class="tb-sep">/</span>
+      <a href="ferme-beldi-products-admin.html" class="tb-breadlink">Produits</a>
+      <span class="tb-sep">/</span>
+      <span class="tb-current">Ajouter un produit</span>
+    </div>
+    <div class="tb-right">
+      <div class="tb-av">YT</div>
+    </div>
+  </div>
+
+  <!-- 2-column layout -->
+  <div class="page-layout">
+
+    <!-- ═══ FORM COLUMN ════════════════════════════════ -->
+    <div class="form-col">
+
+      <!-- Page header -->
+      <div class="page-head">
+        <div>
+          <div class="ph-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau produit
+          </div>
+          <h1 class="ph-title">Ajouter un produit</h1>
+          <p class="ph-sub">Remplissez tous les champs pour publier le produit sur la boutique</p>
+        </div>
+        <div class="ph-right">
+          <button class="btn btn-bordered btn-md" onclick="saveDraft()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Brouillon
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── SECTION 1: Images ─────────────────────── -->
+      <div class="form-section" id="sec-images">
+        <div class="fs-header">
+          <div class="fs-icon" style="background:var(--orange-l)">📸</div>
+          <div>
+            <div class="fs-title">Images du produit</div>
+            <div class="fs-sub">Glissez-déposez jusqu'à 6 images · La première sera l'image principale</div>
+          </div>
+          <div style="margin-left:auto;font-size:.72rem;color:var(--char-l)" id="imgCounter">0 / 6 images</div>
+        </div>
+        <div class="fs-body">
+
+          <!-- Drop zone -->
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileInput(event)">
+            <div class="dz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="dz-title">Glissez vos images ici ou <span>parcourez</span></div>
+            <div class="dz-sub">Supporté : JPG, PNG, WebP · Max 5 MB par image · Jusqu'à 6 images<br>Recommandé : 800 × 800 px minimum, fond neutre</div>
+            <div class="dz-formats">
+              <span class="dz-fmt-chip">JPG</span>
+              <span class="dz-fmt-chip">PNG</span>
+              <span class="dz-fmt-chip">WEBP</span>
+              <span class="dz-fmt-chip">≤ 5 MB</span>
+            </div>
+          </div>
+
+          <!-- Image previews grid -->
+          <div class="images-grid" id="imagesGrid" style="display:none"></div>
+
+          <!-- Instructions -->
+          <div class="img-instructions" id="imgInstructions" style="display:none">
+            <svg class="ii-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="ii-text">
+              <strong>Image principale :</strong> l'image #1 (avec le badge vert) sera affichée en priorité sur la boutique et dans les listings.
+              <br><strong>Réorganiser :</strong> glissez les images pour changer leur ordre. Déposez une image sur une autre pour l'échanger.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SECTION 2: Informations générales ─────── -->
+      <div class="form-section" id="sec-info">
+        <div class="fs-header">
+          <div class="fs-icon" style="background:var(--green-l)">📋</div>
+          <div>
+            <div class="fs-title">Informations générales</div>
+            <div class="fs-sub">Nom, catégorie, prix et description du produit</div>
+          </div>
+        </div>
+        <div class="fs-body">
+
+          <div class="field-row fr-2">
+            <div class="field">
+              <label class="field-label">
+                Nom du produit <span class="fl-required">*</span>
+                <span class="fl-tip" data-tip="Nom affiché sur la boutique et dans les commandes">?</span>
+              </label>
+              <input class="ff-input" id="fName" type="text" placeholder="Ex: Plateau d'Œufs Fermiers Beldi" oninput="updatePreview();calcCompletion()">
+              <div class="field-error" id="errName">Le nom est obligatoire</div>
+            </div>
+            <div class="field">
+              <label class="field-label">Nom en arabe <span class="fl-optional">Optionnel</span></label>
+              <input class="ff-input rtl" id="fNameAr" type="text" placeholder="بيض بلدي طازج" oninput="updatePreview()">
+            </div>
+          </div>
+
+          <div class="field-row fr-3">
+            <div class="field">
+              <label class="field-label">Catégorie <span class="fl-required">*</span></label>
+              <select class="ff-select" id="fCategory" onchange="updatePreview();calcCompletion()">
+                <option value="">Sélectionner…</option>
+                <option value="Œufs" data-emoji="🥚">🥚 Œufs Fermiers</option>
+                <option value="Lait" data-emoji="🥛">🥛 Lait Frais</option>
+                <option value="Fromage" data-emoji="🧀">🧀 Fromages & Beurre</option>
+                <option value="Yaourt" data-emoji="🫙">🫙 Yaourts Naturels</option>
+                <option value="Pack" data-emoji="🧺">🧺 Packs Famille</option>
+              </select>
+              <div class="field-error" id="errCat">La catégorie est obligatoire</div>
+            </div>
+            <div class="field">
+              <label class="field-label">Prix (DH) <span class="fl-required">*</span></label>
+              <div class="price-wrap">
+                <input class="ff-input" id="fPrice" type="number" min="0" step="0.5" placeholder="25" oninput="updatePreview();calcCompletion()" style="padding-right:44px">
+                <span class="price-suffix">DH</span>
+              </div>
+              <div class="field-error" id="errPrice">Le prix doit être supérieur à 0</div>
+            </div>
+            <div class="field">
+              <label class="field-label">Unité / Contenance <span class="fl-required">*</span></label>
+              <input class="ff-input" id="fUnit" type="text" placeholder="Ex: plateau de 15, 1 litre…" oninput="updatePreview()">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label">
+              Description courte <span class="fl-required">*</span>
+              <span style="margin-left:auto;font-size:.65rem;color:var(--char-xl)" id="descCount">0 / 200</span>
+            </label>
+            <textarea class="ff-textarea" id="fDesc" maxlength="200" placeholder="Description affichée sous le nom du produit sur la boutique…" oninput="document.getElementById('descCount').textContent=this.value.length+' / 200';calcCompletion()" style="min-height:80px"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Description longue <span class="fl-optional">Optionnel</span></label>
+            <textarea class="ff-textarea" id="fDescLong" placeholder="Détails complets du produit, processus de fabrication, conseils d'utilisation…" style="min-height:120px"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Badge fraîcheur <span class="fl-optional">Optionnel</span></label>
+            <input class="ff-input" id="fFresh" type="text" placeholder="Ex: Ramassés ce matin à 5h, Trait à l'aube, Affiné cette semaine…">
+            <div class="field-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Affiché avec un indicateur vert sur la fiche produit
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Mots-clés / Tags <span class="fl-optional">Optionnel</span></label>
+            <div class="tag-input-wrap" id="tagWrap" onclick="document.getElementById('tagInput').focus()">
+              <input class="tag-real-input" id="tagInput" type="text" placeholder="Tapez un tag et appuyez sur Entrée…" onkeydown="handleTag(event)">
+            </div>
+            <div class="field-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Appuyez sur Entrée ou virgule pour ajouter un tag
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── SECTION 3: Stock & Production ────────── -->
+      <div class="form-section" id="sec-stock">
+        <div class="fs-header">
+          <div class="fs-icon" style="background:var(--brown-p)">📦</div>
+          <div>
+            <div class="fs-title">Stock & Production</div>
+            <div class="fs-sub">Capacité quotidienne, alertes et gestion de l'inventaire</div>
+          </div>
+        </div>
+        <div class="fs-body">
+
+          <div class="field-row fr-3">
+            <div class="field">
+              <label class="field-label">Stock actuel</label>
+              <div class="num-wrap" id="stockWrap">
+                <button class="num-btn" onclick="stepNum('fStock',-1)">−</button>
+                <input class="num-input" id="fStock" type="number" value="0" min="0" onchange="calcCompletion()">
+                <button class="num-btn" onclick="stepNum('fStock',1)">+</button>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">
+                Capacité max
+                <span class="fl-tip" data-tip="Production maximale quotidienne ou hebdomadaire">?</span>
+              </label>
+              <div class="num-wrap">
+                <button class="num-btn" onclick="stepNum('fMaxStock',-10)">−</button>
+                <input class="num-input" id="fMaxStock" type="number" value="100" min="1">
+                <button class="num-btn" onclick="stepNum('fMaxStock',10)">+</button>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">
+                Seuil d'alerte
+                <span class="fl-tip" data-tip="Vous recevrez une alerte quand le stock descend sous ce niveau">?</span>
+              </label>
+              <div class="num-wrap">
+                <button class="num-btn" onclick="stepNum('fAlertStock',-5)">−</button>
+                <input class="num-input" id="fAlertStock" type="number" value="20" min="0">
+                <button class="num-btn" onclick="stepNum('fAlertStock',5)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row fr-2" style="margin-top:16px">
+            <div class="field">
+              <label class="field-label">Unité de stock</label>
+              <select class="ff-select" id="fStockUnit">
+                <option>Unités</option>
+                <option>Plateaux</option>
+                <option>Litres</option>
+                <option>Kilogrammes</option>
+                <option>Pots</option>
+                <option>Pièces</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Fréquence de production</label>
+              <select class="ff-select" id="fFrequency">
+                <option value="daily">Quotidienne</option>
+                <option value="weekly">Hebdomadaire</option>
+                <option value="biweekly">Bi-hebdomadaire</option>
+                <option value="monthly">Mensuelle</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── SECTION 4: Livraison & Disponibilité ── -->
+      <div class="form-section" id="sec-delivery">
+        <div class="fs-header">
+          <div class="fs-icon" style="background:var(--blue-l)">🚐</div>
+          <div>
+            <div class="fs-title">Livraison & Disponibilité</div>
+            <div class="fs-sub">Créneaux, zones et conditions de livraison</div>
+          </div>
+        </div>
+        <div class="fs-body">
+
+          <div class="field" style="margin-bottom:14px">
+            <label class="field-label">Zones de livraison disponibles</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" id="zoneCasa" checked style="accent-color:var(--green)"> Casablanca
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" id="zoneRabat" checked style="accent-color:var(--green)"> Rabat
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" id="zoneSale" style="accent-color:var(--green)"> Salé
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" id="zoneMoha" style="accent-color:var(--green)"> Mohammedia
+              </label>
+            </div>
+          </div>
+
+          <div class="field-row fr-2" style="margin-bottom:14px">
+            <div class="field">
+              <label class="field-label">Délai de livraison</label>
+              <select class="ff-select" id="fDelay">
+                <option>Même jour (si commandé avant 10h)</option>
+                <option selected>24h</option>
+                <option>48h</option>
+                <option>Sur commande (3–5 jours)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Frais de livraison</label>
+              <select class="ff-select" id="fDeliveryCost">
+                <option>20 DH (standard)</option>
+                <option>Inclus dans le prix</option>
+                <option>Gratuit</option>
+                <option>Selon zone</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Créneaux disponibles</label>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" checked style="accent-color:var(--green)"> 🌅 Matin (9h–12h)
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" checked style="accent-color:var(--green)"> ☀️ Après-midi (14h–18h)
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--char-m);cursor:pointer">
+                <input type="checkbox" style="accent-color:var(--green)"> 🌙 Soir (18h–21h)
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── SECTION 5: Options avancées ──────────── -->
+      <div class="form-section" id="sec-advanced">
+        <div class="fs-header">
+          <div class="fs-icon" style="background:var(--cream)">⚙️</div>
+          <div>
+            <div class="fs-title">Options & Visibilité</div>
+            <div class="fs-sub">Statut de publication et comportements du produit</div>
+          </div>
+        </div>
+        <div class="fs-body">
+
+          <!-- Statut -->
+          <div class="field" style="margin-bottom:18px">
+            <label class="field-label">Statut de publication</label>
+            <div class="radio-group">
+              <div class="radio-card selected" id="rc-active" onclick="selectRadio('active')">
+                <div class="rc-radio"></div>
+                <div>
+                  <div class="rc-label">Actif — Publié</div>
+                  <div class="rc-sub">Visible immédiatement sur la boutique</div>
+                </div>
+              </div>
+              <div class="radio-card" id="rc-draft" onclick="selectRadio('draft')">
+                <div class="rc-radio"></div>
+                <div>
+                  <div class="rc-label">Brouillon</div>
+                  <div class="rc-sub">Sauvegardé mais non visible</div>
+                </div>
+              </div>
+              <div class="radio-card" id="rc-scheduled" onclick="selectRadio('scheduled')">
+                <div class="rc-radio"></div>
+                <div>
+                  <div class="rc-label">Planifié</div>
+                  <div class="rc-sub">Publication à une date définie</div>
+                </div>
+              </div>
+              <div class="radio-card" id="rc-inactive" onclick="selectRadio('inactive')">
+                <div class="rc-radio"></div>
+                <div>
+                  <div class="rc-label">Inactif</div>
+                  <div class="rc-sub">Masqué sans suppression</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scheduled date (hidden by default) -->
+          <div class="field-row fr-2" id="scheduledRow" style="display:none;margin-bottom:18px">
+            <div class="field">
+              <label class="field-label">Date de publication</label>
+              <input class="ff-input" type="date" id="fScheduledDate">
+            </div>
+            <div class="field">
+              <label class="field-label">Heure de publication</label>
+              <input class="ff-input" type="time" id="fScheduledTime" value="09:00">
+            </div>
+          </div>
+
+          <!-- Toggles -->
+          <div class="field">
+            <label class="field-label" style="margin-bottom:10px">Options</label>
+            <div class="toggle-row">
+              <div class="tr-left">
+                <div class="tr-label">Mise en avant "Le plus demandé"</div>
+                <div class="tr-sub">Affiche un badge spécial sur la fiche produit</div>
+              </div>
+              <button class="toggle" id="tog-featured" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+            <div class="toggle-row">
+              <div class="tr-left">
+                <div class="tr-label">Commande par abonnement hebdomadaire</div>
+                <div class="tr-sub">Les clients peuvent s'abonner à ce produit chaque semaine</div>
+              </div>
+              <button class="toggle on" id="tog-sub" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+            <div class="toggle-row">
+              <div class="tr-left">
+                <div class="tr-label">Livraison gratuite pour ce produit</div>
+                <div class="tr-sub">Remplace les frais de livraison standard</div>
+              </div>
+              <button class="toggle" id="tog-free-del" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="height:72px"></div><!-- space for action bar -->
+    </div>
+
+    <!-- ═══ SIDE COLUMN ════════════════════════════════ -->
+    <div class="side-col">
+
+      <!-- Live Preview -->
+      <div>
+        <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--char-l);font-weight:600;margin-bottom:10px;padding-left:2px">Aperçu boutique</div>
+        <div class="preview-card">
+          <div class="preview-img" id="previewImgWrap">
+            <img id="previewMainImg" src="" alt="">
+            <div class="preview-emoji" id="previewEmoji">📦</div>
+            <div class="preview-badge" id="previewBadge" style="display:none">Le plus demandé</div>
+          </div>
+          <div class="preview-body">
+            <div class="preview-cat" id="previewCat">Catégorie</div>
+            <div class="preview-name" id="previewName">Nom du produit</div>
+            <div class="preview-ar" id="previewAr"></div>
+            <div class="preview-unit" id="previewUnit">Unité</div>
+            <div class="preview-price-row">
+              <div class="preview-price" id="previewPrice">— DH</div>
+              <button class="preview-btn">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completion tracker -->
+      <div class="side-card">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:var(--green-l)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="sc-title">Complétion du formulaire</div>
+        </div>
+        <div class="sc-body">
+          <div class="completion-bar"><div class="cb-fill" id="completionFill" style="width:0%"></div></div>
+          <div class="cb-pct" id="completionPct">0% complété</div>
+          <div class="progress-steps" style="margin-top:14px" id="progressSteps">
+            <div class="ps-item" id="step-images">
+              <div class="ps-dot">1</div>
+              <div><div class="ps-label">Images</div><div class="ps-sub">Aucune image ajoutée</div></div>
+            </div>
+            <div class="ps-item" id="step-info">
+              <div class="ps-dot">2</div>
+              <div><div class="ps-label">Informations</div><div class="ps-sub">Nom, catégorie, prix requis</div></div>
+            </div>
+            <div class="ps-item" id="step-desc">
+              <div class="ps-dot">3</div>
+              <div><div class="ps-label">Description</div><div class="ps-sub">Description courte requise</div></div>
+            </div>
+            <div class="ps-item" id="step-stock">
+              <div class="ps-dot">4</div>
+              <div><div class="ps-label">Stock</div><div class="ps-sub">Optionnel mais recommandé</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="side-card">
+        <div class="sc-head">
+          <div class="sc-icon" style="background:var(--orange-l)">💡</div>
+          <div class="sc-title">Conseils de rédaction</div>
+        </div>
+        <div class="sc-body" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:.75rem;color:var(--char-m);line-height:1.55;font-weight:300">
+            <span style="color:var(--green);flex-shrink:0;font-size:.9rem;margin-top:-1px">✓</span>
+            <span>Nommez le produit de façon <strong style="font-weight:500;color:var(--charcoal)">claire et descriptive</strong> — les clients doivent comprendre ce qu'ils reçoivent en 3 secondes</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:.75rem;color:var(--char-m);line-height:1.55;font-weight:300">
+            <span style="color:var(--green);flex-shrink:0;font-size:.9rem;margin-top:-1px">✓</span>
+            <span>La <strong style="font-weight:500;color:var(--charcoal)">première image</strong> est la plus importante — choisissez un fond neutre, lumière naturelle</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:.75rem;color:var(--char-m);line-height:1.55;font-weight:300">
+            <span style="color:var(--green);flex-shrink:0;font-size:.9rem;margin-top:-1px">✓</span>
+            <span>Mentionnez <strong style="font-weight:500;color:var(--charcoal)">l'heure de récolte ou fabrication</strong> dans la description — c'est votre argument de fraîcheur le plus fort</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:.75rem;color:var(--char-m);line-height:1.55;font-weight:300">
+            <span style="color:var(--orange);flex-shrink:0;font-size:.9rem;margin-top:-1px">⚠</span>
+            <span>Évitez les descriptions génériques — chaque produit Beldi a une histoire, racontez-la</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ════ ACTION BAR ════════════════════════════════════ -->
+<div class="action-bar">
+  <div class="ab-left">
+    <div class="ab-status">
+      <div class="ab-status-dot" id="statusDot"></div>
+      <span id="statusText">Formulaire non complété</span>
+    </div>
+  </div>
+  <div class="ab-right">
+    <button class="btn btn-ghost btn-md" onclick="resetForm()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      Réinitialiser
+    </button>
+    <button class="btn btn-bordered btn-md" onclick="saveDraft()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Sauvegarder brouillon
+    </button>
+    <button class="btn btn-green btn-lg" id="btnPublish" onclick="publishProduct()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Publier le produit
+    </button>
+  </div>
+</div>
+
+<!-- ════ TOAST STACK ═══════════════════════════════════ -->
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+/* ═══════════════════════════════════════════
+   IMAGE MANAGEMENT
+═══════════════════════════════════════════ */
+let images = [];      // {file, url, id}
+let dragSrcIndex = null;
+const MAX_IMAGES = 6;
+let imgIdCounter = 0;
+
+/* Drop zone events */
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('dragover');
+  handleFiles([...e.dataTransfer.files]);
+});
+
+function handleFileInput(e) { handleFiles([...e.target.files]); e.target.value=''; }
+
+function handleFiles(files) {
+  const allowed = ['image/jpeg','image/png','image/webp','image/gif'];
+  const remaining = MAX_IMAGES - images.length;
+  let added = 0;
+  files.slice(0, remaining).forEach(file => {
+    if (!allowed.includes(file.type)) { toast('error','Format non supporté',`"${file.name}" n'est pas une image valide`); return; }
+    if (file.size > 5 * 1024 * 1024) { toast('error','Fichier trop lourd',`"${file.name}" dépasse 5 MB`); return; }
+    const url = URL.createObjectURL(file);
+    images.push({ file, url, id: ++imgIdCounter });
+    added++;
+  });
+  if (added > 0) {
+    renderImages();
+    calcCompletion();
+    updatePreviewImage();
+    if (images.length === MAX_IMAGES) toast('info','Maximum atteint',`Vous avez ajouté ${MAX_IMAGES} images (maximum)`);
+  }
+}
+
+function renderImages() {
+  const grid = document.getElementById('imagesGrid');
+  const instr = document.getElementById('imgInstructions');
+  const counter = document.getElementById('imgCounter');
+  counter.textContent = `${images.length} / ${MAX_IMAGES} image${images.length > 1 ? 's' : ''}`;
+
+  if (images.length === 0) {
+    grid.style.display = 'none';
+    instr.style.display = 'none';
+    return;
+  }
+  grid.style.display = 'grid';
+  instr.style.display = 'flex';
+  grid.innerHTML = '';
+
+  images.forEach((img, i) => {
+    const div = document.createElement('div');
+    div.className = 'img-preview' + (i === 0 ? ' main-img' : '');
+    div.draggable = true;
+    div.dataset.index = i;
+    div.innerHTML = `
+      ${i === 0 ? '<div class="main-badge">✓ Principale</div>' : ''}
+      <div class="order-badge">${i + 1}</div>
+      <div class="drag-handle">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="6" x2="9" y2="6"/><line x1="15" y1="6" x2="15" y2="6"/><line x1="9" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="15" y2="12"/><line x1="9" y1="18" x2="9" y2="18"/><line x1="15" y1="18" x2="15" y2="18"/></svg>
+      </div>
+      <img src="${img.url}" alt="Image ${i + 1}">
+      <div class="img-overlay">
+        <button class="img-ov-btn delete" onclick="removeImage(${i}, event)" title="Supprimer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        </button>
+        ${i > 0 ? `<button class="img-ov-btn" style="background:var(--green);color:#fff" onclick="setMain(${i}, event)" title="Définir comme principale"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></button>` : ''}
+      </div>`;
+
+    /* Drag-to-reorder */
+    div.addEventListener('dragstart', e => {
+      dragSrcIndex = i;
+      e.dataTransfer.effectAllowed = 'move';
+      div.classList.add('dragging');
+    });
+    div.addEventListener('dragend', () => {
+      div.classList.remove('dragging');
+      document.querySelectorAll('.img-preview').forEach(d => d.classList.remove('drag-over'));
+    });
+    div.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (dragSrcIndex !== null && dragSrcIndex !== i) div.classList.add('drag-over');
+    });
+    div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+    div.addEventListener('drop', e => {
+      e.preventDefault();
+      if (dragSrcIndex !== null && dragSrcIndex !== i) {
+        const moved = images.splice(dragSrcIndex, 1)[0];
+        images.splice(i, 0, moved);
+        dragSrcIndex = null;
+        renderImages();
+        updatePreviewImage();
+      }
+    });
+
+    grid.appendChild(div);
+  });
+
+  /* Add-more slot */
+  if (images.length < MAX_IMAGES) {
+    const slot = document.createElement('div');
+    slot.className = 'img-add-slot';
+    slot.innerHTML = `
+      <input type="file" accept="image/*" multiple onchange="handleFileInput(event)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>Ajouter</span>`;
+    grid.appendChild(slot);
+  }
+}
+
+function removeImage(i, e) {
+  e.stopPropagation();
+  URL.revokeObjectURL(images[i].url);
+  images.splice(i, 1);
+  renderImages();
+  calcCompletion();
+  updatePreviewImage();
+}
+
+function setMain(i, e) {
+  e.stopPropagation();
+  const [moved] = images.splice(i, 1);
+  images.unshift(moved);
+  renderImages();
+  updatePreviewImage();
+  toast('success','Image principale définie','La première image a été mise à jour');
+}
+
+function updatePreviewImage() {
+  const img = document.getElementById('previewMainImg');
+  const emoji = document.getElementById('previewEmoji');
+  if (images.length > 0) {
+    img.src = images[0].url;
+    img.style.display = 'block';
+    emoji.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    emoji.style.display = 'block';
+    // update emoji based on category
+    const cat = document.getElementById('fCategory');
+    const opt = cat.options[cat.selectedIndex];
+    emoji.textContent = opt ? (opt.dataset.emoji || '📦') : '📦';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   LIVE PREVIEW
+═══════════════════════════════════════════ */
+function updatePreview() {
+  const name = document.getElementById('fName').value.trim();
+  const ar = document.getElementById('fNameAr').value.trim();
+  const price = document.getElementById('fPrice').value;
+  const unit = document.getElementById('fUnit').value.trim();
+  const cat = document.getElementById('fCategory');
+  const catVal = cat.value;
+  const opt = cat.options[cat.selectedIndex];
+  const emoji = opt && opt.dataset.emoji ? opt.dataset.emoji : '📦';
+
+  document.getElementById('previewName').textContent = name || 'Nom du produit';
+  document.getElementById('previewAr').textContent = ar;
+  document.getElementById('previewPrice').textContent = price ? price + ' DH' : '— DH';
+  document.getElementById('previewUnit').textContent = unit || 'Unité / contenance';
+  document.getElementById('previewCat').textContent = catVal || 'Catégorie';
+  document.getElementById('previewEmoji').textContent = emoji;
+
+  updatePreviewImage();
+
+  const featured = document.getElementById('tog-featured').classList.contains('on');
+  const badge = document.getElementById('previewBadge');
+  badge.style.display = featured ? 'block' : 'none';
+}
+
+/* ═══════════════════════════════════════════
+   RADIO STATUS
+═══════════════════════════════════════════ */
+let selectedStatus = 'active';
+function selectRadio(status) {
+  selectedStatus = status;
+  ['active','draft','scheduled','inactive'].forEach(s => {
+    document.getElementById('rc-'+s).className = 'radio-card' + (s === status ? ' selected' : '');
+  });
+  document.getElementById('scheduledRow').style.display = status === 'scheduled' ? 'grid' : 'none';
+}
+
+/* ═══════════════════════════════════════════
+   TAG INPUT
+═══════════════════════════════════════════ */
+const tags = [];
+function handleTag(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.replace(',','').trim();
+    if (val && !tags.includes(val) && tags.length < 10) {
+      tags.push(val);
+      renderTags();
+    }
+    e.target.value = '';
+  } else if (e.key === 'Backspace' && !e.target.value && tags.length > 0) {
+    tags.pop();
+    renderTags();
+  }
+}
+function renderTags() {
+  const wrap = document.getElementById('tagWrap');
+  const inp = document.getElementById('tagInput');
+  // remove old chips
+  wrap.querySelectorAll('.tag-chip').forEach(c => c.remove());
+  tags.forEach((tag, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'tag-chip';
+    chip.innerHTML = `${tag}<button onclick="removeTag(${i})" type="button">×</button>`;
+    wrap.insertBefore(chip, inp);
+  });
+}
+function removeTag(i) { tags.splice(i, 1); renderTags(); }
+
+/* ═══════════════════════════════════════════
+   NUMBER STEPPER
+═══════════════════════════════════════════ */
+function stepNum(id, delta) {
+  const inp = document.getElementById(id);
+  const val = parseInt(inp.value) || 0;
+  inp.value = Math.max(0, val + delta);
+}
+
+/* ═══════════════════════════════════════════
+   COMPLETION TRACKER
+═══════════════════════════════════════════ */
+function calcCompletion() {
+  const hasImages = images.length > 0;
+  const hasName = document.getElementById('fName').value.trim().length > 0;
+  const hasCat = document.getElementById('fCategory').value !== '';
+  const hasPrice = parseFloat(document.getElementById('fPrice').value) > 0;
+  const hasDesc = document.getElementById('fDesc').value.trim().length > 10;
+  const hasStock = parseInt(document.getElementById('fStock').value) >= 0;
+
+  const infoOk = hasName && hasCat && hasPrice;
+  const steps = [
+    {id:'step-images', ok:hasImages, done:hasImages, label:'Images', sub:hasImages?`${images.length} image${images.length>1?'s':''} ajoutée${images.length>1?'s':''}`: 'Aucune image ajoutée'},
+    {id:'step-info',   ok:infoOk, done:infoOk, label:'Informations', sub:infoOk?'Nom, catégorie et prix OK':'Nom, catégorie, prix requis'},
+    {id:'step-desc',   ok:hasDesc, done:hasDesc, label:'Description', sub:hasDesc?'Description complète':'Description courte requise'},
+    {id:'step-stock',  ok:true, done:hasStock, label:'Stock', sub:'Optionnel'},
+  ];
+
+  let score = 0;
+  if (hasImages) score += 30;
+  if (infoOk) score += 40;
+  if (hasDesc) score += 20;
+  if (hasStock) score += 10;
+
+  document.getElementById('completionFill').style.width = score + '%';
+  document.getElementById('completionPct').textContent = score + '% complété';
+
+  steps.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (!el) return;
+    el.className = 'ps-item' + (s.done ? ' done' : (s.ok ? ' active' : ''));
+    el.children[1].children[1].textContent = s.sub;
+  });
+
+  const ready = hasImages && infoOk && hasDesc;
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  dot.className = 'ab-status-dot' + (ready ? ' ready' : '');
+  txt.textContent = ready ? 'Prêt à publier' : score > 0 ? 'Formulaire en cours…' : 'Formulaire non complété';
+
+  return { hasName, hasCat, hasPrice, hasDesc, hasImages, ready };
+}
+
+/* ═══════════════════════════════════════════
+   VALIDATE + SUBMIT
+═══════════════════════════════════════════ */
+function validate() {
+  let ok = true;
+  const name = document.getElementById('fName').value.trim();
+  const cat = document.getElementById('fCategory').value;
+  const price = parseFloat(document.getElementById('fPrice').value);
+  const desc = document.getElementById('fDesc').value.trim();
+
+  const showErr = (id, show) => {
+    const el = document.getElementById(id);
+    if (el) { el.style.display = show ? 'block' : 'none'; }
+    const input = document.getElementById(id.replace('err','f').replace('Name','Name').replace('Cat','Category').replace('Price','Price'));
+    if (input) input.classList.toggle('err', show);
+  };
+
+  if (!name)            { showErr('errName', true);  ok = false; } else showErr('errName', false);
+  if (!cat)             { showErr('errCat', true);   ok = false; } else showErr('errCat', false);
+  if (!price || price <= 0) { showErr('errPrice', true); ok = false; } else showErr('errPrice', false);
+
+  if (images.length === 0) {
+    toast('error','Images requises','Ajoutez au moins une image pour le produit');
+    ok = false;
+  }
+  if (!desc) {
+    document.getElementById('fDesc').classList.add('err');
+    toast('error','Description manquante','Ajoutez une description courte');
+    ok = false;
+  } else {
+    document.getElementById('fDesc').classList.remove('err');
+  }
+  return ok;
+}
+
+function publishProduct() {
+  if (!validate()) return;
+  const btn = document.getElementById('btnPublish');
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg> Publication…`;
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Publier le produit`;
+    btn.disabled = false;
+    toast('success','Produit publié !', `"${document.getElementById('fName').value.trim()}" est maintenant visible sur la boutique`);
+  }, 1800);
+}
+
+function saveDraft() {
+  if (!document.getElementById('fName').value.trim()) {
+    toast('error','Nom requis','Entrez au moins un nom pour sauvegarder le brouillon');
+    return;
+  }
+  toast('info','Brouillon sauvegardé',`"${document.getElementById('fName').value.trim()}" sauvegardé`);
+}
+
+function resetForm() {
+  if (!confirm('Réinitialiser tous les champs ?')) return;
+  images.forEach(img => URL.revokeObjectURL(img.url));
+  images.length = 0;
+  tags.length = 0;
+  renderImages();
+  renderTags();
+  ['fName','fNameAr','fPrice','fUnit','fDesc','fDescLong','fFresh'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('fCategory').value = '';
+  document.getElementById('fStock').value = 0;
+  document.getElementById('fMaxStock').value = 100;
+  document.getElementById('fAlertStock').value = 20;
+  document.getElementById('descCount').textContent = '0 / 200';
+  selectRadio('active');
+  updatePreview();
+  calcCompletion();
+  toast('info','Formulaire réinitialisé','Tous les champs ont été effacés');
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+const ICONS = {
+  success:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+  error:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  info:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+};
+let toastId = 0;
+function toast(type, title, msg='') {
+  const id = 't' + (++toastId);
+  const stack = document.getElementById('toastStack');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.id = id;
+  el.innerHTML = `<div class="toast-ico">${ICONS[type]||''}</div>
+    <div style="flex:1"><div class="toast-title">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}</div>
+    <button style="background:none;border:none;color:var(--char-xl);cursor:pointer;padding:2px;flex-shrink:0" onclick="this.parentElement.remove()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>`;
+  stack.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, 4000);
+}
+
+/* spin animation */
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+
+/* ═══════════════════════════════════════════
+   FEATURED TOGGLE → preview
+═══════════════════════════════════════════ */
+document.getElementById('tog-featured').addEventListener('click', () => {
+  setTimeout(updatePreview, 50);
+});
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+calcCompletion();
+updatePreview();
+</script>
+</body>
+</html>

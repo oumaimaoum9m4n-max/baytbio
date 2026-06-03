@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Votre Panier — Bayt Bio | بيت بيو</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F5EDD8;--linen:#EBD9B8;--warm:#FAF6ED;
+  --sand:#C8B285;--sand-d:#A8925A;
+  --terra:#B85A28;--terra-l:#D4724A;--terra-p:#F0E0D4;
+  --olive:#3C4926;--olive-m:#5A6A38;--olive-p:#E8EDDE;
+  --brown:#1C1208;--brown-m:#3A2810;
+  --muted:#7A6648;--muted-l:#A89070;
+  --green:#25D366;--green-d:#1AB854;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-ar:'Amiri',serif;
+  --font-b:'DM Sans',sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --spring:cubic-bezier(.22,.68,0,1.2);
+  --r:3px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--warm);color:var(--brown);overflow-x:hidden;cursor:none;min-height:100vh}
+a,button{cursor:none;text-decoration:none}
+input,select,textarea{font-family:var(--font-b);cursor:none}
+button:focus,input:focus,textarea:focus{outline:none}
+
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.025;pointer-events:none;z-index:9000}
+
+/* CURSOR */
+#cur{width:9px;height:9px;background:var(--terra);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9990;transition:transform .05s,background .3s}
+#curR{width:36px;height:36px;border:1.5px solid var(--terra);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9989;opacity:.5;transition:width .3s,height .3s,border-color .3s,opacity .3s}
+#curR.h{width:54px;height:54px;border-color:var(--olive);opacity:.3}
+#curR.press{width:24px;height:24px;opacity:.8}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;height:68px;padding:0 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(245,237,216,.96);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--linen);transition:background .4s}
+.logo{display:flex;align-items:center;gap:10px;color:var(--brown)}
+.logo-gem{width:22px;height:22px;background:var(--terra);border-radius:50% 50% 50% 0;transform:rotate(-45deg);flex-shrink:0;transition:transform .5s var(--spring)}
+.logo:hover .logo-gem{transform:rotate(0deg)}
+.logo-text{font-family:var(--font-d);font-size:1.4rem;font-weight:600;letter-spacing:.02em}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:.73rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.nav-links a:hover{color:var(--terra)}
+
+.nav-steps{display:flex;align-items:center;gap:0}
+.ns{display:flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(122,100,72,.4);padding:0 20px;transition:color .3s}
+.ns.done{color:var(--olive-m)}
+.ns.active{color:var(--brown)}
+.ns-num{width:24px;height:24px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:500;flex-shrink:0;transition:background .3s,border-color .3s}
+.ns.active .ns-num{background:var(--terra);border-color:var(--terra);color:#fff}
+.ns.done .ns-num{background:var(--olive-m);border-color:var(--olive-m);color:#fff}
+.ns-sep{width:28px;height:1px;background:var(--linen);flex-shrink:0}
+
+/* PAGES */
+.page{display:none;padding-top:68px;min-height:100vh;animation:fadeSlide .4s var(--ease) both}
+.page.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* PAGE HEADER — olive, matching products/about */
+.page-header{background:var(--olive);padding:52px 72px 48px;position:relative;overflow:hidden}
+.page-header::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 70% at 92% 50%,rgba(200,178,100,.11),transparent);pointer-events:none}
+.ph-eyebrow{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,200,160,.45);display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ph-eyebrow::before{content:'';width:24px;height:1px;background:rgba(212,200,160,.25);flex-shrink:0}
+.ph-title{font-family:var(--font-d);font-size:clamp(2.4rem,4vw,4rem);font-weight:300;color:var(--cream);line-height:1;position:relative;z-index:1}
+.ph-title em{font-style:italic;color:rgba(212,200,160,.82)}
+.ph-sub{font-size:.83rem;font-weight:300;color:rgba(212,200,160,.5);margin-top:10px;position:relative;z-index:1}
+.ph-bignum{position:absolute;right:60px;bottom:-24px;font-family:var(--font-d);font-size:22rem;font-weight:300;color:rgba(255,255,255,.025);pointer-events:none;user-select:none;line-height:1}
+
+/* CART LAYOUT */
+.cart-layout{display:grid;grid-template-columns:1fr 400px;gap:0;min-height:calc(100vh - 68px - 140px);align-items:start}
+.cart-items-col{padding:48px 64px 64px 72px;border-right:1px solid var(--linen)}
+.cart-items-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--linen)}
+.cih-label{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.cih-count{font-family:var(--font-d);font-size:1.1rem;font-weight:300;color:var(--muted)}
+.btn-clear-cart{background:none;border:none;font-family:var(--font-b);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(122,100,72,.4);transition:color .3s;display:flex;align-items:center;gap:6px}
+.btn-clear-cart:hover{color:var(--terra)}
+
+/* CART ITEM */
+.cart-item{display:grid;grid-template-columns:96px 1fr auto;gap:20px;padding:24px 0;border-bottom:1px solid var(--linen);align-items:center;transition:background .3s;position:relative}
+.cart-item:hover{background:rgba(235,217,184,.15);margin:0 -16px;padding:24px 16px}
+.ci-img{width:96px;height:96px;border-radius:var(--r);overflow:hidden;background:var(--linen);position:relative;flex-shrink:0}
+.ci-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.82)}
+.ci-img-bg{position:absolute;inset:0}
+.ci-badge{display:inline-block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:1px;color:#fff;margin-bottom:6px;font-weight:400}
+.ci-name{font-family:var(--font-d);font-size:1.25rem;font-weight:400;color:var(--brown);margin-bottom:3px;line-height:1.15}
+.ci-unit{font-size:.72rem;color:var(--muted);font-weight:300;margin-bottom:12px}
+.ci-freshness{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--olive-m);padding:3px 9px;background:var(--olive-p);border-radius:99px}
+.ci-fresh-dot{width:6px;height:6px;background:#55A040;border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.ci-price{font-family:var(--font-d);font-size:1.6rem;font-weight:400;color:var(--brown);line-height:1}
+.ci-price-unit{font-size:.7rem;font-weight:300;color:var(--muted);text-align:right;margin-top:1px}
+.qty-row{display:flex;align-items:center;gap:8px}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--linen);border-radius:var(--r);overflow:hidden;background:var(--warm)}
+.qb{width:34px;height:36px;background:none;border:none;font-size:1rem;color:var(--brown);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qb:hover{background:var(--linen)}
+.qv{width:40px;height:36px;text-align:center;font-family:var(--font-d);font-size:1.1rem;font-weight:300;border:none;background:none;color:var(--brown)}
+.btn-remove{width:30px;height:30px;border:none;background:none;color:var(--muted-l);display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .2s,color .2s}
+.btn-remove:hover{background:var(--terra-p);color:var(--terra)}
+
+/* EMPTY STATE */
+.cart-empty{padding:80px 72px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+.ce-icon{color:var(--muted-l);opacity:.35;margin-bottom:8px}
+.ce-title{font-family:var(--font-d);font-size:2.2rem;font-weight:300;color:var(--brown)}
+.ce-sub{font-size:.88rem;color:var(--muted);font-weight:300;max-width:340px;line-height:1.75}
+.btn-shop{padding:14px 32px;background:var(--terra);color:var(--cream);border:none;font-family:var(--font-b);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;border-radius:var(--r);transition:background .3s,transform .2s;margin-top:12px}
+.btn-shop:hover{background:var(--terra-l);transform:translateY(-2px)}
+
+/* SUMMARY COLUMN */
+.cart-summary-col{padding:48px 48px 48px 44px;position:sticky;top:68px}
+.summary-card{background:var(--cream);border:1px solid var(--linen);border-radius:var(--r);overflow:hidden}
+.sc-header{background:var(--brown);padding:22px 28px;display:flex;align-items:center;justify-content:space-between}
+.sc-header-title{font-family:var(--font-d);font-size:1.25rem;font-weight:300;color:var(--cream)}
+.sc-header-ar{font-family:var(--font-ar);font-size:.85rem;color:rgba(200,178,133,.4)}
+.sc-body{padding:24px 28px}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--linen)}
+.sc-row:last-of-type{border-bottom:none}
+.sc-label{font-size:.8rem;font-weight:300;color:var(--muted)}
+.sc-value{font-size:.88rem;color:var(--brown);font-weight:400}
+.sc-total-row{display:flex;justify-content:space-between;align-items:baseline;padding:20px 28px;background:var(--linen);border-top:1px solid rgba(184,90,40,.15)}
+.sc-total-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sc-total-val{font-family:var(--font-d);font-size:2.4rem;font-weight:400;color:var(--brown);line-height:1}
+.sc-total-val span{font-size:.85rem;font-weight:300;font-family:var(--font-b);color:var(--muted)}
+.sc-payment-chip{display:flex;align-items:center;gap:8px;padding:10px 28px;background:var(--olive-p);border-top:1px solid var(--linen);font-size:.72rem;color:var(--olive-m);letter-spacing:.06em}
+.sc-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 28px;border-top:1px solid var(--linen)}
+.sct-item{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--muted);font-weight:300}
+.sct-icon{color:var(--terra);flex-shrink:0}
+.sc-cta{padding:20px 28px;display:flex;flex-direction:column;gap:10px}
+.btn-checkout{width:100%;height:54px;background:var(--terra);color:var(--cream);border:none;font-family:var(--font-b);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;border-radius:var(--r);transition:background .3s,transform .2s,box-shadow .3s;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:400}
+.btn-checkout:hover{background:var(--terra-l);transform:translateY(-2px);box-shadow:0 12px 32px rgba(184,90,40,.35)}
+.btn-checkout:disabled{opacity:.45;pointer-events:none}
+.btn-wa-checkout{width:100%;height:48px;background:var(--green);color:#fff;border:none;font-family:var(--font-b);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;border-radius:var(--r);transition:background .3s,transform .2s;display:flex;align-items:center;justify-content:center;gap:9px}
+.btn-wa-checkout:hover{background:var(--green-d);transform:translateY(-1px)}
+.sc-continue{text-align:center;font-size:.72rem;color:var(--muted-l);display:flex;align-items:center;justify-content:center;gap:8px}
+.sc-continue a{color:var(--terra);font-weight:400}
+
+/* CHECKOUT LAYOUT */
+.checkout-layout{display:grid;grid-template-columns:1fr 380px;gap:0;align-items:start}
+.checkout-form-col{padding:48px 64px 80px 72px;border-right:1px solid var(--linen)}
+.form-section{margin-bottom:36px}
+.form-section-title{font-family:var(--font-d);font-size:1.5rem;font-weight:300;color:var(--brown);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.form-section-title::after{content:'';flex:1;height:1px;background:var(--linen)}
+.form-section-num{width:28px;height:28px;border-radius:50%;background:var(--terra);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:500;flex-shrink:0}
+.form-grid{display:grid;gap:14px}
+.fg-2{grid-template-columns:1fr 1fr}
+.form-field{display:flex;flex-direction:column;gap:6px}
+.ff-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.ff-required{color:var(--terra);margin-left:2px}
+.ff-optional{font-size:.65rem;color:var(--muted-l);letter-spacing:0;text-transform:none;margin-left:4px;font-weight:300}
+.ff-input{height:50px;padding:0 16px;border:1.5px solid var(--linen);border-radius:var(--r);font-family:var(--font-b);font-size:.88rem;color:var(--brown);background:var(--warm);transition:border-color .25s,background .25s,box-shadow .25s}
+.ff-input:focus{border-color:var(--terra);background:#fff;box-shadow:0 0 0 3px rgba(184,90,40,.08)}
+.ff-input::placeholder{color:var(--muted-l)}
+.ff-input.err{border-color:var(--terra);background:rgba(240,224,212,.3)}
+.ff-textarea{padding:14px 16px;resize:none;height:110px;border:1.5px solid var(--linen);border-radius:var(--r);font-family:var(--font-b);font-size:.88rem;color:var(--brown);background:var(--warm);line-height:1.6;transition:border-color .25s,box-shadow .25s;width:100%}
+.ff-textarea:focus{border-color:var(--terra);box-shadow:0 0 0 3px rgba(184,90,40,.08)}
+.ff-textarea::placeholder{color:var(--muted-l)}
+.ff-textarea.err{border-color:var(--terra);background:rgba(240,224,212,.3)}
+.ff-error{font-size:.7rem;color:var(--terra);display:none}
+.ff-error.show{display:block}
+
+/* CHECKOUT SUMMARY */
+.checkout-summary-col{padding:48px 44px;position:sticky;top:68px}
+.cs-mini-title{font-family:var(--font-d);font-size:1.4rem;font-weight:300;color:var(--brown);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--linen)}
+.cs-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.csi{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r);background:var(--cream)}
+.csi-img{width:48px;height:48px;border-radius:var(--r);overflow:hidden;position:relative;flex-shrink:0;background:var(--linen)}
+.csi-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8)}
+.csi-img-bg{position:absolute;inset:0}
+.csi-name{font-family:var(--font-d);font-size:1rem;font-weight:400;color:var(--brown);line-height:1.15;flex:1}
+.csi-qty{font-size:.7rem;color:var(--muted);font-weight:300;margin-top:2px}
+.csi-price{font-family:var(--font-d);font-size:1.1rem;font-weight:400;color:var(--brown);flex-shrink:0}
+.cs-totals{padding:16px 0;border-top:1px solid var(--linen);display:flex;flex-direction:column;gap:10px}
+.ct-row{display:flex;justify-content:space-between;align-items:center}
+.ct-label{font-size:.8rem;color:var(--muted);font-weight:300}
+.ct-val{font-size:.88rem;color:var(--brown)}
+.cs-total-final{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 0;border-top:1px solid var(--linen);margin-top:4px}
+.ctf-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ctf-val{font-family:var(--font-d);font-size:2.2rem;font-weight:400;color:var(--brown)}
+.ctf-val span{font-size:.8rem;font-family:var(--font-b);font-weight:300;color:var(--muted)}
+.checkout-actions{margin-top:28px;display:flex;flex-direction:column;gap:10px}
+.btn-confirm{width:100%;height:56px;background:var(--terra);color:var(--cream);border:none;font-family:var(--font-b);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;border-radius:var(--r);transition:background .3s,transform .2s,box-shadow .3s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-confirm:hover{background:var(--terra-l);transform:translateY(-2px);box-shadow:0 14px 36px rgba(184,90,40,.35)}
+.btn-back-to-cart{background:none;border:1.5px solid var(--linen);height:46px;font-family:var(--font-b);font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-radius:var(--r);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-back-to-cart:hover{border-color:var(--brown);color:var(--brown)}
+.secure-note{text-align:center;font-size:.68rem;color:var(--muted-l);display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px}
+
+/* CONFIRMATION */
+.confirmation-wrap{max-width:680px;margin:0 auto;padding:64px 32px 80px;text-align:center}
+.conf-check{width:88px;height:88px;border-radius:50%;background:var(--olive);display:flex;align-items:center;justify-content:center;margin:0 auto 32px;animation:confCheck .6s var(--spring) both;position:relative}
+@keyframes confCheck{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.conf-check::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(90,106,56,.25);animation:confRing .8s .3s var(--ease) both}
+@keyframes confRing{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.conf-title{font-family:var(--font-d);font-size:clamp(2.4rem,5vw,4rem);font-weight:300;color:var(--brown);margin-bottom:8px;animation:fadeUp .7s .2s var(--ease) both}
+.conf-title em{font-style:italic;color:var(--terra)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.conf-ar{font-family:var(--font-ar);font-size:1.1rem;color:var(--muted);opacity:.55;margin-bottom:28px;animation:fadeUp .7s .35s var(--ease) both}
+.conf-card{background:var(--cream);border-radius:var(--r);border:1px solid var(--linen);padding:32px 36px;margin:32px 0;text-align:left;animation:fadeUp .7s .5s var(--ease) both}
+.conf-card-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--linen);margin-bottom:18px}
+.conf-order-num{font-family:var(--font-d);font-size:1.4rem;font-weight:400;color:var(--brown)}
+.conf-status{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;background:var(--olive-p);color:var(--olive-m);border-radius:99px;font-weight:500;display:flex;align-items:center;gap:6px}
+.conf-status-dot{width:7px;height:7px;background:var(--olive-m);border-radius:50%;flex-shrink:0;animation:blink 2s infinite}
+.conf-detail-rows{display:flex;flex-direction:column;gap:16px}
+.cdr{display:flex;align-items:flex-start;gap:14px}
+.cdr-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cdr-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cdr-val{font-size:.9rem;font-weight:400;color:var(--brown);line-height:1.5}
+.cdr-val strong{font-weight:500}
+.conf-items{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.conf-item-row{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--brown)}
+.ci-dot{width:5px;height:5px;background:var(--terra);border-radius:50%;flex-shrink:0}
+.conf-contact{background:var(--brown);border-radius:var(--r);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;animation:fadeUp .7s .7s var(--ease) both;gap:20px}
+.cc-title{font-family:var(--font-d);font-size:1.2rem;font-weight:300;color:var(--cream);margin-bottom:4px}
+.cc-sub{font-size:.78rem;color:var(--sand);font-weight:300}
+.cc-btns{display:flex;gap:10px;flex-shrink:0}
+.btn-wa-conf{padding:11px 22px;background:var(--green);color:#fff;border:none;font-family:var(--font-b);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:var(--r);transition:background .3s;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.btn-wa-conf:hover{background:var(--green-d)}
+.btn-phone-conf{padding:11px 18px;background:rgba(255,255,255,.08);color:var(--cream);border:1px solid rgba(255,255,255,.15);font-family:var(--font-b);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:var(--r);transition:background .3s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.btn-phone-conf:hover{background:rgba(255,255,255,.15)}
+.conf-continue{margin-top:36px;animation:fadeUp .7s .9s var(--ease) both}
+.btn-continue-shop{padding:14px 36px;background:var(--terra);color:var(--cream);border:none;font-family:var(--font-b);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;border-radius:var(--r);transition:background .3s,transform .2s,box-shadow .3s;margin-bottom:12px;display:inline-flex;align-items:center;gap:8px}
+.btn-continue-shop:hover{background:var(--terra-l);transform:translateY(-2px);box-shadow:0 12px 28px rgba(184,90,40,.3)}
+.conf-note{font-size:.75rem;color:var(--muted-l);line-height:1.65}
+
+/* FLOATING WA */
+.fwa{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:700;box-shadow:0 8px 22px rgba(37,211,102,.42);transition:transform .3s,box-shadow .3s}
+.fwa:hover{transform:scale(1.1) translateY(-3px);box-shadow:0 14px 38px rgba(37,211,102,.5)}
+.fwa::before{content:'';position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(37,211,102,.3);animation:pulse 2.5s infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.8}70%{transform:scale(1.9);opacity:0}100%{opacity:0}}
+
+/* TOAST */
+.toast{position:fixed;bottom:92px;right:28px;background:var(--brown);color:var(--cream);padding:16px 22px;border-radius:var(--r);border-left:3px solid var(--terra);z-index:800;transform:translateX(160%);transition:transform .4s var(--ease);max-width:290px;box-shadow:0 12px 40px rgba(0,0,0,.28)}
+.toast.show{transform:translateX(0)}
+.toast-t{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--terra-l);margin-bottom:5px;font-weight:500}
+.toast-b{font-size:.82rem;font-weight:300;line-height:1.5}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="curR"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-gem"></div>
+    <span class="logo-text">Bayt<strong>Bio</strong><span style="font-family:'Amiri',serif;font-weight:400;font-size:1.05rem;opacity:.5;margin-left:6px">بيت بيو</span></span>
+  </a>
+  <div class="nav-steps" id="navSteps" style="display:none">
+    <div class="ns done" id="ns1"><div class="ns-num">✓</div>Panier</div>
+    <div class="ns-sep"></div>
+    <div class="ns active" id="ns2"><div class="ns-num">2</div>Commande</div>
+    <div class="ns-sep"></div>
+    <div class="ns" id="ns3"><div class="ns-num">3</div>Confirmation</div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/">Accueil</a></li>
+    <li><a href="/products">Nos Produits</a></li>
+    <li><a href="/about">Notre Histoire</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE 1: CART -->
+<div id="pageCart" class="page active">
+  <div class="page-header">
+    <div class="ph-eyebrow">Bayt Bio · Votre sélection</div>
+    <h1 class="ph-title">Votre <em>panier</em></h1>
+    <p class="ph-sub" id="cartHeaderSub">Vérifiez vos produits avant de passer commande</p>
+    <div class="ph-bignum" id="cartBigNum">0</div>
+  </div>
+
+  <div class="cart-layout">
+    <div class="cart-items-col">
+      <div class="cart-items-header">
+        <span class="cih-label">Produits sélectionnés</span>
+        <span class="cih-count" id="itemCountLabel">0 article</span>
+        <button class="btn-clear-cart" onclick="clearCart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Vider le panier
+        </button>
+      </div>
+
+      <div id="cartItemsList"></div>
+
+      <div class="cart-empty" id="cartEmpty" style="display:none">
+        <div class="ce-icon">
+          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </div>
+        <h2 class="ce-title">Votre panier est vide</h2>
+        <p class="ce-sub">Découvrez nos produits fermiers et ajoutez vos favoris à votre panier.</p>
+        <button class="btn-shop" onclick="location.href='/products'">Voir nos produits →</button>
+      </div>
+    </div>
+
+    <div class="cart-summary-col">
+      <div class="summary-card">
+        <div class="sc-header">
+          <span class="sc-header-title">Récapitulatif</span>
+          <span class="sc-header-ar">ملخص الطلب</span>
+        </div>
+        <div class="sc-body">
+          <div class="sc-row">
+            <span class="sc-label">Sous-total</span>
+            <span class="sc-value" id="subtotalVal">0 DH</span>
+          </div>
+          <div class="sc-row">
+            <span class="sc-label">Livraison</span>
+            <span class="sc-value" id="deliveryVal">20 DH</span>
+          </div>
+        </div>
+        <div class="sc-total-row">
+          <span class="sc-total-label">Total à payer</span>
+          <div class="sc-total-val" id="totalVal">0 <span>DH</span></div>
+        </div>
+        <div class="sc-payment-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          Paiement en espèces à la livraison
+        </div>
+        <div class="sc-trust">
+          <div class="sct-item">
+            <svg class="sct-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Paiement sécurisé
+          </div>
+          <div class="sct-item">
+            <svg class="sct-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Livraison Casa & Rabat
+          </div>
+          <div class="sct-item">
+            <svg class="sct-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Satisfait ou remboursé
+          </div>
+          <div class="sct-item">
+            <svg class="sct-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Commande avant 14h
+          </div>
+        </div>
+        <div class="sc-cta">
+          <button class="btn-checkout" id="btnCheckout" onclick="goCheckout()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Passer la commande
+          </button>
+          <button class="btn-wa-checkout" onclick="showToast('WhatsApp','Commander via WhatsApp…')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Commander par WhatsApp
+          </button>
+          <p class="sc-continue"><a href="/products">← Continuer mes achats</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: CHECKOUT -->
+<div id="pageCheckout" class="page">
+  <div class="page-header">
+    <div class="ph-eyebrow">Étape 2 · Informations de commande</div>
+    <h1 class="ph-title">Vos <em>informations</em></h1>
+    <p class="ph-sub">Les champs marqués * sont obligatoires</p>
+  </div>
+
+  <div class="checkout-layout">
+    <div class="checkout-form-col">
+
+      <div class="form-section">
+        <h2 class="form-section-title"><span class="form-section-num">1</span>Vos coordonnées</h2>
+        <div class="form-grid fg-2">
+          <div class="form-field">
+            <label class="ff-label">Nom complet <span class="ff-required">*</span></label>
+            <input class="ff-input" id="fName" type="text" placeholder="Ex: Ahmed El Fassi" required>
+            <span class="ff-error" id="errName">Veuillez entrer votre nom complet</span>
+          </div>
+          <div class="form-field">
+            <label class="ff-label">Téléphone <span class="ff-required">*</span></label>
+            <input class="ff-input" id="fPhone" type="tel" placeholder="06 XX XX XX XX" required>
+            <span class="ff-error" id="errPhone">Numéro invalide (ex: 0612345678)</span>
+          </div>
+        </div>
+        <div class="form-grid" style="margin-top:14px">
+          <div class="form-field">
+            <label class="ff-label">Email <span class="ff-optional">(optionnel)</span></label>
+            <input class="ff-input" id="fEmail" type="email" placeholder="vous@exemple.com">
+            <span class="ff-error" id="errEmail">Email invalide</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="form-section-title"><span class="form-section-num">2</span>Adresse de livraison</h2>
+        <div class="form-field">
+          <label class="ff-label">Adresse complète <span class="ff-required">*</span></label>
+          <textarea class="ff-textarea" id="fAddress" placeholder="Numéro, rue, quartier, ville — Ex: 12 Rue Ibn Battouta, Maarif, Casablanca" required></textarea>
+          <span class="ff-error" id="errAddress">Entrez votre adresse complète</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="checkout-summary-col">
+      <h3 class="cs-mini-title">Votre commande</h3>
+      <div class="cs-items" id="checkoutItemsList"></div>
+      <div class="cs-totals" id="checkoutTotals"></div>
+      <div class="checkout-actions">
+        <button class="btn-confirm" onclick="submitOrder()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirmer ma commande
+        </button>
+        <button class="btn-back-to-cart" onclick="goCart()">← Retour au panier</button>
+        <p class="secure-note">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Vos données sont sécurisées
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: CONFIRMATION -->
+<div id="pageConfirmation" class="page">
+  <div class="page-header">
+    <div class="ph-eyebrow">Commande reçue</div>
+    <h1 class="ph-title">Merci pour votre <em>commande !</em></h1>
+    <p class="ph-sub">Nous vous appellerons dans les prochaines minutes pour confirmer</p>
+  </div>
+
+  <div class="confirmation-wrap">
+    <div class="conf-check">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:40;stroke-dashoffset:0">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <h1 class="conf-title">Commande <em>confirmée</em></h1>
+    <p class="conf-ar">شكراً على طلبكم — سنتصل بكم قريباً</p>
+
+    <div class="conf-card">
+      <div class="conf-card-header">
+        <span class="conf-order-num" id="confOrderNum">Commande #BB-000000</span>
+        <span class="conf-status"><span class="conf-status-dot"></span>En préparation</span>
+      </div>
+      <div class="conf-detail-rows">
+        <div class="cdr">
+          <div class="cdr-icon" style="background:rgba(184,90,40,.1)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--terra)" stroke-width="1.6"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div>
+            <div class="cdr-label">Produits commandés</div>
+            <div class="conf-items" id="confItems"></div>
+          </div>
+        </div>
+        <div class="cdr">
+          <div class="cdr-icon" style="background:rgba(90,106,56,.1)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--olive-m)" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <div class="cdr-label">Livraison prévue</div>
+            <div class="cdr-val"><strong>Demain</strong>, selon disponibilité</div>
+          </div>
+        </div>
+        <div class="cdr">
+          <div class="cdr-icon" style="background:rgba(200,144,26,.1)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b07a10" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="cdr-label">Adresse</div>
+            <div class="cdr-val" id="confAddress">–</div>
+          </div>
+        </div>
+        <div class="cdr">
+          <div class="cdr-icon" style="background:rgba(28,18,8,.06)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+          </div>
+          <div>
+            <div class="cdr-label">Montant à préparer</div>
+            <div class="cdr-val" id="confTotal"><strong>0 DH</strong> (espèces à la livraison)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="conf-contact">
+      <div>
+        <div class="cc-title">Des questions ?</div>
+        <div class="cc-sub">Notre équipe est disponible 7j/7 de 8h à 20h</div>
+      </div>
+      <div class="cc-btns">
+        <button class="btn-wa-conf">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp
+        </button>
+        <button class="btn-phone-conf">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/></svg>
+          06 XX XX XX XX
+        </button>
+      </div>
+    </div>
+
+    <div class="conf-continue">
+      <br>
+      <button class="btn-continue-shop" onclick="location.href='/products'">Continuer mes achats →</button>
+      <br><br>
+      <p class="conf-note">
+        Vous recevrez un appel de confirmation dans les prochaines minutes.<br>
+        Préparez <strong id="confTotalNote">0 DH</strong> en espèces pour le livreur.
+      </p>
+    </div>
+  </div>
+</div>
+
+<a href="#" class="fwa">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<div class="toast" id="toast"><div class="toast-t" id="tT">Notification</div><div class="toast-b" id="tB"></div></div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx-4}px,${my-4}px)`;});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.transform=`translate(${rx-18}px,${ry-18}px)`;requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,input,textarea').forEach(el=>{
+  el.addEventListener('mouseenter',()=>curR.classList.add('h'));
+  el.addEventListener('mouseleave',()=>curR.classList.remove('h'));
+});
+document.addEventListener('mousedown',()=>curR.classList.add('press'));
+document.addEventListener('mouseup',()=>curR.classList.remove('press'));
+
+/* TOAST */
+let tTmr;
+function showToast(title,body){
+  document.getElementById('tT').textContent=title;
+  document.getElementById('tB').textContent=body;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(tTmr);
+  tTmr=setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* PRODUCT DATA — static reference, replaced by useGetAllProducts in Next.js */
+const ALL_PRODUCTS=[
+  {id:0,short:'Œufs Fermiers',unit:'Plateau de 15',price:25,accent:'#C8901A',bg:'bg-egg',imgs:['https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&q=80&fit=crop']},
+  {id:1,short:'Lait Frais Entier',unit:'1 litre',price:12,accent:'#5A7A8A',bg:'bg-milk',imgs:['https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&q=80&fit=crop']},
+  {id:2,short:'Fromage Beldi',unit:'300g',price:45,accent:'#B87030',bg:'bg-cheese',imgs:['https://images.unsplash.com/photo-1452195100486-9cc805987862?w=400&q=80&fit=crop']},
+  {id:3,short:'Yaourt Naturel',unit:'500ml',price:18,accent:'#4A6840',bg:'bg-yogurt',imgs:['https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80&fit=crop']},
+  {id:4,short:'Pack Famille',unit:'Pack semaine',price:120,accent:'#B85A28',bg:'bg-pack',imgs:['https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=400&q=80&fit=crop']},
+];
+const BG_CSS={'bg-egg':'linear-gradient(145deg,#5C3E18,#1C1208)','bg-milk':'linear-gradient(145deg,#2A3C4A,#0E1B24)','bg-cheese':'linear-gradient(145deg,#5A3C18,#241808)','bg-yogurt':'linear-gradient(145deg,#2E4020,#121C0A)','bg-pack':'linear-gradient(145deg,#4A3820,#1C1208)'};
+
+/* CART STATE */
+const DELIVERY_FEE=20;
+let cart=[{productId:0,qty:2},{productId:1,qty:3}];
+let formData={};
+
+function getSubtotal(){return cart.reduce((s,i)=>{const p=ALL_PRODUCTS.find(x=>x.id===i.productId);return s+(p?p.price*i.qty:0);},0);}
+function getDelivery(){return DELIVERY_FEE;}
+function getTotal(){return getSubtotal()+getDelivery();}
+
+/* RENDER CART */
+function renderCart(){
+  const list=document.getElementById('cartItemsList');
+  const empty=document.getElementById('cartEmpty');
+  const btn=document.getElementById('btnCheckout');
+  if(cart.length===0){
+    list.innerHTML='';empty.style.display='flex';btn.disabled=true;
+  } else {
+    empty.style.display='none';btn.disabled=false;
+    list.innerHTML=cart.map(item=>{
+      const p=ALL_PRODUCTS.find(x=>x.id===item.productId);
+      if(!p)return'';
+      const lt=p.price*item.qty;
+      return`<div class="cart-item" id="cart-item-${p.id}">
+        <div class="ci-img"><div class="ci-img-bg" style="background:${BG_CSS[p.bg]}"></div><img src="${p.imgs[0]}" alt="${p.short}" onerror="this.style.display='none'"></div>
+        <div class="ci-info">
+          <div class="ci-name">${p.short}</div>
+          <div class="ci-unit">${p.unit}</div>
+        </div>
+        <div class="ci-right">
+          <div class="ci-price">${lt} <span style="font-size:.75rem;color:var(--muted);font-family:var(--font-b);font-weight:300">DH</span></div>
+          <div class="ci-price-unit">${p.price} DH × ${item.qty}</div>
+          <div class="qty-row">
+            <div class="qty-ctrl">
+              <button class="qb" onclick="changeQty(${p.id},-1)">−</button>
+              <input class="qv" type="text" value="${item.qty}" readonly>
+              <button class="qb" onclick="changeQty(${p.id},1)">+</button>
+            </div>
+            <button class="btn-remove" onclick="removeItem(${p.id})">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  const qty=cart.reduce((s,i)=>s+i.qty,0);
+  const sub=getSubtotal(),del=getDelivery(),tot=getTotal();
+  document.getElementById('itemCountLabel').textContent=qty+(qty>1?' articles':' article');
+  document.getElementById('cartHeaderSub').textContent=qty>0?`${qty} article${qty>1?'s':''} · Livraison ${del} DH`:'Votre panier est vide';
+  document.getElementById('cartBigNum').textContent=qty;
+  document.getElementById('subtotalVal').textContent=sub+' DH';
+  document.getElementById('deliveryVal').textContent=del+' DH';
+  document.getElementById('totalVal').innerHTML=tot+' <span>DH</span>';
+}
+
+function changeQty(id,d){const i=cart.find(x=>x.productId===id);if(!i)return;i.qty=Math.max(1,Math.min(20,i.qty+d));renderCart();}
+function removeItem(id){const p=ALL_PRODUCTS.find(x=>x.id===id);cart=cart.filter(i=>i.productId!==id);renderCart();if(p)showToast('Retiré',p.short+' retiré du panier');}
+function clearCart(){cart=[];renderCart();showToast('Panier vidé','Tous les articles ont été retirés');}
+
+/* PAGE NAVIGATION */
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+
+function goCart(){
+  document.getElementById('navSteps').style.display='none';
+  document.getElementById('navLinks').style.display='';
+  document.title='Votre Panier — Bayt Bio';
+  renderCart();showPage('pageCart');
+}
+
+function goCheckout(){
+  if(cart.length===0){showToast('Panier vide','Ajoutez des produits avant de commander');return;}
+  document.getElementById('navSteps').style.display='flex';
+  document.getElementById('navLinks').style.display='none';
+  document.title='Commande — Bayt Bio';
+  renderCheckoutSummary();showPage('pageCheckout');
+}
+
+function renderCheckoutSummary(){
+  document.getElementById('checkoutItemsList').innerHTML=cart.map(item=>{
+    const p=ALL_PRODUCTS.find(x=>x.id===item.productId);
+    if(!p)return'';
+    return`<div class="csi">
+      <div class="csi-img"><div class="csi-img-bg" style="background:${BG_CSS[p.bg]}"></div><img src="${p.imgs[0]}" alt="${p.short}" onerror="this.style.display='none'"></div>
+      <div style="flex:1"><div class="csi-name">${p.short}</div><div class="csi-qty">${p.unit} × ${item.qty}</div></div>
+      <div class="csi-price">${p.price*item.qty} DH</div>
+    </div>`;
+  }).join('');
+  const sub=getSubtotal(),del=getDelivery(),tot=getTotal();
+  document.getElementById('checkoutTotals').innerHTML=`
+    <div class="ct-row"><span class="ct-label">Sous-total</span><span class="ct-val">${sub} DH</span></div>
+    <div class="ct-row"><span class="ct-label">Livraison</span><span class="ct-val">${del} DH</span></div>
+    <div class="cs-total-final"><span class="ctf-label">Total</span><span class="ctf-val">${tot} <span>DH</span></span></div>`;
+}
+
+/* FORM VALIDATION & SUBMIT */
+function validateField(id,errId,test){
+  const el=document.getElementById(id),err=document.getElementById(errId);
+  const ok=test(el.value.trim());
+  el.classList.toggle('err',!ok);err.classList.toggle('show',!ok);return ok;
+}
+
+function submitOrder(){
+  const okName=validateField('fName','errName',v=>v.length>=3);
+  const okPhone=validateField('fPhone','errPhone',v=>/^0[5-7]\d{8}$/.test(v.replace(/\s/g,'')));
+  const okAddr=validateField('fAddress','errAddress',v=>v.length>=8);
+  const emailVal=document.getElementById('fEmail').value.trim();
+  let okEmail=true;
+  if(emailVal){
+    okEmail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+    document.getElementById('fEmail').classList.toggle('err',!okEmail);
+    document.getElementById('errEmail').classList.toggle('show',!okEmail);
+  }
+  if(!(okName&&okPhone&&okAddr&&okEmail)){
+    showToast('Formulaire incomplet','Corrigez les champs en rouge');
+    const first=document.querySelector('.ff-input.err,.ff-textarea.err');
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  formData={
+    fullName:document.getElementById('fName').value.trim(),
+    phoneNumber:document.getElementById('fPhone').value.trim(),
+    email:emailVal,
+    fullAddress:document.getElementById('fAddress').value.trim(),
+  };
+  buildConfirmation();
+  document.getElementById('ns2').className='ns done';
+  document.getElementById('ns2').querySelector('.ns-num').textContent='✓';
+  document.getElementById('ns3').className='ns active';
+  document.title='Commande confirmée — Bayt Bio';
+  showPage('pageConfirmation');
+}
+
+function buildConfirmation(){
+  const tot=getTotal();
+  const num='BB-'+String(Math.floor(100000+Math.random()*900000));
+  document.getElementById('confOrderNum').textContent='Commande #'+num;
+  document.getElementById('confAddress').textContent=formData.fullAddress;
+  document.getElementById('confTotal').innerHTML=`<strong>${tot} DH</strong> (espèces à la livraison)`;
+  document.getElementById('confTotalNote').textContent=tot+' DH';
+  document.getElementById('confItems').innerHTML=cart.map(item=>{
+    const p=ALL_PRODUCTS.find(x=>x.id===item.productId);
+    return p?`<div class="conf-item-row"><div class="ci-dot"></div>${p.short} × ${item.qty} — ${p.price*item.qty} DH</div>`:'';
+  }).join('');
+}
+
+renderCart();
+</script>
+</body>
+</html>

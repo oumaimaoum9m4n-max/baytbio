@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@plugin "./hero.ts";
+@source "../node_modules/@heroui/theme/dist*.{js,ts,jsx,tsx}";
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Dashboard fonts (unchanged) */
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Landing fonts */
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --font-arabic: "Amiri", serif;
+
+  /* Dashboard colors (unchanged) */
+  --color-cream: #faf8f5;
+  --color-border-base: #e8e4dc;
+  --color-border-mid: #d8d4cc;
+
+  /* Landing palette */
+  --color-linen: #ead9bc;
+  --color-terracotta: #d4883c;
+  --color-terra-light: #e09a55;
+  --color-terra-dark: #b06a28;
+  --color-olive: #163b26;
+  --color-olive-light: #3d7a55;
+  --color-brown: #2c2c2c;
+  --color-sand: #8b7355;
+
+  /* Landing animations */
+  --animate-marquee: marquee 50s linear infinite;
+  --animate-pulse-wa: pulse-wa 2.5s infinite;
+  --animate-scroll-line: scrollLine 2s ease-in-out infinite;
+  --animate-scroll-line-sweep: scrollLineSweep 2s ease-in-out infinite;
+  --animate-blink: blink 2s infinite;
+  --animate-fade-slide: fadeSlide 0.4s ease both;
+
+  --color-brown-mid: #3a2810;
+}
+
+/* Grain texture overlay — applies to all pages */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollLine {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.4);
+    opacity: 0.3;
+  }
+}
+
+@keyframes scrollLineSweep {
+  0% { transform: translateX(-100%) }
+  50% { transform: translateX(0%) }
+  100% { transform: translateX(100%) }
+}
+
+@keyframes pulse-wa {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

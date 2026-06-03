@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Syanti — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ─────────── TOKENS ─────────── */
+:root{
+  --bg:#F2F4FB;
+  --surface:#FFFFFF;
+  --surface2:#F7F8FD;
+  --border:#E3E7F2;
+  --border2:#CDD3E8;
+  --gold:#C9933A;
+  --gold-l:#E0AA55;
+  --gold-dim:#FFF6EA;
+  --gold-dim2:#FEEFD4;
+  --text:#1A1E2E;
+  --muted:#6C7283;
+  --muted2:#9CA3B8;
+  --green:#1E9E5E;
+  --green-bg:#EAF7F1;
+  --red:#C03232;
+  --red-bg:#FDEAEA;
+  --warn:#B87000;
+  --warn-bg:#FFF4DE;
+  --blue:#2960C0;
+  --blue-bg:#EBF1FC;
+  --gray-bg:#F0F1F5;
+  --gray:#6C7283;
+  --sidebar-w:230px;
+  --topbar-h:58px;
+  --r:8px; --r-lg:12px; --r-sm:5px;
+  --shadow:0 1px 4px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);
+  --shadow-md:0 2px 8px rgba(0,0,0,.09),0 8px 32px rgba(0,0,0,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;font-size:14px}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);height:100%;overflow:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:9px}
+button{font-family:'IBM Plex Sans',sans-serif;cursor:pointer}
+input,select,textarea{font-family:'IBM Plex Sans',sans-serif}
+a{text-decoration:none;color:inherit}
+
+/* ─────────── LAYOUT ─────────── */
+#app{display:flex;height:100vh;overflow:hidden}
+
+/* ─────────── SIDEBAR ─────────── */
+#sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow-y:auto;overflow-x:hidden;
+  z-index:10;
+}
+.sidebar-logo{
+  padding:18px 20px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.logo-icon{
+  width:34px;height:34px;background:var(--gold);border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text)}
+.logo-text em{font-style:normal;color:var(--gold)}
+.sidebar-nav{flex:1;padding:12px 0}
+.nav-label{
+  font-size:10px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted2);
+  padding:16px 20px 6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 20px;font-size:13px;font-weight:500;color:var(--muted);
+  cursor:pointer;border-left:3px solid transparent;
+  transition:all .15s;border-radius:0;
+  user-select:none;
+}
+.nav-item svg{flex-shrink:0;opacity:.7}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{
+  background:var(--gold-dim);color:var(--gold);
+  border-left-color:var(--gold);font-weight:600;
+}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{
+  padding:14px 16px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.avatar-sm{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--gold-dim2);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;
+}
+.avatar-name{font-size:12px;font-weight:600}
+.avatar-role{font-size:11px;color:var(--muted)}
+
+/* ─────────── MAIN ─────────── */
+#main-wrapper{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* topbar */
+#topbar{
+  height:var(--topbar-h);flex-shrink:0;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;gap:16px;
+}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.breadcrumb .bc-sep{color:var(--muted2)}
+.breadcrumb .bc-current{color:var(--text);font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.topbar-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);padding:7px 12px;font-size:13px;color:var(--muted);
+  width:220px;
+}
+.topbar-search input{
+  background:none;border:none;outline:none;font-size:13px;
+  color:var(--text);width:100%;
+}
+.topbar-search input::placeholder{color:var(--muted2)}
+.icon-btn{
+  width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:var(--surface2);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;color:var(--muted);
+}
+.icon-btn:hover{background:var(--border);color:var(--text)}
+
+/* ─────────── CONTENT ─────────── */
+#content{flex:1;overflow-y:auto;padding:24px}
+
+/* ─────────── PAGE HEADER ─────────── */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;flex-wrap:wrap;gap:12px;
+}
+.page-title h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:2px}
+.page-title p{font-size:13px;color:var(--muted)}
+.btn-add{
+  display:flex;align-items:center;gap:7px;
+  background:var(--gold);color:#fff;border:none;
+  padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .15s;
+}
+.btn-add:hover{background:var(--gold-l);transform:translateY(-1px)}
+
+/* ─────────── KPI CARDS ─────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:20px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  box-shadow:var(--shadow);
+}
+.kpi-body{}
+.kpi-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kpi-value{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:6px}
+.kpi-sub{font-size:11px;color:var(--muted)}
+.kpi-icon{
+  width:40px;height:40px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.kpi-icon.gold{background:var(--gold-dim);color:var(--gold)}
+.kpi-icon.green{background:var(--green-bg);color:var(--green)}
+.kpi-icon.blue{background:var(--blue-bg);color:var(--blue)}
+.kpi-icon.red{background:var(--red-bg);color:var(--red)}
+
+/* ─────────── CARDS ─────────── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.card-title{font-size:14px;font-weight:600}
+.card-count{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:99px;padding:2px 10px;font-size:12px;color:var(--muted);
+}
+
+/* ─────────── TABLE ─────────── */
+.table-toolbar{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);padding:7px 12px;min-width:200px;
+}
+.search-box input{background:none;border:none;outline:none;font-size:13px;color:var(--text);width:100%}
+.search-box input::placeholder{color:var(--muted2)}
+.filter-sel{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);padding:7px 12px;font-size:13px;color:var(--text);
+  outline:none;cursor:pointer;
+}
+.filter-sel:focus{border-color:var(--gold)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{
+  padding:10px 16px;text-align:left;
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+th:first-child{padding-left:20px}
+th:last-child{padding-right:20px}
+td{
+  padding:11px 16px;font-size:13px;border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+td:first-child{padding-left:20px}
+td:last-child{padding-right:20px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold)}
+.td-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.empty-row td{text-align:center;padding:40px;color:var(--muted)}
+
+/* actions */
+.row-actions{display:flex;align-items:center;gap:6px}
+.act-btn{
+  width:28px;height:28px;border-radius:var(--r-sm);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;background:transparent;
+}
+.act-btn.edit{color:var(--blue)}
+.act-btn.edit:hover{background:var(--blue-bg)}
+.act-btn.del{color:var(--red)}
+.act-btn.del:hover{background:var(--red-bg)}
+
+/* ─────────── PILLS ─────────── */
+.pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:99px;
+  font-size:11px;font-weight:600;white-space:nowrap;
+}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill-green{background:var(--green-bg);color:var(--green)}
+.pill-red{background:var(--red-bg);color:var(--red)}
+.pill-warn{background:var(--warn-bg);color:var(--warn)}
+.pill-blue{background:var(--blue-bg);color:var(--blue)}
+.pill-gray{background:var(--gray-bg);color:var(--gray)}
+
+/* ─────────── DASHBOARD OVERVIEW ─────────── */
+.overview-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:0}
+@media(max-width:1000px){.overview-grid{grid-template-columns:1fr}}
+.status-bar-list{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.sbar-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.sbar-label{flex:1;color:var(--muted)}
+.sbar-track{flex:2;height:7px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:99px}
+.sbar-count{font-weight:600;font-size:13px;min-width:20px;text-align:right}
+
+/* ─────────── MODAL ─────────── */
+#modal-overlay{
+  position:fixed;inset:0;background:rgba(20,24,40,.45);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+#modal-overlay.open{opacity:1;pointer-events:all}
+#modal{
+  background:var(--surface);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-md);width:100%;max-width:560px;
+  max-height:90vh;display:flex;flex-direction:column;
+  transform:translateY(12px);transition:transform .2s;
+}
+#modal-overlay.open #modal{transform:translateY(0)}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px;border-bottom:1px solid var(--border);
+}
+.modal-header h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+.modal-close-btn{
+  width:30px;height:30px;border-radius:50%;border:none;
+  background:var(--surface2);color:var(--muted);font-size:18px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all .15s;
+}
+.modal-close-btn:hover{background:var(--border);color:var(--text)}
+.modal-body{padding:22px;overflow-y:auto;flex:1}
+.modal-footer{
+  display:flex;justify-content:flex-end;gap:10px;
+  padding:16px 22px;border-top:1px solid var(--border);
+}
+.btn-cancel{
+  padding:8px 18px;border-radius:var(--r);border:1px solid var(--border);
+  background:var(--surface2);font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
+  transition:all .15s;
+}
+.btn-cancel:hover{border-color:var(--border2);color:var(--text)}
+.btn-save{
+  padding:8px 20px;border-radius:var(--r);border:none;
+  background:var(--gold);color:#fff;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .15s;
+}
+.btn-save:hover{background:var(--gold-l)}
+
+/* ─────────── FORM ─────────── */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.single{grid-template-columns:1fr}
+.form-row.triple{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:12px;font-weight:600;color:var(--text)}
+.form-group span.req{color:var(--red)}
+.form-control{
+  padding:9px 12px;border-radius:var(--r);
+  border:1px solid var(--border);background:var(--surface2);
+  font-size:13px;color:var(--text);outline:none;
+  transition:border-color .15s;width:100%;
+}
+.form-control:focus{border-color:var(--gold);background:#fff}
+.form-control.error{border-color:var(--red)}
+.form-error{font-size:11px;color:var(--red);margin-top:2px}
+select.form-control{cursor:pointer}
+
+/* ─────────── TOAST ─────────── */
+#toast{
+  position:fixed;bottom:24px;right:24px;z-index:2000;
+  background:var(--text);color:#fff;
+  padding:12px 20px;border-radius:var(--r);font-size:13px;font-weight:500;
+  box-shadow:var(--shadow-md);
+  transform:translateY(8px);opacity:0;
+  transition:all .25s;pointer-events:none;
+}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:#1A6B42}
+#toast.error{background:var(--red)}
+
+/* ─────────── CONFIRM DIALOG ─────────── */
+#confirm-overlay{
+  position:fixed;inset:0;background:rgba(20,24,40,.45);
+  display:flex;align-items:center;justify-content:center;z-index:2000;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+#confirm-overlay.open{opacity:1;pointer-events:all}
+#confirm-box{
+  background:var(--surface);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-md);padding:28px 28px 20px;
+  max-width:380px;width:90%;text-align:center;
+}
+#confirm-box h4{font-size:16px;font-weight:700;margin-bottom:10px}
+#confirm-box p{font-size:13px;color:var(--muted);margin-bottom:24px}
+.confirm-actions{display:flex;gap:10px;justify-content:center}
+.btn-danger{
+  padding:8px 20px;border-radius:var(--r);border:none;
+  background:var(--red);color:#fff;font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn-danger:hover{opacity:.88}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">S</div>
+      <span class="logo-text">Syan<em>ti</em></span>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <div class="nav-label">Général</div>
+      <div class="nav-item active" data-view="dashboard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Tableau de bord
+      </div>
+      <div class="nav-label">Entités</div>
+      <div class="nav-item" data-view="societes">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+        Sociétés
+      </div>
+      <div class="nav-item" data-view="users">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Utilisateurs
+      </div>
+      <div class="nav-item" data-view="marches">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Marchés
+      </div>
+      <div class="nav-item" data-view="bordereaux">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Bordereaux de prix
+      </div>
+      <div class="nav-item" data-view="sites">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Sites
+      </div>
+      <div class="nav-item" data-view="equipements">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+        Équipements
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar-sm">AB</div>
+      <div>
+        <div class="avatar-name">Ahmed Benali</div>
+        <div class="avatar-role">Administrateur</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div id="main-wrapper">
+    <header id="topbar">
+      <div class="breadcrumb" id="breadcrumb">
+        <span>Syanti</span>
+        <span class="bc-sep">›</span>
+        <span class="bc-current">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Recherche globale…" id="global-search" oninput="handleGlobalSearch(this.value)"/>
+        </div>
+        <button class="icon-btn" title="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </button>
+      </div>
+    </header>
+    <main id="content"></main>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div id="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Ajouter</h3>
+      <button class="modal-close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn-save" onclick="saveEntity()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div id="confirm-overlay">
+  <div id="confirm-box">
+    <h4>Confirmer la suppression</h4>
+    <p>Cette action est irréversible. Voulez-vous vraiment supprimer cet élément ?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeConfirm()">Annuler</button>
+      <button class="btn-danger" id="confirm-ok">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+/* ════════════════════════════════
+   DATA
+════════════════════════════════ */
+const DB = {
+  societes: [
+    {id:1,nom:"BatiTech SARL",siegeSocial:"123 Bd Hassan II, Rabat",rib:"007 020 0001234 56",ice:"001234567000093",cnss:"1234567",rcNum:"78934",rcEmplacement:"Rabat"},
+    {id:2,nom:"AquaGest SA",siegeSocial:"45 Rue Ibn Battouta, Casablanca",rib:"011 780 0009876 43",ice:"002345678000044",cnss:"2345678",rcNum:"12340",rcEmplacement:"Casablanca"},
+    {id:3,nom:"Infra Maroc SARL",siegeSocial:"89 Av Mohammed V, Meknès",rib:"021 310 0004321 12",ice:"003456789000072",cnss:"3456789",rcNum:"45678",rcEmplacement:"Meknès"},
+  ],
+  users: [
+    {id:1,nom:"Benali",prenom:"Ahmed",role:"Admin",email:"ahmed.benali@syanti.ma",password:"secret123",societeId:1},
+    {id:2,nom:"Moussaoui",prenom:"Sara",role:"Chef de projet",email:"sara.m@batitech.ma",password:"pass456",societeId:1},
+    {id:3,nom:"Razi",prenom:"Khalid",role:"Technicien",email:"k.razi@aquagest.ma",password:"pass789",societeId:2},
+    {id:4,nom:"Idrissi",prenom:"Nadia",role:"Chef de projet",email:"n.idrissi@inframaroc.ma",password:"pass321",societeId:3},
+    {id:5,nom:"Ezzahraoui",prenom:"Youssef",role:"Technicien",email:"y.ezzahraoui@batitech.ma",password:"pass654",societeId:1},
+  ],
+  marches: [
+    {id:1,objet:"Réhabilitation réseau eau potable — Secteur Nord",numMarche:"M-2024-001",anneeBudgetaire:"2024",status:"En cours",chefDeProjetId:2,dateOrdreService:"2024-03-15",delaiExecution:180,societeId:1},
+    {id:2,objet:"Construction fontaines publiques — Hay Ryad",numMarche:"M-2024-002",anneeBudgetaire:"2024",status:"Notifié",chefDeProjetId:4,dateOrdreService:"2024-05-01",delaiExecution:120,societeId:3},
+    {id:3,objet:"Travaux d'extension réseau — Zone Industrielle",numMarche:"M-2024-003",anneeBudgetaire:"2024",status:"Suspendu",chefDeProjetId:2,dateOrdreService:"2024-01-10",delaiExecution:90,societeId:1},
+    {id:4,objet:"Maintenance préventive équipements — Lot 3",numMarche:"M-2023-018",anneeBudgetaire:"2023",status:"Clôturé",chefDeProjetId:4,dateOrdreService:"2023-09-01",delaiExecution:60,societeId:2},
+    {id:5,objet:"Aménagement terrain sportif — Quartier Atlas",numMarche:"M-2024-004",anneeBudgetaire:"2024",status:"En retard",chefDeProjetId:2,dateOrdreService:"2024-02-20",delaiExecution:150,societeId:1},
+  ],
+  bordereaux: [
+    {id:1,marcheId:1,numArticle:"A-01",designation:"Fouille en tranchée",unite:"ml",prixUnitaire:85,quantite:500,tva:20},
+    {id:2,marcheId:1,numArticle:"A-02",designation:"Pose canalisation Ø110",unite:"ml",prixUnitaire:120,quantite:500,tva:20},
+    {id:3,marcheId:1,numArticle:"A-03",designation:"Vanne d'arrêt DN100",unite:"U",prixUnitaire:350,quantite:12,tva:20},
+    {id:4,marcheId:1,numArticle:"A-04",designation:"Remblai compacté",unite:"m³",prixUnitaire:65,quantite:300,tva:20},
+    {id:5,marcheId:2,numArticle:"B-01",designation:"Socle béton armé",unite:"U",prixUnitaire:2500,quantite:5,tva:20},
+    {id:6,marcheId:2,numArticle:"B-02",designation:"Structure métallique fontaine",unite:"U",prixUnitaire:8500,quantite:5,tva:20},
+    {id:7,marcheId:3,numArticle:"C-01",designation:"Tranchée mécanisée",unite:"ml",prixUnitaire:110,quantite:800,tva:20},
+    {id:8,marcheId:3,numArticle:"C-02",designation:"Conduite PEHD Ø160",unite:"ml",prixUnitaire:180,quantite:800,tva:20},
+    {id:9,marcheId:5,numArticle:"D-01",designation:"Terrassement général",unite:"m²",prixUnitaire:45,quantite:2000,tva:14},
+    {id:10,marcheId:5,numArticle:"D-02",designation:"Revêtement gazon synthétique",unite:"m²",prixUnitaire:220,quantite:1800,tva:20},
+  ],
+  sites: [
+    {id:1,nom:"Fontaine Publique — Hay Ryad",codeReference:"ST-RBT-017",type:"Fontaine"},
+    {id:2,nom:"Terrain Sportif — Quartier Atlas",codeReference:"ST-CAS-042",type:"Terrain"},
+    {id:3,nom:"Station de Pompage — Kenitra Est",codeReference:"ST-KEN-008",type:"Station"},
+    {id:4,nom:"Fontaine Centrale — Meknès Ville",codeReference:"ST-MEK-003",type:"Fontaine"},
+    {id:5,nom:"Terrain Municipal — Temara Sud",codeReference:"ST-TEM-021",type:"Terrain"},
+  ],
+  equipements: [
+    {id:1,nomEquipement:"Pompe principale",numero:"PP-2024-001",status:"Conforme",siteId:1},
+    {id:2,nomEquipement:"Vanne d'alimentation",numero:"VA-2024-002",status:"En maintenance",siteId:1},
+    {id:3,nomEquipement:"Compteur eau",numero:"CE-2024-003",status:"Actif",siteId:1},
+    {id:4,nomEquipement:"Groupe électrogène",numero:"GE-2024-004",status:"Conforme",siteId:3},
+    {id:5,nomEquipement:"Vanne motorisée",numero:"VM-2024-005",status:"Non conforme",siteId:3},
+    {id:6,nomEquipement:"Pompe refoulement",numero:"PR-2024-006",status:"En maintenance",siteId:3},
+    {id:7,nomEquipement:"Capteur débit",numero:"CD-2024-007",status:"Actif",siteId:3},
+    {id:8,nomEquipement:"Éclairage terrain",numero:"ET-2024-008",status:"Non conforme",siteId:2},
+    {id:9,nomEquipement:"Système d'irrigation",numero:"SI-2024-009",status:"Inactif",siteId:2},
+    {id:10,nomEquipement:"Fontaine décorative",numero:"FD-2024-010",status:"Conforme",siteId:4},
+  ],
+  _nextId:{ societes:4,users:6,marches:6,bordereaux:11,sites:6,equipements:11 }
+};
+
+/* ════════════════════════════════
+   STATE
+════════════════════════════════ */
+let currentView = 'dashboard';
+let modalEntity = null;
+let modalEditId = null;
+let confirmCallback = null;
+
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
+const getSociete = id => DB.societes.find(s=>s.id===id);
+const getUser    = id => DB.users.find(u=>u.id===id);
+const getMarche  = id => DB.marches.find(m=>m.id===id);
+const getSite    = id => DB.sites.find(s=>s.id===id);
+const nextId     = entity => DB._nextId[entity]++;
+
+function userName(id){ const u=getUser(id); return u?`${u.prenom} ${u.nom}`:'—' }
+function societeName(id){ const s=getSociete(id); return s?s.nom:'—' }
+function siteName(id){ const s=getSite(id); return s?s.nom:'—' }
+function marcheNum(id){ const m=getMarche(id); return m?m.numMarche:'—' }
+
+function fmt(n){ return Number(n).toLocaleString('fr-FR') }
+
+function statusPill(status){
+  const map = {
+    'En cours':   'pill-green',
+    'Notifié':    'pill-blue',
+    'Suspendu':   'pill-warn',
+    'En retard':  'pill-red',
+    'Clôturé':    'pill-gray',
+    'Conforme':   'pill-green',
+    'Non conforme':'pill-red',
+    'En maintenance':'pill-warn',
+    'Actif':      'pill-blue',
+    'Inactif':    'pill-gray',
+    'Admin':      'pill-blue',
+    'Chef de projet':'pill-green',
+    'Technicien': 'pill-gray',
+  };
+  return `<span class="pill ${map[status]||'pill-gray'}">${status}</span>`;
+}
+
+function ht(b){ return b.prixUnitaire * b.quantite }
+function ttc(b){ return ht(b)*(1+b.tva/100) }
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+const breadcrumbs = {
+  dashboard:'Tableau de bord', users:'Utilisateurs', societes:'Sociétés',
+  marches:'Marchés', bordereaux:'Bordereaux de prix', sites:'Sites', equipements:'Équipements'
+};
+
+function navigate(view){
+  currentView = view;
+  document.querySelectorAll('.nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.view===view);
+  });
+  document.getElementById('breadcrumb').innerHTML =
+    `<span>Syanti</span><span class="bc-sep">›</span><span class="bc-current">${breadcrumbs[view]}</span>`;
+  document.getElementById('global-search').value='';
+  renderView();
+}
+
+document.getElementById('sidebar-nav').addEventListener('click', e=>{
+  const item = e.target.closest('.nav-item');
+  if(item && item.dataset.view) navigate(item.dataset.view);
+});
+
+/* ════════════════════════════════
+   RENDER DISPATCHER
+════════════════════════════════ */
+function renderView(){
+  const el = document.getElementById('content');
+  const renderers = {
+    dashboard:   renderDashboard,
+    users:       renderUsers,
+    societes:    renderSocietes,
+    marches:     renderMarches,
+    bordereaux:  renderBordereaux,
+    sites:       renderSites,
+    equipements: renderEquipements,
+  };
+  el.innerHTML = (renderers[currentView]||renderDashboard)();
+}
+
+/* ════════════════════════════════
+   DASHBOARD
+════════════════════════════════ */
+function renderDashboard(){
+  const activeMarches = DB.marches.filter(m=>['En cours','Notifié'].includes(m.status)).length;
+  const nonConf       = DB.equipements.filter(e=>e.status==='Non conforme').length;
+  const statusCounts  = {};
+  DB.marches.forEach(m=>{ statusCounts[m.status]=(statusCounts[m.status]||0)+1 });
+  const eqCounts = {};
+  DB.equipements.forEach(e=>{ eqCounts[e.status]=(eqCounts[e.status]||0)+1 });
+  const total = DB.marches.length;
+  const eqTotal = DB.equipements.length;
+
+  const statusColors = {'En cours':'#1E9E5E','Notifié':'#2960C0','Suspendu':'#B87000','En retard':'#C03232','Clôturé':'#9CA3B8'};
+  const eqColors     = {'Conforme':'#1E9E5E','Actif':'#2960C0','En maintenance':'#B87000','Non conforme':'#C03232','Inactif':'#9CA3B8'};
+
+  const recentRows = [...DB.marches].reverse().slice(0,5).map(m=>`
+    <tr>
+      <td><span class="mono">${m.numMarche}</span></td>
+      <td>${m.objet.length>45?m.objet.slice(0,45)+'…':m.objet}</td>
+      <td>${societeName(m.societeId)}</td>
+      <td>${statusPill(m.status)}</td>
+      <td>${m.anneeBudgetaire}</td>
+    </tr>`).join('');
+
+  const sbarMarche = Object.entries(statusCounts).map(([s,c])=>`
+    <div class="sbar-item">
+      <span class="sbar-label">${s}</span>
+      <div class="sbar-track"><div class="sbar-fill" style="width:${(c/total*100).toFixed(0)}%;background:${statusColors[s]||'#999'}"></div></div>
+      <span class="sbar-count">${c}</span>
+    </div>`).join('');
+
+  const sbarEq = Object.entries(eqCounts).map(([s,c])=>`
+    <div class="sbar-item">
+      <span class="sbar-label">${s}</span>
+      <div class="sbar-track"><div class="sbar-fill" style="width:${(c/eqTotal*100).toFixed(0)}%;background:${eqColors[s]||'#999'}"></div></div>
+      <span class="sbar-count">${c}</span>
+    </div>`).join('');
+
+  return `
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-body">
+        <div class="kpi-label">Marchés actifs</div>
+        <div class="kpi-value">${activeMarches}</div>
+        <div class="kpi-sub">${DB.marches.length} marchés au total</div>
+      </div>
+      <div class="kpi-icon gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-body">
+        <div class="kpi-label">Sociétés</div>
+        <div class="kpi-value">${DB.societes.length}</div>
+        <div class="kpi-sub">${DB.users.length} utilisateurs actifs</div>
+      </div>
+      <div class="kpi-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-body">
+        <div class="kpi-label">Sites gérés</div>
+        <div class="kpi-value">${DB.sites.length}</div>
+        <div class="kpi-sub">${DB.equipements.length} équipements inventoriés</div>
+      </div>
+      <div class="kpi-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-body">
+        <div class="kpi-label">Non conformes</div>
+        <div class="kpi-value" style="color:var(--red)">${nonConf}</div>
+        <div class="kpi-sub">équipements à traiter</div>
+      </div>
+      <div class="kpi-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    </div>
+  </div>
+  <div class="overview-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Marchés récents</span>
+        <span class="card-count">${DB.marches.length}</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>N° Marché</th><th>Objet</th><th>Société</th><th>Statut</th><th>Année</th></tr></thead>
+          <tbody>${recentRows}</tbody>
+        </table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Statuts marchés</span></div>
+        <div class="status-bar-list">${sbarMarche}</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Statuts équipements</span></div>
+        <div class="status-bar-list">${sbarEq}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   SOCIETES
+════════════════════════════════ */
+function renderSocietes(filter=''){
+  const data = DB.societes.filter(s=>!filter||
+    s.nom.toLowerCase().includes(filter)||s.ice.includes(filter)||s.rcEmplacement.toLowerCase().includes(filter));
+  const rows = data.length ? data.map(s=>`
+    <tr>
+      <td><strong>${s.nom}</strong><div class="td-sub">${s.siegeSocial}</div></td>
+      <td><span class="mono">${s.ice}</span></td>
+      <td>${s.cnss}</td>
+      <td>${s.rcNum} — ${s.rcEmplacement}</td>
+      <td><span class="mono" style="font-size:11px">${s.rib}</span></td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('societes',${s.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('societes',${s.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`).join('') : `<tr class="empty-row"><td colspan="6">Aucune société trouvée.</td></tr>`;
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Sociétés</h1><p>${DB.societes.length} sociétés enregistrées</p></div>
+    <button class="btn-add" onclick="openModal('societes')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter une société
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher par nom, ICE, ville…" oninput="renderSocietes(this.value.toLowerCase())" id="search-societes"/>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Raison sociale</th><th>ICE</th><th>CNSS</th><th>RC</th><th>RIB</th><th>Actions</th></tr></thead>
+        <tbody id="tb-societes">${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   USERS
+════════════════════════════════ */
+function renderUsers(filter='',roleFilter=''){
+  let data = DB.users.filter(u=>!filter||
+    `${u.prenom} ${u.nom}`.toLowerCase().includes(filter)||u.email.toLowerCase().includes(filter));
+  if(roleFilter) data = data.filter(u=>u.role===roleFilter);
+
+  const rows = data.length ? data.map(u=>`
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar-sm" style="width:30px;height:30px;font-size:11px">${u.prenom[0]}${u.nom[0]}</div>
+          <div><strong>${u.prenom} ${u.nom}</strong><div class="td-sub">${u.email}</div></div>
+        </div>
+      </td>
+      <td>${statusPill(u.role)}</td>
+      <td>${societeName(u.societeId)}</td>
+      <td><span style="letter-spacing:.08em;color:var(--muted)">••••••••</span></td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('users',${u.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('users',${u.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`).join('') : `<tr class="empty-row"><td colspan="5">Aucun utilisateur trouvé.</td></tr>`;
+
+  const roleOptions = ['','Admin','Chef de projet','Technicien'].map(r=>
+    `<option value="${r}" ${r===roleFilter?'selected':''}>${r||'Tous les rôles'}</option>`).join('');
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Utilisateurs</h1><p>${DB.users.length} utilisateurs enregistrés</p></div>
+    <button class="btn-add" onclick="openModal('users')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un utilisateur
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Rechercher par nom ou email…" id="search-users"
+          oninput="renderAndPatch('users',this.value.toLowerCase(),document.getElementById('role-filter').value)"/>
+      </div>
+      <select class="filter-sel" id="role-filter"
+        onchange="renderAndPatch('users',document.getElementById('search-users').value.toLowerCase(),this.value)">
+        ${roleOptions}
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Société</th><th>Mot de passe</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   MARCHES
+════════════════════════════════ */
+function renderMarches(filter='',statusFilter=''){
+  let data = DB.marches.filter(m=>!filter||
+    m.numMarche.toLowerCase().includes(filter)||m.objet.toLowerCase().includes(filter));
+  if(statusFilter) data = data.filter(m=>m.status===statusFilter);
+
+  const rows = data.length ? data.map(m=>`
+    <tr>
+      <td><span class="mono">${m.numMarche}</span></td>
+      <td>${m.objet.length>50?m.objet.slice(0,50)+'…':m.objet}</td>
+      <td>${societeName(m.societeId)}</td>
+      <td>${userName(m.chefDeProjetId)}</td>
+      <td>${statusPill(m.status)}</td>
+      <td>${m.anneeBudgetaire}</td>
+      <td>${m.delaiExecution} j</td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('marches',${m.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('marches',${m.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`).join('') : `<tr class="empty-row"><td colspan="8">Aucun marché trouvé.</td></tr>`;
+
+  const statusOpts = ['','En cours','Notifié','Suspendu','En retard','Clôturé'].map(s=>
+    `<option value="${s}" ${s===statusFilter?'selected':''}>${s||'Tous les statuts'}</option>`).join('');
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Marchés</h1><p>${DB.marches.length} marchés enregistrés</p></div>
+    <button class="btn-add" onclick="openModal('marches')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un marché
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="N° marché, objet…" id="search-marches"
+          oninput="renderAndPatch('marches',this.value.toLowerCase(),document.getElementById('status-filter-m').value)"/>
+      </div>
+      <select class="filter-sel" id="status-filter-m"
+        onchange="renderAndPatch('marches',document.getElementById('search-marches').value.toLowerCase(),this.value)">
+        ${statusOpts}
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>N° Marché</th><th>Objet</th><th>Société</th><th>Chef de projet</th><th>Statut</th><th>Année</th><th>Délai</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   BORDEREAUX
+════════════════════════════════ */
+function renderBordereaux(filter='', marcheFilter=''){
+  let data = DB.bordereaux.filter(b=>!filter||
+    b.numArticle.toLowerCase().includes(filter)||b.designation.toLowerCase().includes(filter));
+  if(marcheFilter) data = data.filter(b=>b.marcheId===parseInt(marcheFilter));
+
+  const rows = data.length ? data.map(b=>{
+    const htVal  = ht(b);
+    const ttcVal = ttc(b);
+    return `
+    <tr>
+      <td><span class="mono">${b.numArticle}</span></td>
+      <td><span class="mono" style="font-size:11px">${marcheNum(b.marcheId)}</span></td>
+      <td>${b.designation}</td>
+      <td>${b.unite}</td>
+      <td>${fmt(b.prixUnitaire)} DH</td>
+      <td>${fmt(b.quantite)}</td>
+      <td>${b.tva}%</td>
+      <td style="font-weight:600">${fmt(htVal)} DH</td>
+      <td style="font-weight:600;color:var(--gold)">${fmt(ttcVal.toFixed(0))} DH</td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('bordereaux',${b.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('bordereaux',${b.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`}).join('') : `<tr class="empty-row"><td colspan="10">Aucun bordereau trouvé.</td></tr>`;
+
+  const marcheOpts = ['',...DB.marches.map(m=>m.id)].map(id=>
+    `<option value="${id}" ${String(id)===marcheFilter?'selected':''}>${id?marcheNum(id):'Tous les marchés'}</option>`).join('');
+
+  const totalHT  = data.reduce((s,b)=>s+ht(b),0);
+  const totalTTC = data.reduce((s,b)=>s+ttc(b),0);
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Bordereaux de prix</h1><p>${DB.bordereaux.length} articles au total</p></div>
+    <button class="btn-add" onclick="openModal('bordereaux')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un article
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="N° article, désignation…" id="search-bordereaux"
+          oninput="renderAndPatch('bordereaux',this.value.toLowerCase(),document.getElementById('marche-filter-b').value)"/>
+      </div>
+      <select class="filter-sel" id="marche-filter-b"
+        onchange="renderAndPatch('bordereaux',document.getElementById('search-bordereaux').value.toLowerCase(),this.value)">
+        ${marcheOpts}
+      </select>
+      <span style="margin-left:auto;font-size:12px;color:var(--muted)">Total HT: <strong style="color:var(--text)">${fmt(totalHT.toFixed(0))} DH</strong> &nbsp;|&nbsp; TTC: <strong style="color:var(--gold)">${fmt(totalTTC.toFixed(0))} DH</strong></span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Art.</th><th>Marché</th><th>Désignation</th><th>Unité</th><th>P.U (DH)</th><th>Quantité</th><th>TVA</th><th>Total HT</th><th>Total TTC</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   SITES
+════════════════════════════════ */
+function renderSites(filter='', typeFilter=''){
+  let data = DB.sites.filter(s=>!filter||
+    s.nom.toLowerCase().includes(filter)||s.codeReference.toLowerCase().includes(filter));
+  if(typeFilter) data = data.filter(s=>s.type===typeFilter);
+
+  const rows = data.length ? data.map(s=>{
+    const eqCount = DB.equipements.filter(e=>e.siteId===s.id).length;
+    const ncCount = DB.equipements.filter(e=>e.siteId===s.id&&e.status==='Non conforme').length;
+    return `
+    <tr>
+      <td><strong>${s.nom}</strong></td>
+      <td><span class="mono">${s.codeReference}</span></td>
+      <td>${s.type}</td>
+      <td>${eqCount} équipement${eqCount!==1?'s':''} ${ncCount?`<span class="pill pill-red" style="margin-left:4px">${ncCount} non conforme${ncCount>1?'s':''}</span>`:''}</td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('sites',${s.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('sites',${s.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`}).join('') : `<tr class="empty-row"><td colspan="5">Aucun site trouvé.</td></tr>`;
+
+  const typeOpts = ['','Fontaine','Terrain','Station','Autre'].map(t=>
+    `<option value="${t}" ${t===typeFilter?'selected':''}>${t||'Tous les types'}</option>`).join('');
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Sites</h1><p>${DB.sites.length} sites enregistrés</p></div>
+    <button class="btn-add" onclick="openModal('sites')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un site
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Nom, code référence…" id="search-sites"
+          oninput="renderAndPatch('sites',this.value.toLowerCase(),document.getElementById('type-filter-s').value)"/>
+      </div>
+      <select class="filter-sel" id="type-filter-s"
+        onchange="renderAndPatch('sites',document.getElementById('search-sites').value.toLowerCase(),this.value)">
+        ${typeOpts}
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nom</th><th>Code référence</th><th>Type</th><th>Inventaire</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   EQUIPEMENTS
+════════════════════════════════ */
+function renderEquipements(filter='', statusFilter=''){
+  let data = DB.equipements.filter(e=>!filter||
+    e.nomEquipement.toLowerCase().includes(filter)||e.numero.toLowerCase().includes(filter));
+  if(statusFilter) data = data.filter(e=>e.status===statusFilter);
+
+  const rows = data.length ? data.map(e=>`
+    <tr>
+      <td><strong>${e.nomEquipement}</strong></td>
+      <td><span class="mono">${e.numero}</span></td>
+      <td>${statusPill(e.status)}</td>
+      <td>${siteName(e.siteId)}</td>
+      <td><div class="row-actions">
+        <button class="act-btn edit" onclick="openModal('equipements',${e.id})" title="Modifier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" onclick="confirmDelete('equipements',${e.id})" title="Supprimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        </button>
+      </div></td>
+    </tr>`).join('') : `<tr class="empty-row"><td colspan="5">Aucun équipement trouvé.</td></tr>`;
+
+  const statusOpts = ['','Conforme','Non conforme','En maintenance','Actif','Inactif'].map(s=>
+    `<option value="${s}" ${s===statusFilter?'selected':''}>${s||'Tous les statuts'}</option>`).join('');
+
+  return `
+  <div class="page-header">
+    <div class="page-title"><h1>Équipements</h1><p>${DB.equipements.length} équipements inventoriés</p></div>
+    <button class="btn-add" onclick="openModal('equipements')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un équipement
+    </button>
+  </div>
+  <div class="card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Nom, numéro…" id="search-equipements"
+          oninput="renderAndPatch('equipements',this.value.toLowerCase(),document.getElementById('status-filter-e').value)"/>
+      </div>
+      <select class="filter-sel" id="status-filter-e"
+        onchange="renderAndPatch('equipements',document.getElementById('search-equipements').value.toLowerCase(),this.value)">
+        ${statusOpts}
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Équipement</th><th>Numéro</th><th>Statut</th><th>Site</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════
+   RE-RENDER WITH FILTER
+════════════════════════════════ */
+function renderAndPatch(view, filter, extra=''){
+  const renderers = {
+    users: renderUsers, marches: renderMarches,
+    bordereaux: renderBordereaux, sites: renderSites, equipements: renderEquipements
+  };
+  if(renderers[view]) document.getElementById('content').innerHTML = renderers[view](filter, extra);
+}
+
+function handleGlobalSearch(val){
+  if(!val){ return; }
+  // navigate to marchés and search
+  navigate('marches');
+  setTimeout(()=>{
+    const el=document.getElementById('search-marches');
+    if(el){el.value=val; renderAndPatch('marches',val.toLowerCase(),'');}
+  },50);
+}
+
+/* ════════════════════════════════
+   MODAL FORMS
+════════════════════════════════ */
+const societeSel  = ()=> DB.societes.map(s=>`<option value="${s.id}">${s.nom}</option>`).join('');
+const userSel     = ()=> DB.users.filter(u=>['Admin','Chef de projet'].includes(u.role)).map(u=>`<option value="${u.id}">${u.prenom} ${u.nom}</option>`).join('');
+const marcheSel   = ()=> DB.marches.map(m=>`<option value="${m.id}">${m.numMarche}</option>`).join('');
+const siteSel     = ()=> DB.sites.map(s=>`<option value="${s.id}">${s.nom}</option>`).join('');
+
+function openModal(entity, id=null){
+  modalEntity = entity; modalEditId = id;
+  const titles = {
+    societes:'société',users:'utilisateur',marches:'marché',
+    bordereaux:'bordereau de prix',sites:'site',equipements:'équipement'
+  };
+  document.getElementById('modal-title').textContent =
+    (id ? 'Modifier le ' : 'Ajouter un ') + titles[entity];
+
+  const item = id ? DB[entity].find(x=>x.id===id) : null;
+  document.getElementById('modal-body').innerHTML = formHTML(entity, item);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  modalEntity=null; modalEditId=null;
+}
+
+function formHTML(entity, item){
+  const v = (key, def='') => item ? (item[key]??def) : def;
+  const sel = (opts, val) => opts.replace(`value="${val}"`,`value="${val}" selected`);
+
+  if(entity==='societes') return `
+    <div class="form-row"><div class="form-group"><label>Raison sociale <span class="req">*</span></label><input class="form-control" id="f-nom" value="${v('nom')}"></div><div class="form-group"><label>Siège social</label><input class="form-control" id="f-siegeSocial" value="${v('siegeSocial')}"></div></div>
+    <div class="form-row triple"><div class="form-group"><label>ICE</label><input class="form-control" id="f-ice" value="${v('ice')}"></div><div class="form-group"><label>CNSS</label><input class="form-control" id="f-cnss" value="${v('cnss')}"></div><div class="form-group"><label>RIB</label><input class="form-control" id="f-rib" value="${v('rib')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>N° RC</label><input class="form-control" id="f-rcNum" value="${v('rcNum')}"></div><div class="form-group"><label>Ville RC</label><input class="form-control" id="f-rcEmplacement" value="${v('rcEmplacement')}"></div></div>`;
+
+  if(entity==='users') return `
+    <div class="form-row"><div class="form-group"><label>Prénom <span class="req">*</span></label><input class="form-control" id="f-prenom" value="${v('prenom')}"></div><div class="form-group"><label>Nom <span class="req">*</span></label><input class="form-control" id="f-nom" value="${v('nom')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Email <span class="req">*</span></label><input class="form-control" type="email" id="f-email" value="${v('email')}"></div><div class="form-group"><label>Mot de passe ${item?'':'<span class="req">*</span>'}</label><input class="form-control" type="password" id="f-password" placeholder="${item?'Laisser vide pour ne pas changer':'••••••••'}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Rôle <span class="req">*</span></label><select class="form-control" id="f-role">${['Admin','Chef de projet','Technicien'].map(r=>`<option value="${r}" ${v('role')===r?'selected':''}>${r}</option>`).join('')}</select></div><div class="form-group"><label>Société <span class="req">*</span></label><select class="form-control" id="f-societeId">${DB.societes.map(s=>`<option value="${s.id}" ${v('societeId')===s.id?'selected':''}>${s.nom}</option>`).join('')}</select></div></div>`;
+
+  if(entity==='marches') return `
+    <div class="form-row single"><div class="form-group"><label>Objet <span class="req">*</span></label><input class="form-control" id="f-objet" value="${v('objet')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>N° Marché <span class="req">*</span></label><input class="form-control" id="f-numMarche" value="${v('numMarche')}"></div><div class="form-group"><label>Année budgétaire</label><input class="form-control" id="f-anneeBudgetaire" value="${v('anneeBudgetaire','2024')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Statut</label><select class="form-control" id="f-status">${['En cours','Notifié','Suspendu','En retard','Clôturé'].map(s=>`<option value="${s}" ${v('status')===s?'selected':''}>${s}</option>`).join('')}</select></div><div class="form-group"><label>Délai d'exécution (jours)</label><input class="form-control" type="number" id="f-delaiExecution" value="${v('delaiExecution',90)}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Date ordre de service</label><input class="form-control" type="date" id="f-dateOrdreService" value="${v('dateOrdreService')}"></div><div class="form-group"><label>Chef de projet</label><select class="form-control" id="f-chefDeProjetId">${DB.users.filter(u=>['Admin','Chef de projet'].includes(u.role)).map(u=>`<option value="${u.id}" ${v('chefDeProjetId')===u.id?'selected':''}>${u.prenom} ${u.nom}</option>`).join('')}</select></div></div>
+    <div class="form-row single"><div class="form-group"><label>Société</label><select class="form-control" id="f-societeId">${DB.societes.map(s=>`<option value="${s.id}" ${v('societeId')===s.id?'selected':''}>${s.nom}</option>`).join('')}</select></div></div>`;
+
+  if(entity==='bordereaux') return `
+    <div class="form-row"><div class="form-group"><label>N° Article <span class="req">*</span></label><input class="form-control" id="f-numArticle" value="${v('numArticle')}"></div><div class="form-group"><label>Marché <span class="req">*</span></label><select class="form-control" id="f-marcheId">${DB.marches.map(m=>`<option value="${m.id}" ${v('marcheId')===m.id?'selected':''}>${m.numMarche}</option>`).join('')}</select></div></div>
+    <div class="form-row single"><div class="form-group"><label>Désignation <span class="req">*</span></label><input class="form-control" id="f-designation" value="${v('designation')}"></div></div>
+    <div class="form-row triple"><div class="form-group"><label>Unité</label><select class="form-control" id="f-unite">${['ml','m²','m³','U','Forfait','kg','T'].map(u=>`<option value="${u}" ${v('unite')===u?'selected':''}>${u}</option>`).join('')}</select></div><div class="form-group"><label>Prix unitaire (DH)</label><input class="form-control" type="number" id="f-prixUnitaire" value="${v('prixUnitaire',0)}"></div><div class="form-group"><label>Quantité</label><input class="form-control" type="number" id="f-quantite" value="${v('quantite',1)}"></div></div>
+    <div class="form-row single"><div class="form-group"><label>TVA (%)</label><select class="form-control" id="f-tva">${[7,10,14,20].map(t=>`<option value="${t}" ${v('tva')===t?'selected':''}>${t}%</option>`).join('')}</select></div></div>`;
+
+  if(entity==='sites') return `
+    <div class="form-row single"><div class="form-group"><label>Nom du site <span class="req">*</span></label><input class="form-control" id="f-nom" value="${v('nom')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Code référence <span class="req">*</span></label><input class="form-control" id="f-codeReference" value="${v('codeReference')}"></div><div class="form-group"><label>Type</label><select class="form-control" id="f-type">${['Fontaine','Terrain','Station','Autre'].map(t=>`<option value="${t}" ${v('type')===t?'selected':''}>${t}</option>`).join('')}</select></div></div>`;
+
+  if(entity==='equipements') return `
+    <div class="form-row single"><div class="form-group"><label>Nom de l'équipement <span class="req">*</span></label><input class="form-control" id="f-nomEquipement" value="${v('nomEquipement')}"></div></div>
+    <div class="form-row"><div class="form-group"><label>Numéro / Matricule</label><input class="form-control" id="f-numero" value="${v('numero')}"></div><div class="form-group"><label>Site</label><select class="form-control" id="f-siteId">${DB.sites.map(s=>`<option value="${s.id}" ${v('siteId')===s.id?'selected':''}>${s.nom}</option>`).join('')}</select></div></div>
+    <div class="form-row single"><div class="form-group"><label>Statut</label><select class="form-control" id="f-status">${['Conforme','Non conforme','En maintenance','Actif','Inactif'].map(s=>`<option value="${s}" ${v('status')===s?'selected':''}>${s}</option>`).join('')}</select></div></div>`;
+
+  return '';
+}
+
+/* ════════════════════════════════
+   SAVE ENTITY
+════════════════════════════════ */
+function getField(id){ const el=document.getElementById(id); return el?el.value.trim():undefined; }
+function getNumField(id){ const el=document.getElementById(id); return el?Number(el.value):undefined; }
+
+function saveEntity(){
+  const e = modalEntity; let data={};
+
+  if(e==='societes'){
+    const nom=getField('f-nom');
+    if(!nom){shake();return;}
+    data={nom,siegeSocial:getField('f-siegeSocial'),rib:getField('f-rib'),ice:getField('f-ice'),cnss:getField('f-cnss'),rcNum:getField('f-rcNum'),rcEmplacement:getField('f-rcEmplacement')};
+  }
+  else if(e==='users'){
+    const prenom=getField('f-prenom'),nom=getField('f-nom'),email=getField('f-email');
+    if(!prenom||!nom||!email){shake();return;}
+    const pw=getField('f-password');
+    data={prenom,nom,email,role:getField('f-role'),societeId:getNumField('f-societeId')};
+    if(pw) data.password=pw;
+    else if(!modalEditId){shake();return;}
+    else { const cur=DB.users.find(x=>x.id===modalEditId); data.password=cur.password; }
+  }
+  else if(e==='marches'){
+    const objet=getField('f-objet'),numMarche=getField('f-numMarche');
+    if(!objet||!numMarche){shake();return;}
+    data={objet,numMarche,anneeBudgetaire:getField('f-anneeBudgetaire'),status:getField('f-status'),
+      chefDeProjetId:getNumField('f-chefDeProjetId'),dateOrdreService:getField('f-dateOrdreService'),
+      delaiExecution:getNumField('f-delaiExecution'),societeId:getNumField('f-societeId')};
+  }
+  else if(e==='bordereaux'){
+    const numArticle=getField('f-numArticle'),designation=getField('f-designation');
+    if(!numArticle||!designation){shake();return;}
+    data={numArticle,designation,unite:getField('f-unite'),
+      prixUnitaire:getNumField('f-prixUnitaire'),quantite:getNumField('f-quantite'),
+      tva:getNumField('f-tva'),marcheId:getNumField('f-marcheId')};
+  }
+  else if(e==='sites'){
+    const nom=getField('f-nom'),code=getField('f-codeReference');
+    if(!nom||!code){shake();return;}
+    data={nom,codeReference:code,type:getField('f-type')};
+  }
+  else if(e==='equipements'){
+    const nom=getField('f-nomEquipement');
+    if(!nom){shake();return;}
+    data={nomEquipement:nom,numero:getField('f-numero'),status:getField('f-status'),siteId:getNumField('f-siteId')};
+  }
+
+  if(modalEditId){
+    const idx=DB[e].findIndex(x=>x.id===modalEditId);
+    if(idx>-1) DB[e][idx]={...DB[e][idx],...data};
+    showToast('Modification enregistrée ✓','success');
+  } else {
+    const id=nextId(e);
+    DB[e].push({id,...data});
+    showToast('Élément ajouté ✓','success');
+  }
+  closeModal();
+  renderView();
+}
+
+function shake(){
+  const m=document.getElementById('modal');
+  m.style.transform='translateX(-8px)';
+  setTimeout(()=>m.style.transform='translateX(8px)',80);
+  setTimeout(()=>m.style.transform='',160);
+  showToast('Veuillez remplir les champs obligatoires.','error');
+}
+
+/* ════════════════════════════════
+   DELETE
+════════════════════════════════ */
+function confirmDelete(entity, id){
+  confirmCallback=()=>{ doDelete(entity,id); };
+  document.getElementById('confirm-overlay').classList.add('open');
+  document.getElementById('confirm-ok').onclick=()=>{
+    confirmCallback(); closeConfirm();
+  };
+}
+function closeConfirm(){ document.getElementById('confirm-overlay').classList.remove('open'); }
+function doDelete(entity, id){
+  DB[entity]=DB[entity].filter(x=>x.id!==id);
+  showToast('Supprimé avec succès.','success');
+  renderView();
+}
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+let toastTimer;
+function showToast(msg, type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='show '+type;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{ t.className=''; },3000);
+}
+
+/* ════════════════════════════════
+   CLOSE ON OVERLAY CLICK
+════════════════════════════════ */
+document.getElementById('modal-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal-overlay')) closeModal();
+});
+document.getElementById('confirm-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('confirm-overlay')) closeConfirm();
+});
+
+/* ════════════════════════════════
+   INIT
+════════════════════════════════ */
+renderView();
+</script>
+</body>
+</html>
