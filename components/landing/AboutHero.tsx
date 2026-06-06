@@ -23,7 +23,7 @@ export default function AboutHero() {
       {/* ── LEFT PANEL ── */}
       <div
         ref={heroLeftRef}
-        className="bg-olive flex flex-col justify-end px-[72px] py-20 relative overflow-hidden max-md:px-6 max-md:pt-[100px] max-md:pb-[72px]"
+        className="bg-olive flex flex-col justify-center md:justify-end px-[72px] py-20 relative overflow-hidden max-md:px-6 max-md:pt-[100px] max-md:pb-[72px]"
       >
         {/* Radial gradient overlay */}
         <div
@@ -86,14 +86,6 @@ export default function AboutHero() {
           >
             Voir nos produits
           </Link>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-9 left-[72px] flex items-center gap-3.5 text-[0.68rem] tracking-[0.2em] uppercase text-[rgba(200,178,133,0.35)] z-10 max-md:left-6">
-          <div className="relative w-12 h-px bg-[rgba(200,178,133,0.25)] shrink-0 overflow-hidden">
-            <span className="absolute inset-0 bg-terracotta animate-scroll-line-sweep" />
-          </div>
-          Découvrir
         </div>
 
         {/* Year stamp */}

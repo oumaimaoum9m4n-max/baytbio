@@ -32,7 +32,7 @@ export default function CartPageClient() {
   };
 
   return (
-    <div className="pt-[68px] min-h-screen animate-fade-slide">
+    <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page Header */}
       <header className="relative overflow-hidden bg-[#3C4926] px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
@@ -46,8 +46,12 @@ export default function CartPageClient() {
         <p className="relative z-[1] mb-[14px] flex items-center gap-3 font-sans text-[0.68rem] uppercase tracking-[0.22em] text-[rgba(212,200,160,0.45)] before:h-px before:w-6 before:shrink-0 before:bg-[rgba(212,200,160,0.25)] before:content-['']">
           Bayt Bio · Votre sélection
         </p>
-        <h1 className="relative z-[1] font-cormorant text-[clamp(2.4rem,4vw,4rem)] font-light text-[#F5EDD8] leading-none">
-          Votre <em className="italic text-[rgba(212,200,160,0.82)]">panier</em>
+        <h1
+          className="relative z-10 font-cormorant text-cream font-light leading-[0.92] mb-8"
+          style={{ fontSize: "clamp(3.8rem,7vw,8rem)" }}
+        >
+          Votre
+          <em className="italic text-terra-light"> panier.</em>
         </h1>
         <p className="relative z-[1] mt-2.5 font-sans text-[0.83rem] font-light text-[rgba(212,200,160,0.5)]">
           {count > 0
@@ -81,7 +85,14 @@ export default function CartPageClient() {
                 onClick={clearCart}
                 className="bg-transparent border-none font-sans text-[0.68rem] tracking-[0.1em] uppercase text-[rgba(122,100,72,0.4)] transition-colors duration-300 flex items-center gap-1.5 hover:text-[#B85A28]"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <polyline points="3 6 5 6 21 6" />
                   <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
                 </svg>
@@ -105,7 +116,14 @@ export default function CartPageClient() {
           ) : (
             <div className="py-20 text-center flex flex-col items-center gap-5">
               <div className="text-[#A89070] opacity-35 mb-2">
-                <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1">
+                <svg
+                  width="54"
+                  height="54"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                >
                   <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                   <line x1="3" y1="6" x2="21" y2="6" />
                   <path d="M16 10a4 4 0 01-8 0" />
@@ -115,7 +133,8 @@ export default function CartPageClient() {
                 Votre panier est vide
               </h2>
               <p className="text-[0.88rem] text-[#7A6648] font-light max-w-[340px] leading-[1.75]">
-                Découvrez nos produits fermiers et ajoutez vos favoris à votre panier.
+                Découvrez nos produits fermiers et ajoutez vos favoris à votre
+                panier.
               </p>
               <button
                 onClick={() => router.push("/products")}

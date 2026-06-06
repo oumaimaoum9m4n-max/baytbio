@@ -20,6 +20,8 @@ import {
   Shield,
   RotateCcw,
   Users as UsersIcon,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
 
 import {
@@ -69,6 +71,7 @@ const UsersList = () => {
     id: string;
     name: string;
   } | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   /* ── Queries ── */
   const { data, isLoading } = useGetAllUsers({
@@ -138,6 +141,8 @@ const UsersList = () => {
     updateModal.onClose();
     setActiveUserId(null);
   };
+
+  const activeFiltersCount = filters.role !== "" ? 1 : 0;
 
   /* ── Columns ── */
   const columns = useMemo<Column<GetAllUsersDto>[]>(
@@ -265,61 +270,82 @@ const UsersList = () => {
         }}
         toolbarEnd={
           <>
+            {/* Desktop: filters inline */}
+            <div className="hidden md:flex items-center gap-2">
+              <Select
+                size="sm"
+                variant="bordered"
+                aria-label="Rôle"
+                selectedKeys={new Set([filters.role])}
+                onSelectionChange={(keys) => {
+                  const v = (Array.from(keys)[0] as string) ?? "";
+                  changeFilters("role", v);
+                }}
+                startContent={<Shield size={12} className="text-[#888880]" />}
+                classNames={{
+                  base: "w-[170px]",
+                  trigger:
+                    "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                  value: "text-[0.8rem] text-[#555550]",
+                }}
+              >
+                <SelectItem key="">Tous les rôles</SelectItem>
+                <SelectItem key="ADMIN">Administrateur</SelectItem>
+                <SelectItem key="USER">Utilisateur</SelectItem>
+              </Select>
+
+              <Button
+                size="sm"
+                variant="light"
+                onPress={resetFilters}
+                startContent={<RotateCcw size={12} />}
+                className="h-9 text-[0.78rem] text-[#555550] hover:text-[#2C2C2C]"
+              >
+                Réinit.
+              </Button>
+            </div>
+
+            {/* Mobile: single filter button */}
+            <Button
+              size="sm"
+              variant="bordered"
+              onPress={() => setFiltersOpen(true)}
+              className="flex md:hidden h-9 border-[#E8E4DC] text-[#555550] hover:border-[#2D5A3D] items-center gap-1.5"
+            >
+              <SlidersHorizontal size={13} />
+              <span className="text-[0.78rem]">Filtres</span>
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 bg-[#2D5A3D] text-white text-[0.6rem] font-bold rounded-full flex items-center justify-center">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </Button>
+          </>
+        }
+        topActions={
+          <div className="hidden md:flex">
             <Select
               size="sm"
               variant="bordered"
-              aria-label="Rôle"
-              selectedKeys={new Set([filters.role])}
+              aria-label="Trier"
+              selectedKeys={new Set([filters.sort])}
               onSelectionChange={(keys) => {
                 const v = (Array.from(keys)[0] as string) ?? "";
-                changeFilters("role", v);
+                changeFilters("sort", v);
               }}
-              startContent={<Shield size={12} className="text-[#888880]" />}
+              startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
               classNames={{
-                base: "w-[170px]",
+                base: "w-[200px]",
                 trigger:
                   "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
                 value: "text-[0.8rem] text-[#555550]",
               }}
             >
-              <SelectItem key="">Tous les rôles</SelectItem>
-              <SelectItem key="ADMIN">Administrateur</SelectItem>
-              <SelectItem key="USER">Utilisateur</SelectItem>
+              {USER_SORT_OPTIONS.map((o) => (
+                <SelectItem key={o.key}>{o.label}</SelectItem>
+              ))}
             </Select>
-
-            <Button
-              size="sm"
-              variant="light"
-              onPress={resetFilters}
-              startContent={<RotateCcw size={12} />}
-              className="h-9 text-[0.78rem] text-[#555550] hover:text-[#2C2C2C]"
-            >
-              Réinit.
-            </Button>
-          </>
-        }
-        topActions={
-          <Select
-            size="sm"
-            variant="bordered"
-            aria-label="Trier"
-            selectedKeys={new Set([filters.sort])}
-            onSelectionChange={(keys) => {
-              const v = (Array.from(keys)[0] as string) ?? "";
-              changeFilters("sort", v);
-            }}
-            startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
-            classNames={{
-              base: "w-[200px]",
-              trigger:
-                "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
-              value: "text-[0.8rem] text-[#555550]",
-            }}
-          >
-            {USER_SORT_OPTIONS.map((o) => (
-              <SelectItem key={o.key}>{o.label}</SelectItem>
-            ))}
-          </Select>
+          </div>
         }
         withPagination={{
           page: filters.page,
@@ -474,6 +500,97 @@ const UsersList = () => {
             </Button>
           </div>
         )}
+
+      {/* ── Mobile filter sidebar backdrop ── */}
+      {filtersOpen && (
+        <div
+          className="fixed inset-0 z-[300] bg-black/20 md:hidden"
+          onClick={() => setFiltersOpen(false)}
+        />
+      )}
+
+      {/* ── Mobile filter sidebar panel ── */}
+      <div
+        className={`fixed inset-y-0 right-0 z-[310] w-[300px] bg-white shadow-xl flex flex-col md:hidden transition-transform duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${
+          filtersOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E8E4DC]">
+          <h3 className="text-[0.88rem] font-semibold text-[#2C2C2C]">Filtres &amp; Tri</h3>
+          <button
+            onClick={() => setFiltersOpen(false)}
+            className="p-1.5 rounded-md text-[#888880] hover:text-[#2C2C2C] hover:bg-[#F5F2EC] transition-colors"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          <div className="space-y-1.5">
+            <label className="text-[0.72rem] font-semibold text-[#555550] uppercase tracking-[0.08em]">
+              Tri
+            </label>
+            <Select
+              size="sm"
+              variant="bordered"
+              aria-label="Trier"
+              selectedKeys={new Set([filters.sort])}
+              onSelectionChange={(keys) => {
+                const v = (Array.from(keys)[0] as string) ?? "";
+                changeFilters("sort", v);
+              }}
+              startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
+              classNames={{
+                trigger:
+                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                value: "text-[0.8rem] text-[#555550]",
+              }}
+            >
+              {USER_SORT_OPTIONS.map((o) => (
+                <SelectItem key={o.key}>{o.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[0.72rem] font-semibold text-[#555550] uppercase tracking-[0.08em]">
+              Rôle
+            </label>
+            <Select
+              size="sm"
+              variant="bordered"
+              aria-label="Rôle"
+              selectedKeys={new Set([filters.role])}
+              onSelectionChange={(keys) => {
+                const v = (Array.from(keys)[0] as string) ?? "";
+                changeFilters("role", v);
+              }}
+              startContent={<Shield size={12} className="text-[#888880]" />}
+              classNames={{
+                trigger:
+                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                value: "text-[0.8rem] text-[#555550]",
+              }}
+            >
+              <SelectItem key="">Tous les rôles</SelectItem>
+              <SelectItem key="ADMIN">Administrateur</SelectItem>
+              <SelectItem key="USER">Utilisateur</SelectItem>
+            </Select>
+          </div>
+        </div>
+
+        <div className="p-5 border-t border-[#E8E4DC]">
+          <Button
+            size="sm"
+            variant="bordered"
+            onPress={() => { resetFilters(); setFiltersOpen(false); }}
+            startContent={<RotateCcw size={12} />}
+            className="w-full h-9 text-[0.78rem] text-[#555550] border-[#E8E4DC] hover:border-[#2D5A3D]"
+          >
+            Réinitialiser les filtres
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

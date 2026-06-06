@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { WHATSAPP_URL } from "./constants";
+import Link from "next/link";
 
 const words = [
   { text: "Du", delay: "0.5s" },
@@ -13,7 +14,7 @@ const emWords = [
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen relative overflow-hidden flex items-end">
+    <section className="min-h-screen relative overflow-hidden flex items-center md:items-end">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -40,7 +41,11 @@ export default function HeroSection() {
         {/* Arabic subtitle */}
         <p
           className="font-arabic text-[1.1rem] text-[rgba(201,180,138,0.8)] tracking-[0.05em] mb-5"
-          style={{ opacity: 0, transform: "translateY(20px)", animation: "fadeUp 1s 0.3s forwards" }}
+          style={{
+            opacity: 0,
+            transform: "translateY(20px)",
+            animation: "fadeUp 1s 0.3s forwards",
+          }}
           dir="rtl"
         >
           صافي و بلدي — من المزرعة لمائدتك
@@ -52,7 +57,11 @@ export default function HeroSection() {
             <span
               key={w.text}
               className="inline-block"
-              style={{ opacity: 0, transform: "translateY(40px)", animation: `fadeUp 0.7s ${w.delay} forwards` }}
+              style={{
+                opacity: 0,
+                transform: "translateY(40px)",
+                animation: `fadeUp 0.7s ${w.delay} forwards`,
+              }}
             >
               {w.text}&nbsp;
             </span>
@@ -63,7 +72,11 @@ export default function HeroSection() {
               <span
                 key={w.text}
                 className="inline-block"
-                style={{ opacity: 0, transform: "translateY(40px)", animation: `fadeUp 0.7s ${w.delay} forwards` }}
+                style={{
+                  opacity: 0,
+                  transform: "translateY(40px)",
+                  animation: `fadeUp 0.7s ${w.delay} forwards`,
+                }}
               >
                 {w.text}&nbsp;
               </span>
@@ -76,7 +89,8 @@ export default function HeroSection() {
           className="text-base font-light text-cream/[0.72] leading-[1.85] max-w-[480px] mb-12"
           style={{ opacity: 0, animation: "fadeUp 0.8s 1.5s forwards" }}
         >
-          Des produits naturels, frais et soigneusement sélectionnés pour retrouver le vrai goût du quotidien.
+          Des produits naturels, frais et soigneusement sélectionnés pour
+          retrouver le vrai goût du quotidien.
         </p>
 
         {/* CTAs */}
@@ -84,12 +98,12 @@ export default function HeroSection() {
           className="flex gap-4 items-center max-md:flex-col max-md:items-start"
           style={{ opacity: 0, animation: "fadeUp 0.8s 1.8s forwards" }}
         >
-          <a
-            href="#all-products"
+          <Link
+            href="/products"
             className="inline-block px-9 py-4 bg-terracotta text-cream font-sans text-[0.82rem] tracking-[0.12em] uppercase rounded-[2px] transition-all duration-300 hover:bg-terra-light hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(212,136,60,0.35)]"
           >
             Découvrir nos produits
-          </a>
+          </Link>
           <a
             href="#story"
             className="inline-block px-7 py-4 bg-olive-light text-cream border border-sand/40 font-sans text-[0.82rem] tracking-[0.12em] uppercase rounded-[2px] transition-all duration-300 hover:bg-olive hover:border-olive"
@@ -97,32 +111,6 @@ export default function HeroSection() {
             Notre histoire →
           </a>
         </div>
-      </div>
-
-      {/* Decorative bottom strip */}
-      <Image
-        src="/images/hero.png"
-        alt=""
-        width={1920}
-        height={300}
-        className="absolute bottom-0 left-0 w-full h-auto object-cover z-[2] pointer-events-none [mask-image:linear-gradient(to_top,rgba(0,0,0,0.7)_0%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,0.7)_0%,transparent_100%)]"
-      />
-
-      {/* Scroll hint */}
-      <div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[0.65rem] tracking-[0.24em] uppercase text-cream/40 z-[3] flex flex-col items-center gap-2.5"
-        style={{ opacity: 0, animation: "fadeIn 1s 2.5s forwards" }}
-      >
-        Défiler
-        <span
-          className="w-px h-10 bg-gradient-to-b from-cream/40 to-transparent"
-          style={{ animation: "scrollLine 2s ease-in-out infinite" }}
-        />
-      </div>
-
-      {/* Decorative year */}
-      <div className="absolute bottom-10 right-[60px] font-cormorant text-[9rem] font-light text-white/[0.04] leading-none z-[2] pointer-events-none select-none max-md:text-[5rem]">
-        2018
       </div>
     </section>
   );

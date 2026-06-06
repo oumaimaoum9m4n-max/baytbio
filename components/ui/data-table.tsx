@@ -240,85 +240,91 @@ export function DataTable<T extends { id: string | number }>({
       </div>
 
       {/* ── Table ── */}
-      <Table
-        aria-label={label}
-        removeWrapper
-        isStriped={false}
-        selectionMode={selectable ? "multiple" : "none"}
-        selectedKeys={selected as any}
-        onSelectionChange={handleSelection}
-        sortDescriptor={
-          sort ? { column: sort.column, direction: sort.direction } : undefined
-        }
-        onSortChange={(sd) => handleSortChange(String(sd.column))}
-        classNames={{
-          th: "bg-[#FAF8F5] text-[#888880] text-[0.62rem] tracking-[0.1em] uppercase font-semibold border-b border-[#E8E4DC] py-2.5 px-4 first:rounded-none last:rounded-none",
-          td: "py-[11px] px-4 text-[0.8rem] text-[#2C2C2C] border-b border-[#E8E4DC] group-data-[last=true]:border-b-0",
-          tr: "hover:bg-[#FAF8F5] transition-colors cursor-pointer data-[selected=true]:bg-[#F2F7F2]",
-        }}
-      >
-        <TableHeader columns={columns}>
-          {(col) => (
-            <TableColumn
-              key={col.key}
-              allowsSorting={col.sortable}
-              align={col.align ?? "start"}
-              className={col.width}
-            >
-              {col.label}
-            </TableColumn>
-          )}
-        </TableHeader>
-
-        <TableBody
-          items={sorted}
-          isLoading={isLoading}
-          loadingContent={
-            <div className="flex flex-col items-center gap-3 py-16">
-              <Spinner color="primary" size="lg" />
-              <p className="text-sm text-default-400">Chargement…</p>
-            </div>
+      <div className="overflow-x-auto">
+        <Table
+          aria-label={label}
+          removeWrapper
+          isStriped={false}
+          selectionMode={selectable ? "multiple" : "none"}
+          selectedKeys={selected as any}
+          onSelectionChange={handleSelection}
+          sortDescriptor={
+            sort
+              ? { column: sort.column, direction: sort.direction }
+              : undefined
           }
-          emptyContent={
-            emptyContent ?? (
-              <div className="flex flex-col items-center gap-3 py-16">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-default-100">
-                  <SlidersHorizontal size={22} className="text-default-300" />
-                </div>
-                <p className="text-sm font-medium text-default-500">
-                  Aucun résultat
-                </p>
-                {search?.value && (
-                  <Button
-                    size="sm"
-                    variant="bordered"
-                    color="default"
-                    onPress={() => search.onChange("")}
-                  >
-                    Effacer la recherche
-                  </Button>
-                )}
-              </div>
-            )
-          }
+          onSortChange={(sd) => handleSortChange(String(sd.column))}
+          classNames={{
+            th: "bg-[#FAF8F5] text-[#888880] text-[0.62rem] tracking-[0.1em] uppercase font-semibold border-b border-[#E8E4DC] py-2.5 px-4 first:rounded-none last:rounded-none",
+            td: "py-[11px] px-4 text-[0.8rem] text-[#2C2C2C] border-b border-[#E8E4DC] group-data-[last=true]:border-b-0",
+            tr: "hover:bg-[#FAF8F5] transition-colors cursor-pointer data-[selected=true]:bg-[#F2F7F2]",
+          }}
         >
-          {(row) => (
-            <TableRow key={row.id} className={rowClassName?.(row)}>
-              {(colKey) => {
-                const col = columns.find((c) => c.key === colKey);
-                const value = getKeyValue(row, colKey);
-                return (
-                  <TableCell className={col?.align ? `text-${col.align}` : ""}>
-                    {col?.render
-                      ? col.render(value, row)
-                      : (value as ReactNode)}
-                  </TableCell>
-                );
-              }}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          <TableHeader columns={columns}>
+            {(col) => (
+              <TableColumn
+                key={col.key}
+                allowsSorting={col.sortable}
+                align={col.align ?? "start"}
+                className={col.width}
+              >
+                {col.label}
+              </TableColumn>
+            )}
+          </TableHeader>
+
+          <TableBody
+            items={sorted}
+            isLoading={isLoading}
+            loadingContent={
+              <div className="flex flex-col items-center gap-3 py-16">
+                <Spinner color="primary" size="lg" />
+                <p className="text-sm text-default-400">Chargement…</p>
+              </div>
+            }
+            emptyContent={
+              emptyContent ?? (
+                <div className="flex flex-col items-center gap-3 py-16">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-default-100">
+                    <SlidersHorizontal size={22} className="text-default-300" />
+                  </div>
+                  <p className="text-sm font-medium text-default-500">
+                    Aucun résultat
+                  </p>
+                  {search?.value && (
+                    <Button
+                      size="sm"
+                      variant="bordered"
+                      color="default"
+                      onPress={() => search.onChange("")}
+                    >
+                      Effacer la recherche
+                    </Button>
+                  )}
+                </div>
+              )
+            }
+          >
+            {(row) => (
+              <TableRow key={row.id} className={rowClassName?.(row)}>
+                {(colKey) => {
+                  const col = columns.find((c) => c.key === colKey);
+                  const value = getKeyValue(row, colKey);
+                  return (
+                    <TableCell
+                      className={col?.align ? `text-${col.align}` : ""}
+                    >
+                      {col?.render
+                        ? col.render(value, row)
+                        : (value as ReactNode)}
+                    </TableCell>
+                  );
+                }}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       {/* ── Footer (only when pagination is controlled) ── */}
       {withPagination && rows.length > 0 && (
@@ -367,7 +373,7 @@ export function DataTable<T extends { id: string | number }>({
               page={withPagination.page}
               total={withPagination.numOfPages}
               onChange={withPagination.onPageChange}
-              size="md"
+              size="sm"
               showControls
               showShadow={false}
               classNames={{

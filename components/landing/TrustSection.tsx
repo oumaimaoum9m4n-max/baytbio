@@ -80,7 +80,7 @@ const pillars = [
 
 export default function TrustSection() {
   return (
-    <section className="bg-linen py-18 px-19">
+    <section className="bg-linen py-[72px] px-20 max-md:p-0">
       <div>
         <Reveal>
           <SectionHeader
@@ -93,7 +93,7 @@ export default function TrustSection() {
           />
         </Reveal>
       </div>
-      <div className="mt-7 grid grid-cols-4 gap-px bg-linen max-md:grid-cols-2 max-[480px]:grid-cols-1">
+      <div className="mt-7 grid grid-cols-4 gap-px bg-linen max-md:grid-cols-1">
         {pillars.map((p, i) => (
           <TrustPillar key={p.label} {...p} delay={i * 100} />
         ))}

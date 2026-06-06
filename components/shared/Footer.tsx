@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { WHATSAPP_URL } from "@/components/landing/constants";
+import { WHATSAPP_URL, FACEBOOK_URL, INSTAGRAM_URL } from "@/components/landing/constants";
 import { useGetTopProducts } from "@/features/products/apis/getTopProducts";
 
 const WhatsAppSVG = ({ size = 14 }: { size?: number }) => (
@@ -18,11 +18,11 @@ export default function Footer() {
 
   return (
     <footer className="bg-cream pt-20 px-20 max-md:px-6 max-md:pt-12">
-      <div className="grid grid-cols-[1.8fr_1fr_1fr_1fr] gap-16 pb-8 border-b border-white/[0.06] max-md:grid-cols-2 max-md:gap-9 max-[480px]:grid-cols-1">
+      <div className="grid grid-cols-[1.8fr_1fr_1fr_1fr] gap-16 pb-8 border-b border-white/[0.06] max-md:grid-cols-1 max-md:gap-9">
         {/* Brand */}
         <div className="flex flex-col gap-5">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="font-cormorant text-[1.8rem] font-normal text-brown flex items-center gap-2.5 no-underline"
           >
             <span
@@ -33,7 +33,7 @@ export default function Footer() {
               }}
             />
             Bayt<strong>Bio</strong>
-          </a>
+          </Link>
           <p className="text-[0.88rem] text-sand leading-[1.75] font-light max-w-[260px]">
             Œufs fermiers et produits laitiers 100% naturels, livrés frais chez
             vous à Casablanca et Rabat depuis 2018.
@@ -84,18 +84,18 @@ export default function Footer() {
           </p>
           <ul className="list-none p-0 m-0 flex flex-col gap-3">
             {[
-              "Notre Histoire",
-              "Livraison & Zones",
-              "FAQ",
-              "Abonnement Hebdo",
+              { label: "Notre Histoire", href: "/about" },
+              { label: "Livraison & Zones", href: "/about#livraison" },
+              { label: "FAQ", href: "/about#faq" },
+              { label: "Abonnement Hebdo", href: "/products" },
             ].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
+              <li key={item.label}>
+                <Link
+                  href={item.href}
                   className="text-[0.88rem] text-brown no-underline font-normal transition-colors duration-300 flex items-center gap-2 before:content-[''] before:w-0 before:h-px before:bg-terracotta before:transition-[width] before:duration-300 before:shrink-0 hover:before:w-3"
                 >
-                  {item}
-                </a>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -156,7 +156,9 @@ export default function Footer() {
         <div className="flex gap-4">
           {/* Facebook */}
           <a
-            href="#"
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Facebook"
             className="w-[26px] h-[26px] border border-brown rounded-full flex items-center justify-center text-brown text-[0.75rem] no-underline transition-all duration-300 hover:border-terracotta hover:text-terracotta hover:-translate-y-0.5"
           >
@@ -164,7 +166,9 @@ export default function Footer() {
           </a>
           {/* Instagram */}
           <a
-            href="#"
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Instagram"
             className="w-[26px] h-[26px] border border-brown rounded-full flex items-center justify-center text-brown no-underline transition-all duration-300 hover:border-terracotta hover:text-terracotta hover:-translate-y-0.5"
           >

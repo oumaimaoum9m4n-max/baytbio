@@ -1,7 +1,7 @@
 "use client";
 
 import "../heroui.css";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { signIn, signOut, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sprout, ShieldCheck } from "lucide-react";
@@ -16,6 +16,17 @@ function AdminLoginInner() {
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("reason") !== "forbidden") return;
+    signOut({ redirect: false }).then(() => {
+      toast.error({
+        title: "Accès refusé",
+        description: "Ce compte n'a pas les droits d'accès au tableau de bord.",
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (data: LoginDto) => {
     setIsSubmitting(true);

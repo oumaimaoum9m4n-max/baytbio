@@ -11,7 +11,7 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from "@heroui/react";
-import { UserCircle, Settings, LogOut } from "lucide-react";
+import { UserCircle, Settings, LogOut, Menu } from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 import { SidebarContext } from "@/components/sidebar-context";
 
@@ -48,7 +48,7 @@ function useNavBreadcrumbs() {
 /* ══════════════════════════════════════════
    NAVBAR
 ══════════════════════════════════════════ */
-function DashboardNavbar() {
+function DashboardNavbar({ onMenuToggle }: { onMenuToggle: () => void }) {
   const { data: session } = useSession();
   const router = useRouter();
   const breadcrumbs = useNavBreadcrumbs();
@@ -62,24 +62,35 @@ function DashboardNavbar() {
       .toUpperCase() ?? "";
 
   return (
-    <header className="h-[60px] bg-white border-b border-[#E8E4DC] px-7 flex items-center justify-between sticky top-0 z-[100]">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-[0.77rem] text-[#888880]">
-        {breadcrumbs.map((seg, i) => (
-          <span key={i} className="flex items-center gap-1.5">
-            {i > 0 && <span className="text-[#C8C8C0]">/</span>}
-            <span
-              className={
-                seg.isLast
-                  ? "text-[#2C2C2C] font-medium"
-                  : "hover:text-[#2D5A3D] transition-colors cursor-pointer"
-              }
-            >
-              {seg.label}
+    <header className="h-[60px] bg-white border-b border-[#E8E4DC] px-4 md:px-7 flex items-center justify-between sticky top-0 z-[100]">
+      <div className="flex items-center gap-2">
+        {/* Hamburger — mobile only */}
+        <button
+          className="md:hidden p-1.5 rounded-md text-[#555550] hover:bg-[#F5F2EC] hover:text-[#2C2C2C] transition-colors"
+          onClick={onMenuToggle}
+          aria-label="Ouvrir le menu"
+        >
+          <Menu size={18} />
+        </button>
+
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-1.5 text-[0.77rem] text-[#888880]">
+          {breadcrumbs.map((seg, i) => (
+            <span key={i} className="flex items-center gap-1.5">
+              {i > 0 && <span className="text-[#C8C8C0]">/</span>}
+              <span
+                className={
+                  seg.isLast
+                    ? "text-[#2C2C2C] font-medium"
+                    : "hover:text-[#2D5A3D] transition-colors cursor-pointer"
+                }
+              >
+                {seg.label}
+              </span>
             </span>
-          </span>
-        ))}
-      </nav>
+          ))}
+        </nav>
+      </div>
 
       {/* Avatar dropdown */}
       <Dropdown placement="bottom-end">
@@ -138,7 +149,7 @@ function DashboardNavbar() {
 ══════════════════════════════════════════ */
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const sidebarWidth = isCollapsed ? 64 : 240;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <SidebarContext.Provider value={{ isCollapsed }}>
@@ -146,20 +157,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <Sidebar
           isCollapsed={isCollapsed}
           onToggle={() => setIsCollapsed((v) => !v)}
+          mobileOpen={mobileOpen}
+          onMobileClose={() => setMobileOpen(false)}
         />
 
         <div
-          className="flex flex-col transition-[margin] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)]"
-          style={{ marginLeft: sidebarWidth }}
+          className={`flex flex-col transition-[margin] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${
+            isCollapsed ? "md:ml-16" : "md:ml-60"
+          }`}
         >
-          <DashboardNavbar />
+          <DashboardNavbar onMenuToggle={() => setMobileOpen((v) => !v)} />
 
           <main
-            className="relative flex-1"
-            style={{
-              padding: "0 28px 24px 28px",
-              minHeight: "calc(100vh - 60px)",
-            }}
+            className="relative flex-1 px-4 md:px-7 pb-6"
+            style={{ minHeight: "calc(100vh - 60px)" }}
           >
             {children}
           </main>

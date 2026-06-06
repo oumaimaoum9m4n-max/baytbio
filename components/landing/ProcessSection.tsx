@@ -43,7 +43,7 @@ export default function ProcessSection() {
       </div>
 
       {/* Steps grid */}
-      <div className="grid grid-cols-4 gap-px bg-white/[0.06] max-md:grid-cols-2 max-[480px]:grid-cols-1">
+      <div className="grid grid-cols-4 gap-px bg-white/[0.06] max-md:grid-cols-1">
         {steps.map((s, i) => (
           <ProcessStep key={s.num} {...s} delay={i * 100} />
         ))}

@@ -9,10 +9,8 @@ import ProductRowSkeleton from "./ProductRowSkeleton";
 export default function ProductsListClient() {
   const { addToCart } = useCart();
   const { data, isPending, isError } = useGetAllProducts(0, 20, "", "");
-
   const totalItems = data?.totalItems ?? 0;
   const products = data?.data ?? [];
-
   return (
     <>
       <ProductsPageHeader totalItems={isPending ? 0 : totalItems} />

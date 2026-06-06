@@ -4,7 +4,9 @@ interface ProductsPageHeaderProps {
   totalItems: number;
 }
 
-export default function ProductsPageHeader({ totalItems }: ProductsPageHeaderProps) {
+export default function ProductsPageHeader({
+  totalItems,
+}: ProductsPageHeaderProps) {
   const countWord = frenchCardinal(totalItems);
   const displayCount = totalItems > 0 ? totalItems : "—";
 
@@ -22,9 +24,7 @@ export default function ProductsPageHeader({ totalItems }: ProductsPageHeaderPro
         Bayt Bio · Casablanca
       </p>
       <h1 className="relative z-[1] font-cormorant text-[clamp(3.2rem,6vw,6.5rem)] font-light leading-none text-cream">
-        Nos <em className="italic text-terra-light">{countWord}</em>
-        <br />
-        produits.
+        Nos <em className="italic text-terra-light">produits.</em>
       </h1>
       <p className="relative z-[1] mt-5 max-w-[480px] font-sans text-[0.9rem] font-light leading-[1.75] text-[rgba(250,248,245,0.72)]">
         {totalItems > 0

@@ -2,6 +2,10 @@
 export const WHATSAPP_NUMBER = "212660786333";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
+// TODO: replace with real social media URLs
+export const FACEBOOK_URL = "https://www.facebook.com/baytbio";
+export const INSTAGRAM_URL = "https://www.instagram.com/baytbio";
+
 export type BadgeVariant = "terracotta" | "olive" | "sand";
 
 export interface Product {

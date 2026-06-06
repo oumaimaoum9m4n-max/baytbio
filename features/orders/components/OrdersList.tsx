@@ -22,6 +22,8 @@ import {
   Pencil,
   Plus,
   RotateCcw,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
 
 import {
@@ -93,6 +95,7 @@ const OrdersList = () => {
     fullName: string;
     status: OrderStatus;
   } | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   /* ── Queries ── */
   const { data, isLoading } = useGetAllOrders({
@@ -178,6 +181,10 @@ const OrdersList = () => {
     delivered: 0,
     cancelled: 0,
   };
+
+  const activeFiltersCount =
+    (filters.status !== "" ? 1 : 0) +
+    (filters.startDate !== defaultRange.startDate || filters.endDate !== defaultRange.endDate ? 1 : 0);
 
   /* ── Columns ── */
   const columns = useMemo<Column<GetAllOrdersDto>[]>(
@@ -383,104 +390,124 @@ const OrdersList = () => {
         }}
         toolbarEnd={
           <>
+            {/* Desktop: filters inline */}
+            <div className="hidden md:flex items-center gap-2">
+              <Select
+                size="sm"
+                variant="bordered"
+                aria-label="Statut"
+                selectedKeys={new Set([filters.status])}
+                onSelectionChange={(keys) => {
+                  const v = (Array.from(keys)[0] as string) ?? "";
+                  changeFilters("status", v);
+                }}
+                classNames={{
+                  base: "w-[140px]",
+                  trigger:
+                    "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                  value: "text-[0.8rem] text-[#555550]",
+                }}
+              >
+                <SelectItem key="">Tous statuts</SelectItem>
+                <SelectItem key="pending">En attente</SelectItem>
+                <SelectItem key="confirmed">Confirmée</SelectItem>
+                <SelectItem key="delivered">Livrée</SelectItem>
+                <SelectItem key="cancelled">Annulée</SelectItem>
+              </Select>
+
+              <DateRangePicker
+                size="sm"
+                variant="bordered"
+                aria-label="Plage de dates"
+                visibleMonths={2}
+                value={
+                  (filters.startDate && filters.endDate
+                    ? {
+                        start: parseDate(filters.startDate),
+                        end: parseDate(filters.endDate),
+                      }
+                    : null) as never
+                }
+                onChange={(range: unknown) => {
+                  const r = range as {
+                    start: { toString(): string };
+                    end: { toString(): string };
+                  } | null;
+                  if (!r) {
+                    setFilters((prev) => ({
+                      ...prev,
+                      startDate: "",
+                      endDate: "",
+                      page: 1,
+                    }));
+                    return;
+                  }
+                  setFilters((prev) => ({
+                    ...prev,
+                    startDate: r.start.toString(),
+                    endDate: r.end.toString(),
+                    page: 1,
+                  }));
+                }}
+                classNames={{
+                  base: "w-[260px]",
+                  inputWrapper:
+                    "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] focus-within:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                  input: "text-[0.78rem] text-[#555550]",
+                }}
+              />
+
+              <Button
+                size="sm"
+                variant="light"
+                onPress={resetFilters}
+                startContent={<RotateCcw size={12} />}
+                className="h-9 text-[0.78rem] text-[#555550] hover:text-[#2C2C2C]"
+              >
+                Réinit.
+              </Button>
+            </div>
+
+            {/* Mobile: single filter button */}
+            <Button
+              size="sm"
+              variant="bordered"
+              onPress={() => setFiltersOpen(true)}
+              className="flex md:hidden h-9 border-[#E8E4DC] text-[#555550] hover:border-[#2D5A3D] items-center gap-1.5"
+            >
+              <SlidersHorizontal size={13} />
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 bg-[#2D5A3D] text-white text-[0.6rem] font-bold rounded-full flex items-center justify-center">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </Button>
+          </>
+        }
+        topActions={
+          <div className="hidden md:block">
             <Select
               size="sm"
               variant="bordered"
-              aria-label="Statut"
-              selectedKeys={new Set([filters.status])}
+              aria-label="Trier"
+              selectedKeys={new Set([filters.sort])}
               onSelectionChange={(keys) => {
-                const v = (Array.from(keys)[0] as string) ?? "";
-                changeFilters("status", v);
+                const v = (Array.from(keys)[0] as string) ?? "default";
+                changeFilters("sort", v);
               }}
+              startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
               classNames={{
-                base: "w-[140px]",
+                base: "w-[230px]",
                 trigger:
                   "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
                 value: "text-[0.8rem] text-[#555550]",
               }}
             >
-              <SelectItem key="">Tous statuts</SelectItem>
-              <SelectItem key="pending">En attente</SelectItem>
-              <SelectItem key="confirmed">Confirmée</SelectItem>
-              <SelectItem key="delivered">Livrée</SelectItem>
-              <SelectItem key="cancelled">Annulée</SelectItem>
+              {ORDER_SORT_OPTIONS.map((o) => (
+                <SelectItem key={o.key}>{o.label}</SelectItem>
+              ))}
             </Select>
-
-            <DateRangePicker
-              size="sm"
-              variant="bordered"
-              aria-label="Plage de dates"
-              visibleMonths={2}
-              value={
-                (filters.startDate && filters.endDate
-                  ? {
-                      start: parseDate(filters.startDate),
-                      end: parseDate(filters.endDate),
-                    }
-                  : null) as never
-              }
-              onChange={(range: unknown) => {
-                const r = range as {
-                  start: { toString(): string };
-                  end: { toString(): string };
-                } | null;
-                if (!r) {
-                  setFilters((prev) => ({
-                    ...prev,
-                    startDate: "",
-                    endDate: "",
-                    page: 1,
-                  }));
-                  return;
-                }
-                setFilters((prev) => ({
-                  ...prev,
-                  startDate: r.start.toString(),
-                  endDate: r.end.toString(),
-                  page: 1,
-                }));
-              }}
-              classNames={{
-                base: "w-[260px]",
-                inputWrapper:
-                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] focus-within:border-[#2D5A3D] h-9 min-h-9 shadow-none",
-                input: "text-[0.78rem] text-[#555550]",
-              }}
-            />
-
-            <Button
-              size="sm"
-              variant="light"
-              onPress={resetFilters}
-              startContent={<RotateCcw size={12} />}
-              className="h-9 text-[0.78rem] text-[#555550] hover:text-[#2C2C2C]"
-            >
-              Réinit.
-            </Button>
-          </>
-        }
-        topActions={
-          <Select
-            size="sm"
-            variant="bordered"
-            aria-label="Trier"
-            selectedKeys={new Set([filters.sort])}
-            onSelectionChange={(keys) => {
-              const v = (Array.from(keys)[0] as string) ?? "default";
-              changeFilters("sort", v);
-            }}
-            startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
-            classNames={{
-              base: "w-[230px]",
-              trigger:
-                "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
-              value: "text-[0.8rem] text-[#555550]",
-            }}
-          >
-            {ORDER_SORT_OPTIONS.map((o) => (
-              <SelectItem key={o.key}>{o.label}</SelectItem>
-            ))}
-          </Select>
+          </div>
         }
         withPagination={{
           page: filters.page,
@@ -683,6 +710,144 @@ const OrdersList = () => {
         }
         isLoading={isUpdatingStatus}
       />
+
+      {/* ── Mobile filter sidebar backdrop ── */}
+      {filtersOpen && (
+        <div
+          className="fixed inset-0 z-[300] bg-black/20 md:hidden"
+          onClick={() => setFiltersOpen(false)}
+        />
+      )}
+
+      {/* ── Mobile filter sidebar panel ── */}
+      <div
+        className={`fixed inset-y-0 right-0 z-[310] w-[300px] bg-white shadow-xl flex flex-col md:hidden transition-transform duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${
+          filtersOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E8E4DC]">
+          <h3 className="text-[0.88rem] font-semibold text-[#2C2C2C]">Filtres &amp; Tri</h3>
+          <button
+            onClick={() => setFiltersOpen(false)}
+            className="p-1.5 rounded-md text-[#888880] hover:text-[#2C2C2C] hover:bg-[#F5F2EC] transition-colors"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          <div className="space-y-1.5">
+            <label className="text-[0.72rem] font-semibold text-[#555550] uppercase tracking-[0.08em]">
+              Tri
+            </label>
+            <Select
+              size="sm"
+              variant="bordered"
+              aria-label="Trier"
+              selectedKeys={new Set([filters.sort])}
+              onSelectionChange={(keys) => {
+                const v = (Array.from(keys)[0] as string) ?? "default";
+                changeFilters("sort", v);
+              }}
+              startContent={<ArrowUpDown size={12} className="text-[#888880]" />}
+              classNames={{
+                trigger:
+                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                value: "text-[0.8rem] text-[#555550]",
+              }}
+            >
+              {ORDER_SORT_OPTIONS.map((o) => (
+                <SelectItem key={o.key}>{o.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[0.72rem] font-semibold text-[#555550] uppercase tracking-[0.08em]">
+              Statut
+            </label>
+            <Select
+              size="sm"
+              variant="bordered"
+              aria-label="Statut"
+              selectedKeys={new Set([filters.status])}
+              onSelectionChange={(keys) => {
+                const v = (Array.from(keys)[0] as string) ?? "";
+                changeFilters("status", v);
+              }}
+              classNames={{
+                trigger:
+                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                value: "text-[0.8rem] text-[#555550]",
+              }}
+            >
+              <SelectItem key="">Tous statuts</SelectItem>
+              <SelectItem key="pending">En attente</SelectItem>
+              <SelectItem key="confirmed">Confirmée</SelectItem>
+              <SelectItem key="delivered">Livrée</SelectItem>
+              <SelectItem key="cancelled">Annulée</SelectItem>
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[0.72rem] font-semibold text-[#555550] uppercase tracking-[0.08em]">
+              Période
+            </label>
+            <DateRangePicker
+              size="sm"
+              variant="bordered"
+              aria-label="Plage de dates"
+              visibleMonths={1}
+              value={
+                (filters.startDate && filters.endDate
+                  ? {
+                      start: parseDate(filters.startDate),
+                      end: parseDate(filters.endDate),
+                    }
+                  : null) as never
+              }
+              onChange={(range: unknown) => {
+                const r = range as {
+                  start: { toString(): string };
+                  end: { toString(): string };
+                } | null;
+                if (!r) {
+                  setFilters((prev) => ({
+                    ...prev,
+                    startDate: "",
+                    endDate: "",
+                    page: 1,
+                  }));
+                  return;
+                }
+                setFilters((prev) => ({
+                  ...prev,
+                  startDate: r.start.toString(),
+                  endDate: r.end.toString(),
+                  page: 1,
+                }));
+              }}
+              classNames={{
+                inputWrapper:
+                  "bg-[#FAF8F5] border-[#E8E4DC] hover:border-[#2D5A3D] focus-within:border-[#2D5A3D] h-9 min-h-9 shadow-none",
+                input: "text-[0.78rem] text-[#555550]",
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="p-5 border-t border-[#E8E4DC]">
+          <Button
+            size="sm"
+            variant="bordered"
+            onPress={() => { resetFilters(); setFiltersOpen(false); }}
+            startContent={<RotateCcw size={12} />}
+            className="w-full h-9 text-[0.78rem] text-[#555550] border-[#E8E4DC] hover:border-[#2D5A3D]"
+          >
+            Réinitialiser les filtres
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Tooltip, Avatar } from "@heroui/react";
@@ -15,7 +16,8 @@ import {
   Settings,
   PanelLeftClose,
   PanelLeftOpen,
-  BookOpen ,
+  BookOpen,
+  X,
 } from "lucide-react";
 import { getCurrentSession } from "@/utils/session";
 import { useSession } from "next-auth/react";
@@ -161,10 +163,19 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
+  mobileOpen: boolean;
+  onMobileClose: () => void;
 }
 
-export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
+export function Sidebar({ isCollapsed, onToggle, mobileOpen, onMobileClose }: SidebarProps) {
   const { data: session } = useSession();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    onMobileClose();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
   const initials =
     session?.user?.name
       ?.split(" ")
@@ -172,92 +183,113 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       .join("")
       .slice(0, 2)
       .toUpperCase() ?? "";
+
   return (
-    <aside
-      className="bg-primary-800 flex flex-col fixed inset-y-0 left-0 z-[200] transition-[width] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)]"
-      style={{ width: isCollapsed ? 64 : 240 }}
-    >
-      {/* ── Brand ── */}
-      <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-5">
-        <div
-          className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-          style={{ background: "#D4883C" }}
-        >
-          <Leaf size={15} color="#fff" />
-        </div>
-        {!isCollapsed && (
-          <div className="overflow-hidden flex-1">
-            <div
-              className="text-white text-[1.08rem] leading-tight truncate"
-              style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
-            >
-              FermeBeldi
-            </div>
-            <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
-              Admin Dashboard
-            </div>
-          </div>
-        )}
-        <Tooltip
-          content={isCollapsed ? "Développer" : "Réduire"}
-          placement="right"
-          classNames={{ content: "bg-[#1E3D29] text-white text-[0.73rem]" }}
-        >
-          <button
-            onClick={onToggle}
-            className="shrink-0 text-white/40 hover:text-white transition-colors ml-auto"
-          >
-            {isCollapsed ? (
-              <PanelLeftOpen size={14} />
-            ) : (
-              <PanelLeftClose size={14} />
-            )}
-          </button>
-        </Tooltip>
-      </div>
+    <>
+      {/* Backdrop — mobile only */}
+      <div
+        className={`fixed inset-0 z-[190] bg-black/40 md:hidden transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onMobileClose}
+      />
 
-      {/* ── Nav ── */}
-      <nav
-        className="flex-1 overflow-y-auto py-2 space-y-0.5"
-        style={{ scrollbarWidth: "thin" }}
+      <aside
+        className={`bg-primary-800 flex flex-col fixed inset-y-0 left-0 z-[200] transition-[width,transform] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+        style={{ width: isCollapsed ? 64 : 240 }}
       >
-        {NAV.map((group, gi) => (
-          <div key={gi}>
-            {group.section && !isCollapsed && (
-              <div className="px-4 pt-4 pb-1 text-[0.56rem] font-semibold tracking-[0.17em] uppercase text-white/40">
-                {group.section}
-              </div>
-            )}
-            {group.section && isCollapsed && <div className="h-2.5" />}
-            {group.items.map((item) => (
-              <NavLink key={item.path} item={item} collapsed={isCollapsed} />
-            ))}
+        {/* ── Brand ── */}
+        <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-5">
+          <div
+            className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: "#D4883C" }}
+          >
+            <Leaf size={15} color="#fff" />
           </div>
-        ))}
-      </nav>
-
-      {/* ── User ── */}
-      <div className="border-t border-white/10 p-3">
-        <div className="flex items-center gap-2.5">
-          <Avatar
-            name={initials}
-            className="w-8 h-8 text-[0.73rem] font-semibold text-white shrink-0"
-            style={
-              { background: "rgba(255,255,255,.14)" } as React.CSSProperties
-            }
-          />
           {!isCollapsed && (
-            <div className="overflow-hidden">
-              <div className="text-white text-[0.78rem] font-medium leading-tight">
-                {session?.user.name}
+            <div className="overflow-hidden flex-1">
+              <div
+                className="text-white text-[1.08rem] leading-tight truncate"
+                style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
+              >
+                FermeBeldi
               </div>
-              <div className="text-white/40 text-[0.62rem] mt-0.5">
-                {session?.user.role}
+              <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
+                Admin Dashboard
               </div>
             </div>
           )}
+          {/* Mobile: close */}
+          <button
+            onClick={onMobileClose}
+            className="md:hidden shrink-0 text-white/40 hover:text-white transition-colors ml-auto"
+          >
+            <X size={16} />
+          </button>
+          {/* Desktop: collapse toggle */}
+          <Tooltip
+            content={isCollapsed ? "Développer" : "Réduire"}
+            placement="right"
+            classNames={{ content: "bg-[#1E3D29] text-white text-[0.73rem]" }}
+          >
+            <button
+              onClick={onToggle}
+              className="hidden md:block shrink-0 text-white/40 hover:text-white transition-colors ml-auto"
+            >
+              {isCollapsed ? (
+                <PanelLeftOpen size={14} />
+              ) : (
+                <PanelLeftClose size={14} />
+              )}
+            </button>
+          </Tooltip>
         </div>
-      </div>
-    </aside>
+
+        {/* ── Nav ── */}
+        <nav
+          className="flex-1 overflow-y-auto py-2 space-y-0.5"
+          style={{ scrollbarWidth: "thin" }}
+        >
+          {NAV.map((group, gi) => (
+            <div key={gi}>
+              {group.section && !isCollapsed && (
+                <div className="px-4 pt-4 pb-1 text-[0.56rem] font-semibold tracking-[0.17em] uppercase text-white/40">
+                  {group.section}
+                </div>
+              )}
+              {group.section && isCollapsed && <div className="h-2.5" />}
+              {group.items.map((item) => (
+                <NavLink key={item.path} item={item} collapsed={isCollapsed} />
+              ))}
+            </div>
+          ))}
+        </nav>
+
+        {/* ── User ── */}
+        <div className="border-t border-white/10 p-3">
+          <div className="flex items-center gap-2.5">
+            <Avatar
+              name={initials}
+              className="w-8 h-8 text-[0.73rem] font-semibold text-white shrink-0"
+              style={
+                { background: "rgba(255,255,255,.14)" } as React.CSSProperties
+              }
+            />
+            {!isCollapsed && (
+              <div className="overflow-hidden">
+                <div className="text-white text-[0.78rem] font-medium leading-tight">
+                  {session?.user.name}
+                </div>
+                <div className="text-white/40 text-[0.62rem] mt-0.5">
+                  {session?.user.role}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }
