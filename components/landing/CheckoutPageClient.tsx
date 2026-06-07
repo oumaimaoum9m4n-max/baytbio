@@ -1,30 +1,64 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/shared/CartContext";
 import { DELIVERY_FEE } from "@/features/orders/utils/order.utils";
 import CheckoutForm from "./CheckoutForm";
+import type { CheckoutSuccessData } from "./CheckoutForm";
 import CheckoutSummary from "./CheckoutSummary";
+import OrderConfirmation from "./OrderConfirmation";
+import { saveOrder } from "@/utils/orders-storage";
+import type { StoredOrder } from "@/utils/orders-storage";
 
 export default function CheckoutPageClient() {
   const router = useRouter();
   const { items, clearCart } = useCart();
+  const isNavigatingToOrder = useRef(false);
+  const [confirmedOrder, setConfirmedOrder] = useState<StoredOrder | null>(null);
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const total = subtotal + DELIVERY_FEE;
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !isNavigatingToOrder.current) {
       router.replace("/cart");
     }
   }, [items.length, router]);
 
-  if (items.length === 0) return null;
+  if (items.length === 0 && !isNavigatingToOrder.current) return null;
 
-  const handleSuccess = (orderId: string) => {
+  if (confirmedOrder) {
+    return <OrderConfirmation order={confirmedOrder} />;
+  }
+
+  const handleSuccess = (data: CheckoutSuccessData) => {
+    isNavigatingToOrder.current = true;
+
+    const order: StoredOrder = {
+      id: data.orderId,
+      fullName: data.fullName,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      fullAddress: data.fullAddress,
+      items: items.map((i) => ({
+        productId: i.id,
+        name: i.name,
+        unit: i.unit,
+        price: i.price,
+        quantity: i.quantity,
+        mainImage: i.mainImage,
+      })),
+      subtotal,
+      deliveryFee: DELIVERY_FEE,
+      total,
+      createdAt: new Date().toISOString(),
+      status: "pending",
+    };
+
+    saveOrder(order);
     clearCart();
-    router.push(`/orders/${orderId}`);
+    setConfirmedOrder(order);
   };
 
   return (

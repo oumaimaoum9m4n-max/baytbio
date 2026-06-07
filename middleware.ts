@@ -2,7 +2,7 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 // Routes that require authentication (non-dashboard)
-const protectedRoutes = ["/account", "/checkout", "/orders"];
+const protectedRoutes = ["/account"];
 // Routes that redirect already-logged-in users away (auth pages)
 const authRoutes = ["/auth/login", "/auth/register", "/admin-login"];
 

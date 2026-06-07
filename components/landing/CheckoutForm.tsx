@@ -8,9 +8,17 @@ import type { CartItem } from "@/components/shared/CartContext";
 import { CreateOrUpdateOrderSchema } from "@/features/orders/types/order.dto";
 import type { CreateOrUpdateOrderDto } from "@/features/orders/types/order.dto";
 
+export type CheckoutSuccessData = {
+  orderId: string;
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  fullAddress: string;
+};
+
 interface CheckoutFormProps {
   items: CartItem[];
-  onSuccess: (orderId: string) => void;
+  onSuccess: (data: CheckoutSuccessData) => void;
 }
 
 interface FieldErrors {
@@ -55,7 +63,13 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
       return res.data;
     },
     onSuccess: (data) => {
-      onSuccess(data.id);
+      onSuccess({
+        orderId: data.id,
+        fullName: fullName.trim(),
+        phoneNumber: phoneNumber.trim(),
+        email: email.trim(),
+        fullAddress: fullAddress.trim(),
+      });
     },
     onError: (err: AxiosError<{ msg?: string }>) => {
       setApiError(
