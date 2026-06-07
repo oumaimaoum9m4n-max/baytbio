@@ -25,7 +25,7 @@ function AdminLoginInner() {
         description: "Ce compte n'a pas les droits d'accès au tableau de bord.",
       });
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (data: LoginDto) => {
@@ -83,7 +83,7 @@ function AdminLoginInner() {
             className="text-3xl text-[#2C2C2C]"
             style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
           >
-            Ferme Beldi
+            Bayt Bio
           </h1>
           <p className="text-[0.78rem] text-[#888880] mt-1 tracking-wide">
             Espace administrateur
