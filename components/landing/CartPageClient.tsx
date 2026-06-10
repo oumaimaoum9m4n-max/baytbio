@@ -34,7 +34,7 @@ export default function CartPageClient() {
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page Header */}
-      <header className="relative overflow-hidden bg-[#3C4926] px-[72px] pb-12 pt-[52px] max-md:px-6">
+      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -138,7 +138,7 @@ export default function CartPageClient() {
               </p>
               <button
                 onClick={() => router.push("/products")}
-                className="mt-3 px-8 py-3.5 bg-[#B85A28] text-[#F5EDD8] border-none font-sans text-[0.75rem] tracking-[0.12em] uppercase rounded-[3px] transition-all duration-300 hover:bg-[#D4724A] hover:-translate-y-0.5"
+                className="mt-3 px-8 py-3.5 bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.75rem] tracking-[0.12em] uppercase rounded-[3px] transition-all duration-300 hover:bg-terra-dark hover:-translate-y-0.5"
               >
                 Voir nos produits →
               </button>

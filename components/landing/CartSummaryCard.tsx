@@ -19,7 +19,7 @@ const TRUST_ITEMS = [
     ),
   },
   {
-    text: "Livraison Casa & Rabat",
+    text: "Livraison à domicile partout au Maroc",
     icon: (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B85A28" strokeWidth="1.8">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -56,13 +56,13 @@ export default function CartSummaryCard({
   isEmpty,
 }: CartSummaryCardProps) {
   return (
-    <div className="bg-[#F5EDD8] border border-[#EBD9B8] rounded-[3px] overflow-hidden">
+    <div className="bg-cream border border-olive rounded-[3px] overflow-hidden">
       {/* Header */}
-      <div className="bg-[#1C1208] px-7 py-[22px] flex items-center justify-between">
+      <div className="bg-olive px-7 py-[22px] flex items-center justify-between">
         <span className="font-cormorant text-[1.25rem] font-light text-[#F5EDD8]">
           Récapitulatif
         </span>
-        <span className="font-arabic text-[0.85rem] text-[rgba(200,178,133,0.4)]">
+        <span className="font-arabic text-[0.85rem] text-cream">
           ملخص الطلب
         </span>
       </div>
@@ -80,13 +80,13 @@ export default function CartSummaryCard({
       </div>
 
       {/* Total row */}
-      <div className="flex justify-between items-baseline px-7 py-5 bg-[#EBD9B8] border-t border-[rgba(184,90,40,0.15)]">
-        <span className="text-[0.72rem] tracking-[0.14em] uppercase text-[#7A6648]">
+      <div className="flex justify-between items-baseline px-7 py-5 bg-terra-dark border-t border-[rgba(184,90,40,0.15)]">
+        <span className="text-[0.72rem] tracking-[0.14em] uppercase text-cream">
           Total à payer
         </span>
-        <div className="font-cormorant text-[2.4rem] font-normal text-[#1C1208] leading-none">
+        <div className="font-cormorant text-[2.4rem] font-normal text-olive leading-none">
           {total}{" "}
-          <span className="text-[0.85rem] font-light font-sans text-[#7A6648]">DH</span>
+          <span className="text-[0.85rem] font-light font-sans text-cream">DH</span>
         </div>
       </div>
 
@@ -114,7 +114,7 @@ export default function CartSummaryCard({
         <button
           onClick={onCheckout}
           disabled={isEmpty}
-          className="w-full h-[54px] bg-[#B85A28] text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-[#D4724A] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(184,90,40,0.35)] disabled:opacity-45 disabled:pointer-events-none"
+          className="w-full h-[54px] bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(184,90,40,0.35)] disabled:bg-terracotta disabled:cursor-not-allowed disabled:hover:bg-terra-dark disabled:hover:shadow-none"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
             <rect x="1" y="3" width="15" height="13" />
