@@ -12,7 +12,7 @@ const testimonials = [
   },
   {
     text: '"Service rapide, produits frais et présentation très propre. Bayt Bio donne confiance."',
-    authorName: "Ahmed B.",
+    authorName: "Yassine M.",
     authorDetail: "Client depuis 1 an",
     initial: "A",
     featured: true,
@@ -20,7 +20,7 @@ const testimonials = [
   },
   {
     text: "\"J'ai aimé le côté simple, naturel et authentique. Exactement ce qu'on cherchait pour la famille.\"",
-    authorName: "Sara M.",
+    authorName: "Salma E.",
     authorDetail: "Cliente depuis 5 mois",
     initial: "S",
     direction: "right" as const,
@@ -45,7 +45,8 @@ export default function TestimonialsSection() {
         </Reveal>
         <Reveal delay={200}>
           <p className="text-sand text-[0.88rem] font-light mt-4 tracking-[0.04em]">
-            Vérifiés via WhatsApp
+            La confiance se construit dans les petites choses : le goût, la fraîcheur et le service.
+
           </p>
         </Reveal>
       </div>

@@ -2,6 +2,7 @@
 export { default as HeroSection } from "./HeroSection";
 export { default as MarqueeStrip } from "./MarqueeStrip";
 export { default as TrustSection } from "./TrustSection";
+export { default as CommitmentsSection } from "./CommitmentsSection";
 export { default as ProductsSection } from "./ProductsSection";
 export { default as StorySection } from "./StorySection";
 export { default as ProcessSection } from "./ProcessSection";

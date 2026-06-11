@@ -48,7 +48,8 @@ export default function HeroSection() {
           }}
           dir="rtl"
         >
-          صافي و بلدي — من المزرعة لمائدتك
+        خيرات بلادي، توصل حتى لعندك عادي
+
         </p>
 
         {/* Headline */}
@@ -111,6 +112,13 @@ export default function HeroSection() {
             Notre histoire →
           </a>
         </div>
+       {/* Trust line */}
+<p
+  className="mt-8 text-[0.70rem] tracking-[0.15em] text-cream/70 uppercase"
+  style={{ opacity: 0, animation: "fadeUp 0.8s 2.1s forwards" }}
+>
+  Produits fermiers • Frais du jour • Circuit court • Livraison à domicile
+</p>
       </div>
     </section>
   );

@@ -44,38 +44,42 @@ export default function StorySection() {
               <>
                 Une{" "}
                 <em className="italic text-terracotta">passion familiale</em>
-                <br />
-                depuis 2018
+               
               </>
             }
           />
         </Reveal>
 
         <Reveal delay={200}>
-          <p className="text-[1.05rem] leading-[1.9] text-sand font-light mt-8 mb-10 max-w-[480px]">
-            Tout a commencé par un constat simple : il était devenu{" "}
+          <p className="text-[1.05rem] leading-[1.9] text-sand font-light mt-8 mb-10 max-w-[480px] text-justify">
+            Bayt Bio est né d’une idée simple : remettre{" "}
             <strong className="text-brown font-normal">
-              difficile de trouver des œufs et du lait vraiment frais
+               le vrai goût au centre du quotidien.
             </strong>{" "}
-            — comme ceux que nous avions grandi en dégustant chez nos
-            grands-parents.
-            <br />
-            <br />
-            Nous avons créé bayt bio avec une mission claire : offrir à chaque
-            famille marocaine des produits fermiers authentiques,{" "}
+            Depuis nos débuts, nous avançons avec la même exigence :
+             proposer des produits naturels, frais et sincères, dans le respect de la terre, 
+             de la tradition et des familles qui nous font confiance.
+            <br /> <br />
+            Nous croyons qu’un bon produit {" "}
             <strong className="text-brown font-normal">
-              préparés avec soin et livrés frais à domicile
+              ne doit pas seulement nourrir.
             </strong>
+            Il doit rassurer, rassembler et rappeler les choses simples qui comptent vraiment.
+
             .
           </p>
         </Reveal>
 
         <Reveal delay={300}>
           <div className="font-cormorant text-[1.8rem] italic text-terracotta mb-2">
-            La famille Tazi
+            Le goût vrai. La qualité sans compromis.
+
           </div>
-          <div className="text-[0.75rem] tracking-[0.18em] uppercase text-sand">
-            Fondateurs · Casablanca, depuis 2018
+          <div
+            dir="rtl"
+            className="font-arabic text-[0.95rem] text-sand text-right mt-8 mb-10 max-w-[480px]"
+          >
+            من الأصل… كنرجعو ليكم خيرات بلادنا، كيفما خاصها تكون.
           </div>
         </Reveal>
 

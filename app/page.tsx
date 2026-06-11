@@ -2,6 +2,7 @@ import {
   HeroSection,
   MarqueeStrip,
   TrustSection,
+  CommitmentsSection,
   ProductsSection,
   StorySection,
   ProcessSection,
@@ -18,6 +19,7 @@ export default function Home() {
       <HeroSection />
       <MarqueeStrip />
       <TrustSection />
+      <CommitmentsSection />
       <ProductsSection />
       <StorySection />
       <ProcessSection />

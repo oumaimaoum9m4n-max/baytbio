@@ -31,13 +31,13 @@ export default function ProductsSection() {
   return (
     <section
       id="all-products"
-      className="py-[120px] px-20 bg-[#faf8f5] max-md:py-16 max-md:px-5"
+      className="py-[10px] px-20 bg-[#faf8f5] max-md:py-16 max-md:px-5"
     >
       <div className="flex justify-between items-end mb-16 max-md:flex-col max-md:items-start max-md:gap-4">
         <div>
           <Reveal>
             <SectionHeader
-              eyebrow="Sélection essentielle"
+              eyebrow="Sélection essentielle, naturelle et généreuse."
               title={
                 <>
                   Nos <em className="italic text-terracotta">produits</em>

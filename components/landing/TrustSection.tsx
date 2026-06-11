@@ -9,72 +9,77 @@ const pillars = [
         viewBox="0 0 44 44"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.6"
         className="w-full h-full"
       >
-        <circle cx="22" cy="22" r="20" />
-        <path d="M12 22l7 7 13-13" />
+        {/* Feuille */}
+        <path d="M34 10C20 10 10 20 10 34c14 0 24-10 24-24z" />
+        <path d="M14 30c5-5 10-10 16-14" />
       </svg>
     ),
-    number: "6h",
+    number: "01",
     label: "Fraîcheur maîtrisée",
-    desc: "Un circuit court pour préserver la qualité au maximum.",
+    desc: "Livrés avec soin, dans le respect de la fraîcheur et de la qualité.",
   },
+
   {
     icon: (
       <svg
         viewBox="0 0 44 44"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.6"
         className="w-full h-full"
       >
-        <path d="M22 4l4.5 9 10 1.5-7.2 7 1.7 10-9-4.7-9 4.7 1.7-10-7.2-7 10-1.5z" />
+        {/* Badge qualité */}
+        <circle cx="22" cy="18" r="10" />
+        <path d="M17 27l-2 10 7-4 7 4-2-10" />
+        <path d="M18 18l3 3 5-5" />
       </svg>
     ),
-    number: "4.9/5",
-    label: "clients satisfaits",
-    desc: "Plus de 800 familles font confiance à Bayt Bio.",
+    number: "02",
+    label: "Qualité",
+    desc: "Des produits simples, authentiques et sélectionnés avec exigence.",
   },
+
+  {
+   icon: (
+  <svg
+    viewBox="0 0 44 44"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    className="w-full h-full"
+  >
+    <path d="M22 8v28" />
+    <path d="M22 12l-5-4M22 16l-6-4M22 20l-6-4M22 24l-6-4" />
+    <path d="M22 12l5-4M22 16l6-4M22 20l6-4M22 24l6-4" />
+  </svg>
+),
+    number: "03",
+    label: "Sincérité",
+    desc: "Aucun superflu. Juste le goût vrai, comme il doit être.",
+  },
+
   {
     icon: (
-      <svg
-        viewBox="0 0 44 44"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        className="w-full h-full"
-      >
-        <path
-          d="M22 5l4.6 9.3 10.3 1.5-7.5 7.3 1.8 10.2L22 28.5l-9.2 4.8 1.8-10.2L7.1 15.8l10.3-1.5z"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M16 21.5l4 4 8-8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    number: "0",
-    label: "Compromis sur la qualité",
-    desc: "Nous privilégions la naturalité, la simplicité et la confiance.",
-  },
-  {
-    icon: (
-      <svg
-        viewBox="0 0 44 44"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        className="w-full h-full"
-      >
-        <path d="M22 6c-9 0-16 5.4-16 12 0 4.4 2.8 8.3 7 10.6L11 38l8-4c1 .2 2 .3 3 .3 9 0 16-5.4 16-12S31 6 22 6z" />
-      </svg>
-    ),
-    number: "24h",
-    label: "Livraison rapide",
-    desc: "Un service pensé pour répondre vite et bien.",
+  <svg
+    viewBox="0 0 44 44"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    className="w-full h-full"
+  >
+    <path
+      d="M24 5L12 24h8l-2 15 14-22h-8l0-12z"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+),
+    number: "04",
+    label: "Rapidité",
+    desc: "Commande facile, livraison rapide, service réactif.",
   },
 ];
 

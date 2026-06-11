@@ -3,10 +3,10 @@ import SectionHeader from "./SectionHeader";
 import ProcessStep from "./ProcessStep";
 
 const steps = [
-  { num: "01", time: "Chaque matin", title: "Récolte & Traite", desc: "Nous sélectionnons les produits avec attention dès leur arrivée." },
-  { num: "02", time: "Contrôle", title: "Tri & Qualité", desc: "Chaque produit est vérifié pour garantir fraîcheur, aspect et conformité." },
+  { num: "01", time: "Chaque matin", title: "Réception & tri", desc: "Nous sélectionnons les produits avec attention dès leur arrivée." },
+  { num: "02", time: "Contrôle", title: "Contrôle qualité", desc: "Chaque produit est vérifié pour garantir fraîcheur, aspect et conformité." },
   { num: "03", time: "Emballage", title: "Conditionnement", desc: "Les produits sont préparés avec soin pour préserver leur qualité." },
-  { num: "04", time: "Livraison", title: "Chez vous", desc: "Livraison directement à votre porte. Paiement à la réception." },
+  { num: "04", time: "Livraison", title: "Chez vous", desc: "La commande arrive rapidement, prête à être consommée ou préparée." },
 ];
 
 export default function ProcessSection() {
@@ -26,18 +26,15 @@ export default function ProcessSection() {
           <Reveal>
             <SectionHeader
               dark
-              eyebrow="De la ferme à votre porte"
+              eyebrow="De Baytbio à votre porte"
               title={<>Comment ça<br /><em className="italic text-terra-light">fonctionne ?</em></>}
             />
           </Reveal>
         </div>
         <Reveal delay={200}>
           <p className="text-[0.95rem] leading-[1.85] text-cream/90 font-light">
-            Chaque matin, nos fermiers se lèvent avant l'aube pour récolter les œufs frais et traire les vaches. Un
-            processus simple, clair et pensé pour vous livrer des produits de qualité sans effort.
-            <br />
-            <br />
-            Pas d'intermédiaire. Pas d'entrepôt frigorifique. Juste la fraîcheur directe.
+            Un processus simple, clair et pensé pour vous livrer des produits de qualité sans effort.
+            
           </p>
         </Reveal>
       </div>

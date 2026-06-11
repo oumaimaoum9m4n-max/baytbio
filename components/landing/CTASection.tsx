@@ -31,6 +31,12 @@ export default function CTASection() {
             خيرات بلادي، توصل حتى لعندك عادي
           </p>
         </Reveal>
+        <Reveal delay={250}>
+          <p className="max-w-[450px] text-cream/70 leading-relaxed text-[1rem]">
+            Bayt Bio vous accompagne avec des produits naturels, soigneusement
+            préparés et livrés dans les meilleurs délais.
+          </p>
+        </Reveal>
       </div>
 
       <Reveal direction="right" className="flex flex-col gap-3.5 shrink-0 max-md:flex-row max-md:flex-wrap">

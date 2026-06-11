@@ -35,11 +35,10 @@ export default function Footer() {
             Bayt<strong>Bio</strong>
           </Link>
           <p className="text-[0.88rem] text-sand leading-[1.75] font-light max-w-[260px]">
-            Œufs fermiers et produits laitiers 100% naturels, livrés frais chez
-            vous à Casablanca et Rabat depuis 2018.
+            De la ferme à votre table. Naturellement.
           </p>
           <p className="font-arabic text-[0.95rem] text-brown mt-1">
-            من المزرعة لمائدتك
+خيرات بلادي، توصل حتى لعندك عادي
           </p>
           <a
             href={WHATSAPP_URL}
@@ -84,10 +83,10 @@ export default function Footer() {
           </p>
           <ul className="list-none p-0 m-0 flex flex-col gap-3">
             {[
-              { label: "Notre Histoire", href: "/about" },
-              { label: "Livraison & Zones", href: "/about#livraison" },
-              { label: "FAQ", href: "/about#faq" },
-              { label: "Abonnement Hebdo", href: "/products" },
+              { label: "Commande rapide", href: "/products" },
+              { label: "Livraison locale", href: "/livraison" },
+              { label: "Produits frais", href: "/about" },
+              { label: "Service client", href: "/contact" },
             ].map((item) => (
               <li key={item.label}>
                 <Link
