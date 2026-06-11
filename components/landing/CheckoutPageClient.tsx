@@ -64,7 +64,7 @@ export default function CheckoutPageClient() {
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page Header */}
-      <header className="relative overflow-hidden bg-[#3C4926] px-[72px] pb-12 pt-[52px] max-md:px-6">
+      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -98,7 +98,7 @@ export default function CheckoutPageClient() {
           <div className="w-7 h-px bg-[rgba(212,200,160,0.3)] flex-shrink-0 max-sm:w-2" />
           {/* Step 2 — active */}
           <div className="flex items-center gap-2.5 max-sm:gap-1.5 text-[0.7rem] tracking-[0.12em] uppercase text-[#F5EDD8] px-5 max-sm:px-1">
-            <span className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-medium flex-shrink-0 bg-[#B85A28] text-white">
+            <span className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-medium flex-shrink-0 bg-terra-dark text-white">
               2
             </span>
             Commande

@@ -111,7 +111,7 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
         {/* Section 1 — Coordonnées */}
         <div className="mb-9">
           <h2 className="font-cormorant text-[1.5rem] font-light text-[#1C1208] mb-5 flex items-center gap-3 after:flex-1 after:h-px after:bg-[#EBD9B8] after:content-['']">
-            <span className="w-7 h-7 rounded-full bg-[#B85A28] text-white flex items-center justify-center text-[0.7rem] font-medium flex-shrink-0">
+            <span className="w-7 h-7 rounded-full bg-terra-dark text-white flex items-center justify-center text-[0.7rem] font-medium flex-shrink-0">
               1
             </span>
             Vos coordonnées
@@ -176,7 +176,7 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
         {/* Section 2 — Adresse */}
         <div className="mb-9">
           <h2 className="font-cormorant text-[1.5rem] font-light text-[#1C1208] mb-5 flex items-center gap-3 after:flex-1 after:h-px after:bg-[#EBD9B8] after:content-['']">
-            <span className="w-7 h-7 rounded-full bg-[#B85A28] text-white flex items-center justify-center text-[0.7rem] font-medium flex-shrink-0">
+            <span className="w-7 h-7 rounded-full bg-terra-dark text-white flex items-center justify-center text-[0.7rem] font-medium flex-shrink-0">
               2
             </span>
             Adresse de livraison
@@ -210,7 +210,7 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
         <button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full h-14 bg-[#B85A28] text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-[#D4724A] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(184,90,40,0.35)] disabled:opacity-60 disabled:pointer-events-none"
+          className="w-full h-14 bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(184,90,40,0.35)] disabled:opacity-60 disabled:pointer-events-none"
         >
           {mutation.isPending ? (
             "Confirmation en cours…"
