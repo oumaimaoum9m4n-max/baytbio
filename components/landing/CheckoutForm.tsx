@@ -29,7 +29,7 @@ interface FieldErrors {
 }
 
 const inputBase =
-  "h-[50px] px-4 border-[1.5px] rounded-[3px] font-sans text-[0.88rem] text-[#1C1208] bg-[#FAF6ED] transition-all duration-[250ms] outline-none w-full placeholder:text-[#A89070] focus:border-[#B85A28] focus:bg-white focus:shadow-[0_0_0_3px_rgba(184,90,40,0.08)]";
+  "h-[50px] px-4 border-[1.5px] rounded-[3px] font-sans text-[0.88rem] text-[#1C1208] bg-cream transition-all duration-[250ms] outline-none w-full placeholder:text-[#A89070] focus:border-[#B85A28] focus:bg-white focus:shadow-[0_0_0_3px_rgba(184,90,40,0.08)]";
 
 function fieldCls(hasError?: string) {
   return hasError

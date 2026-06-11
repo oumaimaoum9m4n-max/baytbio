@@ -16,7 +16,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page header */}
-      <header className="relative overflow-hidden bg-[#3C4926] px-[72px] pb-12 pt-[52px] max-md:px-6">
+      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -44,7 +44,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
       <div className="max-w-[680px] mx-auto px-8 py-16 text-center max-sm:px-4">
         {/* Check circle */}
         <div
-          className="relative w-[88px] h-[88px] rounded-full bg-[#3C4926] flex items-center justify-center mx-auto mb-8"
+          className="relative w-[88px] h-[88px] rounded-full bg-olive flex items-center justify-center mx-auto mb-8"
           style={{
             animation: "confCheck .6s cubic-bezier(.22,.68,0,1.2) both",
           }}
@@ -77,7 +77,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
             opacity: 0,
           }}
         >
-          Commande <em className="italic text-[#B85A28]">confirmée</em>
+          Commande <em className="italic text-terra-light">confirmée</em>
         </h2>
         <p
           className="font-[Amiri,serif] text-[1.1rem] text-[#7A6648] opacity-55 mb-7"
@@ -91,7 +91,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
 
         {/* Order card */}
         <div
-          className="bg-[#F5EDD8] rounded-[3px] border border-[#EBD9B8] px-9 py-8 mb-6 text-left max-sm:px-5"
+          className="bg-linen rounded-[3px] border border-[#EBD9B8] px-9 py-8 mb-6 text-left max-sm:px-5"
           style={{
             animation: "fadeUp .7s .5s cubic-bezier(.25,.46,.45,.94) both",
             opacity: 0,
@@ -204,7 +204,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
 
         {/* Contact card */}
         <div
-          className="bg-[#1C1208] rounded-[3px] px-9 py-7 flex items-center justify-between gap-5 mb-9 max-sm:flex-col max-sm:text-center max-sm:px-5"
+          className="bg-olive rounded-[3px] px-9 py-7 flex items-center justify-between gap-5 mb-9 max-sm:flex-col max-sm:text-center max-sm:px-5"
           style={{
             animation: "fadeUp .7s .7s cubic-bezier(.25,.46,.45,.94) both",
             opacity: 0,
@@ -264,7 +264,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
           <div className="flex items-center justify-center gap-4 mb-4 max-sm:flex-col">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-9 py-3.5 bg-[#B85A28] text-[#F5EDD8] rounded-[3px] text-[0.76rem] tracking-[0.12em] uppercase font-sans transition-all hover:bg-[#D4724A] hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(184,90,40,0.3)]"
+              className="inline-flex items-center gap-2 px-9 py-3.5 bg-terracotta text-[#F5EDD8] rounded-[3px] text-[0.76rem] tracking-[0.12em] uppercase font-sans transition-all hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(184,90,40,0.3)]"
             >
               Continuer mes achats →
             </Link>
