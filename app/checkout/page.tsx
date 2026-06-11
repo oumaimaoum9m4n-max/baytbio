@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Navbar, Toast } from "@/components/shared";
+import { Navbar, Footer,  Toast } from "@/components/shared";
 import { FloatingWhatsApp } from "@/components/landing";
 import CheckoutPageClient from "@/components/landing/CheckoutPageClient";
 
@@ -13,6 +13,7 @@ export default function CheckoutPage() {
     <main className="overflow-x-hidden bg-cream font-sans text-[#1C1208] min-h-screen">
       <Navbar linksTone="brown" />
       <CheckoutPageClient />
+      <Footer/>
       <FloatingWhatsApp />
       <Toast />
     </main>

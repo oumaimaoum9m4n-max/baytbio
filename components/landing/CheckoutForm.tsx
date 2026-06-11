@@ -38,7 +38,7 @@ function fieldCls(hasError?: string) {
 }
 
 const textareaBase =
-  "px-4 py-3.5 border-[1.5px] rounded-[3px] font-sans text-[0.88rem] text-[#1C1208] bg-[#FAF6ED] leading-[1.6] transition-all duration-[250ms] outline-none w-full resize-none placeholder:text-[#A89070] focus:border-[#B85A28] focus:shadow-[0_0_0_3px_rgba(184,90,40,0.08)]";
+  "px-4 py-3.5 border-[1.5px] rounded-[3px] font-sans text-[0.88rem] text-[#1C1208] bg-cream leading-[1.6] transition-all duration-[250ms] outline-none w-full resize-none placeholder:text-[#A89070] focus:border-[#B85A28] focus:shadow-[0_0_0_3px_rgba(184,90,40,0.08)]";
 
 function textareaCls(hasError?: string) {
   return hasError

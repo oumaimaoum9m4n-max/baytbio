@@ -30,7 +30,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
         </p>
         <h1
           className="relative z-10 font-cormorant text-cream font-light leading-[0.92] mb-3"
-          style={{ fontSize: "clamp(3rem,6vw,6rem)" }}
+          style={{ fontSize: "clamp(3.8rem, 7vw, 8rem)" }}
         >
           Merci pour votre{" "}
           <em className="italic text-terra-light">commande&nbsp;!</em>
