@@ -79,7 +79,7 @@ export default function Footer() {
         {/* Informations */}
         <div>
           <p className="text-[0.72rem] tracking-[0.18em] uppercase text-sand mb-6 font-medium">
-            Informations
+            Services
           </p>
           <ul className="list-none p-0 m-0 flex flex-col gap-3">
             {[

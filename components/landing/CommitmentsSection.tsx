@@ -85,14 +85,14 @@ export default function CommitmentsSection() {
                         Nos engagements
                     </span>
 
-                    <h2 className="font-cormorant text-[clamp(2.8rem,5vw,4.5rem)] font-light text-olive leading-none mb-6">
-                        Les engagements Bayt Bio
+                    <h2 className="font-cormorant text-[clamp(2.8rem,5vw,4.5rem)] font-light text-brown leading-none mb-6">
+                        Les engagements <em className="italic text-terracotta">Bayt Bio</em> 
                     </h2>
-
+{/* 
                     <p className="text-olive/70 text-lg leading-relaxed max-w-2xl mx-auto">
                         Nous sélectionnons chaque produit avec exigence afin de vous offrir
                         une expérience simple, authentique et fidèle aux valeurs du terroir.
-                    </p>
+                    </p> */}
                 </div>
 
                 {/* Commitments grid */}

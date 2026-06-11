@@ -9,8 +9,8 @@ const links = [
   { path: "/", label: "Accueil" },
   { path: "/products", label: "Nos Produits" },
   { path: "/about", label: "Notre Histoire" },
-  { path: "/", label: "Livraison" },
-  { path: "/", label: "Contact" },
+  { path: "/delivery", label: "Livraison" },
+  { path: "/contact", label: "Contact" },
   // { path: "/delivery", label: "Livraison" },
 ];
 

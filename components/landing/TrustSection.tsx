@@ -85,7 +85,7 @@ const pillars = [
 
 export default function TrustSection() {
   return (
-    <section className="bg-linen py-[72px] px-20 max-md:p-0">
+    <section className="bg-linen py-[72px] px-20 max-md:py-16 max-md:px-5">
       <div>
         <Reveal>
           <SectionHeader
