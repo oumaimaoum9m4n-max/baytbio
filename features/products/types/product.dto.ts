@@ -1,26 +1,6 @@
 import { z } from "zod";
 import type { Product } from "./product";
 
-export const DELIVERY_DAYS = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
-] as const;
-
-export const DELIVERY_DAY_LABELS: Record<(typeof DELIVERY_DAYS)[number], string> = {
-  monday: "Lundi",
-  tuesday: "Mardi",
-  wednesday: "Mercredi",
-  thursday: "Jeudi",
-  friday: "Vendredi",
-  saturday: "Samedi",
-  sunday: "Dimanche",
-};
-
 export const RelatedProductSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -41,7 +21,6 @@ export const CreateOrUpdateProductSchema = z.object({
   unit: z.string().min(1, "L'unité est obligatoire"),
   alertThreshold: z.number().min(0).default(0),
   status: z.enum(["enabled", "disabled"]).default("enabled"),
-  deliveryDays: z.array(z.enum(DELIVERY_DAYS)).default([]),
   deliveryTax: z.number().min(0).default(0),
   relatedProducts: z.array(RelatedProductSchema).default([]),
 });
@@ -67,7 +46,7 @@ export type GetAllProductsDto = Pick<
 >;
 
 export type GetSingleProductDto = GetAllProductsDto &
-  Pick<Product, "deliveryDays" | "deliveryTax" | "relatedProducts">;
+  Pick<Product, "deliveryTax" | "relatedProducts">;
 
 export type GetTopProductsDto = {
   id: string;

@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import logoGreen from "@/assets/logonavoriginal.png";
 import { WHATSAPP_URL, FACEBOOK_URL, INSTAGRAM_URL } from "@/components/landing/constants";
 import { useGetTopProducts } from "@/features/products/apis/getTopProducts";
 
@@ -21,18 +23,12 @@ export default function Footer() {
       <div className="grid grid-cols-[1.8fr_1fr_1fr_1fr] gap-16 pb-8 border-b border-white/[0.06] max-md:grid-cols-1 max-md:gap-9">
         {/* Brand */}
         <div className="flex flex-col gap-5">
-          <Link
-            href="/"
-            className="font-cormorant text-[1.8rem] font-normal text-brown flex items-center gap-2.5 no-underline"
-          >
-            <span
-              className="w-7 h-7 bg-olive-light shrink-0"
-              style={{
-                borderRadius: "50% 50% 50% 0",
-                transform: "rotate(-45deg)",
-              }}
+          <Link href="/" aria-label="Bayt Bio — Accueil" className="no-underline w-fit">
+            <Image
+              src={logoGreen}
+              alt="Bayt Bio"
+              className="h-12 w-auto object-contain"
             />
-            Bayt<strong>Bio</strong>
           </Link>
           <p className="text-[0.88rem] text-sand leading-[1.75] font-light max-w-[260px]">
             De la ferme à votre table. Naturellement.

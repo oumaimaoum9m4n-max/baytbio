@@ -3,7 +3,6 @@
 import { Chip, Divider } from "@heroui/react";
 import { Package, AlertTriangle, Truck, Tag } from "lucide-react";
 import type { GetSingleProductDto } from "../types/product.dto";
-import { DELIVERY_DAY_LABELS } from "../types/product.dto";
 import formatPrice from "@/utils/format-price";
 import formatDate from "@/utils/format-date";
 
@@ -166,29 +165,16 @@ const ProductPreview = ({ product }: Props) => {
       )}
 
       {/* ── Delivery ── */}
-      {product.deliveryDays.length > 0 && (
+      {product.deliveryTax > 0 && (
         <div>
           <div className="flex items-center gap-1.5 mb-3">
             <Truck size={12} className="text-[#888880]" />
             <p className="text-[0.67rem] tracking-[0.12em] uppercase font-semibold text-[#888880]">Livraison</p>
           </div>
           <div className="bg-[#FAF8F5] border border-[#E8E4DC] rounded-lg p-3.5">
-            <p className="text-[0.82rem] font-medium text-[#2C2C2C] mb-2">
+            <p className="text-[0.82rem] font-medium text-[#2C2C2C]">
               {formatPrice(product.deliveryTax)} de frais
             </p>
-            <div className="flex flex-wrap gap-1.5">
-              {product.deliveryDays.map((day) => (
-                <Chip
-                  key={day}
-                  size="sm"
-                  color="default"
-                  variant="flat"
-                  classNames={{ content: "text-[0.65rem] font-medium px-1" }}
-                >
-                  {DELIVERY_DAY_LABELS[day]}
-                </Chip>
-              ))}
-            </div>
           </div>
         </div>
       )}

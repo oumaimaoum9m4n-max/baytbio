@@ -5,6 +5,7 @@ import { FloatingWhatsApp, MarqueeStrip } from "@/components/landing";
 import ContactHero from "@/components/landing/ContactHero";
 import ContactInfo from "@/components/landing/ContactInfo";
 import ContactForm from "@/components/landing/ContactForm";
+import ContactDetails from "@/components/landing/ContactDetails";
 
 const CONTACT_MARQUEE_ITEMS = [
   "Réponse en moins d'1h",
@@ -29,6 +30,7 @@ export default function ContactPage() {
     <main className="overflow-x-hidden bg-[#1A1210] font-sans text-cream">
       <Navbar linksTone="default" />
       <ContactHero />
+      <ContactDetails />
       {/* <MarqueeStrip
         items={CONTACT_MARQUEE_ITEMS}
        
