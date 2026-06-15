@@ -138,7 +138,7 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 z-[99] flex flex-col bg-cream transition-opacity duration-300 md:hidden ${menuOpen
+        className={`fixed inset-0 z-[99] flex flex-col bg-olive transition-opacity duration-300 md:hidden ${menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
           }`}
