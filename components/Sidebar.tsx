@@ -58,7 +58,6 @@ const NAV: NavSection[] = [
         title: "Commandes",
         path: "/dashboard/orders",
         icon: ClipboardList,
-        badge: "12",
       },
       {
         label: "Utilisateurs",
