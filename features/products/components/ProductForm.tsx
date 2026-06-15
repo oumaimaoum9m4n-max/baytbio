@@ -29,8 +29,6 @@ import { FormInput, toast } from "@/components/ui";
 import { useSidebarContext } from "@/components/sidebar-context";
 import {
   CreateOrUpdateProductSchema,
-  DELIVERY_DAY_LABELS,
-  DELIVERY_DAYS,
   type CreateOrUpdateProductDto,
   type GetSingleProductDto,
 } from "../types/product.dto";
@@ -152,7 +150,6 @@ const ProductForm = ({
       unit: defaultValues?.unit ?? "",
       alertThreshold: defaultValues?.alertThreshold ?? 0,
       status: defaultValues?.status ?? "enabled",
-      deliveryDays: defaultValues?.deliveryDays ?? [],
       deliveryTax: defaultValues?.deliveryTax,
       relatedProducts: defaultValues?.relatedProducts ?? [],
     },
@@ -165,7 +162,6 @@ const ProductForm = ({
   const watchedUnit = watch("unit");
   const watchedStatus = watch("status");
   const watchedTags = watch("tags") ?? [];
-  const watchedDeliveryDays = watch("deliveryDays") ?? [];
 
   /* ── Keep RHF "images" field in sync with local upload state ── */
   useEffect(() => {
@@ -279,17 +275,6 @@ const ProductForm = ({
       p.id !== defaultValues?.id &&
       !watchedRelatedProducts.some((r) => r.id === p.id),
   );
-
-  /* ── Delivery day toggle ── */
-  const toggleDay = (day: (typeof DELIVERY_DAYS)[number]) => {
-    const current = watchedDeliveryDays;
-    setValue(
-      "deliveryDays",
-      current.includes(day)
-        ? current.filter((d) => d !== day)
-        : [...current, day],
-    );
-  };
 
   /* ── Submit ── */
   const handleFormSubmit = (data: CreateOrUpdateProductDto) => {
@@ -693,33 +678,9 @@ const ProductForm = ({
               iconBg="#E8F0F8"
               iconColor="#3A6B9E"
               title="Livraison"
-              subtitle="Jours de livraison disponibles et frais de livraison"
+              subtitle="Frais de livraison"
             >
               <div className="flex flex-col gap-3.5">
-                <div>
-                  <label className="block text-[0.7rem] tracking-[0.09em] uppercase font-semibold text-[#555550] mb-2">
-                    Jours de livraison
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {DELIVERY_DAYS.map((day) => {
-                      const active = watchedDeliveryDays.includes(day);
-                      return (
-                        <Button
-                          key={day}
-                          type="button"
-                          size="sm"
-                          color={active ? "primary" : "default"}
-                          variant={active ? "flat" : "bordered"}
-                          onPress={() => toggleDay(day)}
-                          className={`h-8 text-[0.78rem] ${!active ? "border-[#E8E4DC] text-[#555550]" : ""}`}
-                        >
-                          {DELIVERY_DAY_LABELS[day]}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                </div>
-
                 <FormInput
                   control={control}
                   name="deliveryTax"

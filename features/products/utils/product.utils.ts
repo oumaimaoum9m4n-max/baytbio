@@ -19,7 +19,6 @@ export const toProductDto = (product: any): GetAllProductsDto => ({
 
 export const toProductDetailDto = (product: any): GetSingleProductDto => ({
   ...toProductDto(product),
-  deliveryDays: product.deliveryDays ?? [],
   deliveryTax: product.deliveryTax ?? 0,
   relatedProducts: (product.relatedProducts ?? []).map((r: any) => ({
     id: r.id?.toString() ?? "",

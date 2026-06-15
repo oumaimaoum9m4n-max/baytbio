@@ -1,14 +1,5 @@
 export type ProductStatus = "enabled" | "disabled";
 
-export type DeliveryDay =
-  | "monday"
-  | "tuesday"
-  | "wednesday"
-  | "thursday"
-  | "friday"
-  | "saturday"
-  | "sunday";
-
 export type RelatedProduct = {
   id: string;
   name: string;
@@ -29,7 +20,6 @@ export type Product = {
   unit: string;
   alertThreshold: number;
   status: ProductStatus;
-  deliveryDays: DeliveryDay[];
   deliveryTax: number;
   relatedProducts: RelatedProduct[];
   createdAt: string;

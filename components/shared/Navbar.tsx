@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import { WHATSAPP_URL } from "@/components/landing/constants";
 import Link from "next/link";
+import Image from "next/image";
+import logoWhite from "@/assets/logonavwhite.png";
+import logoGreen from "@/assets/logonavoriginal.png";
 
 const links = [
-  { path: "/", label: "Accueil" },
   { path: "/products", label: "Nos Produits" },
   { path: "/about", label: "Notre Histoire" },
   { path: "/delivery", label: "Livraison" },
   { path: "/contact", label: "Contact" },
-  // { path: "/delivery", label: "Livraison" },
 ];
 
 interface NavbarProps {
@@ -23,8 +24,8 @@ export default function Navbar({ linksTone = "default" }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
 
-  const linkColorClass =
-    linksTone === "brown" || scrolled || menuOpen ? "text-brown" : "text-cream";
+  const onLightBg = linksTone === "brown" || scrolled || menuOpen;
+  const linkColorClass = onLightBg ? "text-brown" : "text-cream";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -52,11 +53,13 @@ export default function Navbar({ linksTone = "default" }: NavbarProps) {
             : "px-5 md:px-12 py-4"
         }`}
       >
-        <Link
-          href="/"
-          className={`font-cormorant text-2xl font-semibold  tracking-[0.02em] no-underline ${linkColorClass}`}
-        >
-          Bayt<strong>Bio</strong>
+        <Link href="/" aria-label="Bayt Bio — Accueil" className="no-underline">
+          <Image
+            src={onLightBg ? logoGreen : logoWhite}
+            alt="Bayt Bio"
+            priority
+            className="h-10 w-auto object-contain"
+          />
         </Link>
 
         <ul className="hidden md:flex gap-10 list-none m-0 p-0">

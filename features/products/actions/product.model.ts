@@ -31,20 +31,6 @@ const ProductSchema = new mongoose.Schema(
       enum: ["enabled", "disabled"],
       default: "enabled",
     },
-    deliveryDays: [
-      {
-        type: String,
-        enum: [
-          "monday",
-          "tuesday",
-          "wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-          "sunday",
-        ],
-      },
-    ],
     deliveryTax: { type: Number, default: 0, min: 0 },
     relatedProducts: [RelatedProductSchema],
   },
