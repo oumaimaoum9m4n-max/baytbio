@@ -54,7 +54,8 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between transition-all duration-500 ${scrolled
-            ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px] border-b border-terracotta/[0.12]"
+            // ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px] border-b border-terracotta/[0.12]"
+              ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px]"
             : variant === "olive"
               ? "px-5 md:px-12 py-4 bg-olive"
               : "px-5 md:px-12 py-4"
@@ -157,8 +158,7 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
               key={item.path}
               href={item.path}
               onClick={() => setMenuOpen(false)}
-              className="font-cormorant text-3xl font-semibold text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"
-            >
+className="font-cormorant text-3xl font-semibold text-cream md:text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"            >
               {item.label}
             </Link>
           ))}

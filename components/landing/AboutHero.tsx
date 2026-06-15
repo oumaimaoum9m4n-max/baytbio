@@ -45,9 +45,9 @@ export default function AboutHero() {
         </span>
 
         {/* Eyebrow */}
-        <p className="relative z-10 text-[1.1rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.5)] flex items-center gap-3.5 mb-[22px] before:content-[''] pt-10" 
+        <p className="relative z-10 text-[1.1rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.5)] flex items-center gap-3.5 mb-[22px] before:content-[''] pt-10"
           dir="rtl">
-         خيرات بلادي، توصل حتى لعندك عادي
+          خيرات بلادي، توصل حتى لعندك عادي
         </p>
 
         {/* H1 */}
@@ -65,22 +65,22 @@ export default function AboutHero() {
           style={{ color: "var(--color-cream)" }}
         >
           Chez Bayt Bio, nous croyons que les meilleures choses naissent de la simplicité.
-         
+
         </p>
-         <p
+        <p
           className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-4 text-justify"
           style={{ color: "var(--color-cream)" }}
         >
-         
+
           Des produits naturels, soigneusement sélectionnés, inspirés par le rythme de la nature et le goût authentique que l'on aime retrouver autour de la table.
-       
+
         </p>
-          <p
+        <p
           className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-6 text-justify"
           style={{ color: "var(--color-cream)" }}
         >
-         
-       
+
+
           Notre ambition est simple : rapprocher les familles de produits sincères, savoureux et de qualité.
 
         </p>
@@ -121,11 +121,12 @@ export default function AboutHero() {
         style={{
           gridTemplateColumns: "1fr 1fr",
           gridTemplateRows: "1.3fr 1fr",
+
         }}
       >
         {/* Big spanning cell — left column, both rows */}
         <div
-          className="relative overflow-hidden group"
+          className="relative overflow-hidden group "
           style={{ gridRow: "1/3" }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-olive to-terracotta" />

@@ -80,7 +80,7 @@ export default function Footer() {
           <ul className="list-none p-0 m-0 flex flex-col gap-3">
             {[
               { label: "Commande rapide", href: "/products" },
-              { label: "Livraison locale", href: "/livraison" },
+              // { label: "Livraison locale", href: "/livraison" },
               { label: "Produits frais", href: "/about" },
               { label: "Service client", href: "/contact" },
             ].map((item) => (
