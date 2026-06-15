@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Navbar, Toast } from "@/components/shared";
+import { Footer, Navbar, Toast } from "@/components/shared";
 import { FloatingWhatsApp } from "@/components/landing";
 import OrdersPageClient from "@/components/landing/OrdersPageClient";
 
@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 export default function OrdersPage() {
   return (
     <main className="overflow-x-hidden bg-cream font-sans text-[#1C1208] min-h-screen">
-      <Navbar linksTone="brown" />
+      <Navbar linksTone="default" variant="olive" />
       <OrdersPageClient />
+      <Footer />
       <FloatingWhatsApp />
       <Toast />
     </main>

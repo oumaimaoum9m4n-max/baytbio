@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <main className="overflow-x-hidden bg-cream font-sans text-[#1C1208] min-h-screen">
-      <Navbar linksTone="brown" />
+      <Navbar linksTone="default" variant="olive" />
       <CartPageClient />
       <Footer />
       <FloatingWhatsApp />

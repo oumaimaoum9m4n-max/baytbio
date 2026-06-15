@@ -118,14 +118,7 @@ function DashboardNavbar({ onMenuToggle }: { onMenuToggle: () => void }) {
             >
               {session?.user?.name ?? "Profil"}
             </DropdownItem>
-            <DropdownItem
-              key="settings"
-              startContent={<Settings size={14} className="text-[#555550]" />}
-              className="text-[#555550]"
-              onPress={() => router.push("/dashboard/settings")}
-            >
-              Paramètres
-            </DropdownItem>
+            
           </DropdownSection>
           <DropdownSection>
             <DropdownItem

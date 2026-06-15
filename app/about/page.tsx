@@ -40,11 +40,11 @@ export default function AboutPage() {
       <Navbar />
       <AboutHero />
       <MarqueeStrip items={ABOUT_MARQUEE_ITEMS} />
-      <OpeningQuote />
+      {/* <OpeningQuote /> */}
       <OriginStory />
       <StatsBand />
       <TimelineSection />
-      <PullQuote />
+      {/* <PullQuote /> */}
       <FarmMosaic />
       <DayInLife />
       <ValuesGrid />

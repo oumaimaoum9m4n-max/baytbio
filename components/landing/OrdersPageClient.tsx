@@ -41,7 +41,7 @@ export default function OrdersPageClient() {
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page header */}
-      <header className="relative overflow-hidden bg-[#3C4926] px-[72px] pb-12 pt-[52px] max-md:px-6">
+      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -54,7 +54,7 @@ export default function OrdersPageClient() {
           Bayt Bio · Historique
         </p>
         <h1
-          className="relative z-10 font-cormorant text-cream font-light leading-[0.92] mb-3"
+          className="relative z-10 font-cormorant text-cream font-light leading-[0.92] mb-8"
           style={{ fontSize: "clamp(3.8rem,7vw,8rem)" }}
         >
           Mes <em className="italic text-terra-light">commandes</em>
@@ -99,7 +99,7 @@ export default function OrdersPageClient() {
               return (
                 <div
                   key={order.id}
-                  className="bg-[#F5EDD8] border border-[#EBD9B8] rounded-[3px] overflow-hidden"
+                  className="bg-linen border border-olive-light rounded-[3px] overflow-hidden"
                 >
                   {/* Card header */}
                   <div className="flex items-center justify-between px-7 py-5 border-b border-[#EBD9B8] flex-wrap gap-3 max-sm:px-4">
@@ -114,7 +114,7 @@ export default function OrdersPageClient() {
                         {STATUS_LABELS[order.status]}
                       </span>
                     </div>
-                    <span className="text-[0.75rem] text-[#A89070] font-light">
+                    <span className="text-[0.75rem] text-brown font-light">
                       {formatDate(order.createdAt)}
                     </span>
                   </div>

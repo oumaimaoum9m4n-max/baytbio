@@ -90,7 +90,8 @@ export default function ContactHero() {
           تواصل
         </span>
 
-        <p className="relative z-10 text-[0.7rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.45)] flex items-center gap-3.5 mb-[22px] before:content-[''] before:w-7 before:h-px before:bg-terracotta before:shrink-0">
+        <p className="relative z-10 mt-14 text-[0.7rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.45)] flex items-center gap-3.5 mb-[22px] before:content-[''] before:w-7 before:h-px before:bg-terracotta before:shrink-0">
+        
           Contact · تواصل معنا
         </p>
 

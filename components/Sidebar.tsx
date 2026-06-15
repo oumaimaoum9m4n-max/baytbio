@@ -68,28 +68,28 @@ const NAV: NavSection[] = [
       },
     ],
   },
-  {
-    section: "Performance",
-    items: [
-      {
-        label: "Analytiques",
-        title: "Analytiques",
-        path: "/dashboard/analytics",
-        icon: BarChart3,
-      },
-    ],
-  },
-   {
-    section: "Guide",
-    items: [
-      {
-        label: "Tutoriel",
-        title: "Tutoriel",
-        path: "/dashboard/analytics",
-        icon: BookOpen,
-      },
-    ],
-  },
+  // {
+  //   section: "Performance",
+  //   items: [
+  //     {
+  //       label: "Analytiques",
+  //       title: "Analytiques",
+  //       path: "/dashboard/analytics",
+  //       icon: BarChart3,
+  //     },
+  //   ],
+  // },
+  //  {
+  //   section: "Guide",
+  //   items: [
+  //     {
+  //       label: "Tutoriel",
+  //       title: "Tutoriel",
+  //       path: "/dashboard/analytics",
+  //       icon: BookOpen,
+  //     },
+  //   ],
+  // },
 
 ];
 
@@ -214,7 +214,7 @@ export function Sidebar({ isCollapsed, onToggle, mobileOpen, onMobileClose }: Si
                 className="text-white text-[1.08rem] leading-tight truncate"
                 style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
               >
-                FermeBeldi
+                Bayt Bio
               </div>
               <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
                 Admin Dashboard

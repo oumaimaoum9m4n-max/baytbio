@@ -516,7 +516,7 @@ function Sidebar({
               className="text-white text-[1.08rem] leading-tight truncate"
               style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
             >
-              FermeBeldi
+              Bayt Bio
             </div>
             <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
               Admin Dashboard

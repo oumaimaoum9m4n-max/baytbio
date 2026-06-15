@@ -37,7 +37,7 @@ export default function HeroSection() {
       />
 
       {/* Hero content */}
-      <div className="relative z-[3] w-full max-w-[720px] px-20 pb-[100px] max-md:px-6 max-md:pb-20">
+      <div className="relative z-[3] w-full max-w-[720px] px-20 pb-[100px] max-md:px-6 max-md:pt-25">
         {/* Arabic subtitle */}
         <p
           className="font-arabic text-[1.1rem] text-[rgba(201,180,138,0.8)] tracking-[0.05em] mb-5"

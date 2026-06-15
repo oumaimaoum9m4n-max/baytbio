@@ -45,8 +45,9 @@ export default function AboutHero() {
         </span>
 
         {/* Eyebrow */}
-        <p className="relative z-10 text-[0.7rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.5)] flex items-center gap-3.5 mb-[22px] before:content-[''] before:w-7 before:h-px before:bg-terracotta before:shrink-0">
-          Notre Histoire · منذ 2018
+        <p className="relative z-10 text-[1.1rem] tracking-[0.24em] uppercase text-[rgba(200,178,133,0.5)] flex items-center gap-3.5 mb-[22px] before:content-[''] pt-10" 
+          dir="rtl">
+         خيرات بلادي، توصل حتى لعندك عادي
         </p>
 
         {/* H1 */}
@@ -60,12 +61,28 @@ export default function AboutHero() {
 
         {/* Sub */}
         <p
-          className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-12"
+          className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-4 text-justify"
           style={{ color: "var(--color-cream)" }}
         >
-          Depuis 2018, notre famille produit des œufs et des produits laitiers
-          100% naturels selon les méthodes traditionnelles marocaines — comme le
-          faisaient nos grands-parents, pour les familles d'aujourd'hui.
+          Chez Bayt Bio, nous croyons que les meilleures choses naissent de la simplicité.
+         
+        </p>
+         <p
+          className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-4 text-justify"
+          style={{ color: "var(--color-cream)" }}
+        >
+         
+          Des produits naturels, soigneusement sélectionnés, inspirés par le rythme de la nature et le goût authentique que l'on aime retrouver autour de la table.
+       
+        </p>
+          <p
+          className="relative z-10 font-sans text-[0.9rem] font-light max-w-[380px] leading-[1.85] mb-6 text-justify"
+          style={{ color: "var(--color-cream)" }}
+        >
+         
+       
+          Notre ambition est simple : rapprocher les familles de produits sincères, savoureux et de qualité.
+
         </p>
 
         {/* CTAs */}

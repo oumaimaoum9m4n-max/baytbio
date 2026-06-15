@@ -34,11 +34,11 @@ export default function OriginStory() {
           &quot;
         </span>
 
-        <Reveal>
+        {/* <Reveal>
           <p className="text-[0.72rem] tracking-[0.22em] uppercase text-terracotta flex items-center gap-3.5 mb-5 before:content-[''] before:w-7 before:h-px before:bg-terracotta before:shrink-0">
             Pourquoi Bayt Bio ?
           </p>
-        </Reveal>
+        </Reveal> */}
         <Reveal delay={100}>
           <h2
             className="font-cormorant font-light leading-[1.06] text-brown mb-7"
@@ -48,54 +48,54 @@ export default function OriginStory() {
           </h2>
         </Reveal>
         <Reveal delay={200}>
-          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5">
-            Tout a commencé par un constat simple et douloureux : en 2018, notre famille cherchait des œufs
-            frais, du vrai lait de vache —{" "}
-            <strong className="text-brown font-normal">des produits comme ceux de notre enfance</strong>,
-            comme ceux que nos grands-parents produisaient dans leur douar.
+          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5 text-justify">
+            Dans un monde où tout va plus vite, nous avons choisi de revenir à l'essentiel.
+          {" "}
+            <strong className="text-brown font-normal">test </strong>,
+          
           </p>
         </Reveal>
         <Reveal delay={300}>
-          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5">
-            Ce que l&apos;on trouvait en supermarché n&apos;avait plus ni goût ni âme. Alors{" "}
-            <strong className="text-brown font-normal">notre famille a décidé de revenir aux sources</strong>.
-            Nous avons acquis un terrain aux abords de Casablanca, planté nos premières herbes, accueilli nos
-            premières poules et nos premières vaches.
+          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5 text-justify">
+            Bayt Bio est né d'une conviction simple : les produits du quotidien méritent autant d'attention que les grands moments.
           </p>
         </Reveal>
         <Reveal delay={400}>
-          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5">
-            Bayt Bio est née de cette conviction simple :{" "}
-            <strong className="text-brown font-normal">
-              chaque famille marocaine mérite de manger ce que nos grands-parents mangeaient
-            </strong>{" "}
-            — frais, naturel, honnête. Livré directement à leur porte.
+          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5 text-justify">
+            Chaque œuf, chaque bouteille de lait, chaque verre de lben ou chaque morceau de beurre raconte la même histoire : celle d'un retour à l'authentique.
+
           </p>
         </Reveal>
         <Reveal delay={500}>
+          <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5 text-justify">
+            Parce que nous croyons que le vrai goût commence toujours à la source.
+
+          </p>
+        </Reveal>
+        {/* <Reveal delay={500}>
           <p className="font-cormorant text-[2rem] italic text-terracotta mt-9 mb-1">La famille Tazi</p>
           <p className="font-sans text-[0.72rem] tracking-[0.16em] uppercase text-sand">
             Fondateurs · Casablanca, 2018
           </p>
-        </Reveal>
+        </Reveal> */}
 
         {/* Floating stat cards — positioned absolutely outside the text panel */}
-        <div className="absolute top-20 -right-4 bg-brown text-cream rounded-sm z-10 max-md:hidden px-7 py-[22px]">
+        {/* <div className="absolute top-20 -right-4 bg-brown text-cream rounded-sm z-10 max-md:hidden px-7 py-[22px]">
           <div className="font-cormorant text-[2.6rem] font-light text-terra-light leading-none">
             <Counter to={800} suffix="+" />
           </div>
           <div className="font-sans text-[0.68rem] tracking-[0.1em] uppercase text-sand mt-1">
             Familles fidèles
           </div>
-        </div>
-        <div className="absolute bottom-[100px] -right-4 bg-brown text-cream rounded-sm z-10 max-md:hidden px-7 py-[22px]">
+        </div> */}
+        {/* <div className="absolute bottom-[100px] -right-4 bg-brown text-cream rounded-sm z-10 max-md:hidden px-7 py-[22px]">
           <div className="font-cormorant text-[2.6rem] font-light text-terra-light leading-none">
             <Counter to={6} suffix=" ans" />
           </div>
           <div className="font-sans text-[0.68rem] tracking-[0.1em] uppercase text-sand mt-1">
             D&apos;expérience
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

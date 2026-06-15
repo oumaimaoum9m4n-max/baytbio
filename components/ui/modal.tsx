@@ -63,7 +63,7 @@ export interface ModalProps {
    COMPONENT
 ══════════════════════════════════════════ */
 /**
- * FermeBeldi Modal
+ * Bayt Bio Modal
  *
  * Wraps HeroUI's Modal with:
  * - Blurred backdrop (via globals.css override)

@@ -23,7 +23,7 @@ export default function OpeningQuote() {
         </Reveal>
         <Reveal delay={100}>
           <p
-            className="font-cormorant text-brown font-light italic leading-[1.35] max-md:text-[clamp(1.4rem,5vw,2rem)]"
+            className="font-cormorant text-brown font-light italic leading-[1.35] max-md:text-[clamp(1.4rem,5vw,2rem)] text-justify"
             style={{ fontSize: "clamp(1.8rem,3vw,3rem)" }}
           >
             Il était devenu impossible de trouver des œufs et du lait{" "}

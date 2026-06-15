@@ -1,5 +1,4 @@
 import Reveal from "./Reveal";
-import SectionHeader from "./SectionHeader";
 import { WHATSAPP_URL } from "./constants";
 
 const WhatsAppIcon = () => (
@@ -15,31 +14,45 @@ export default function CTASection() {
       <span className="absolute -right-20 -top-20 w-[400px] h-[400px] rounded-full bg-white/[0.03] pointer-events-none" />
       <span className="absolute right-[100px] -bottom-[120px] w-[300px] h-[300px] rounded-full bg-white/[0.03] pointer-events-none" />
 
-      <div>
+      <div className="w-full">
         <Reveal>
           <p className="text-[0.72rem] tracking-[0.22em] uppercase text-cream/50 font-normal mb-3.5 flex items-center gap-3.5 before:content-[''] before:w-8 before:h-px before:bg-cream/30 before:shrink-0">
             Prêt à goûter la différence ?
           </p>
         </Reveal>
+        
         <Reveal delay={100}>
-          <h2 className="font-cormorant text-[clamp(2.4rem,3.5vw,3.8rem)] font-light leading-[1.1] text-cream">
+          <h2 className="font-cormorant text-[clamp(2.4rem,3.5vw,3.8rem)] font-light leading-[1.1] text-cream mb-8">
             Commandez <em className="italic text-terra-light">maintenant</em>,<br />livré demain matin
           </h2>
         </Reveal>
+
+        {/* Ligne bilingue unifiée (Split gauche / droite) */}
         <Reveal delay={200}>
-          <p className="font-arabic text-[1rem] text-cream/40 mt-3" dir="rtl">
-            خيرات بلادي، توصل حتى لعندك عادي
-          </p>
-        </Reveal>
-        <Reveal delay={250}>
-          <p className="max-w-[450px] text-cream/70 leading-relaxed text-[1rem]">
-            Bayt Bio vous accompagne avec des produits naturels, soigneusement
-            préparés et livrés dans les meilleurs délais.
-          </p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-t border-white/10 pt-6">
+            
+            {/* Côté Gauche : Marque + Texte Français */}
+            <div className="max-w-[480px] space-y-2">
+              <span className="block font-sans font-medium text-[0.85rem] tracking-wider text-terra-light uppercase">
+                Bayt Bio <span className="text-cream/30 font-light mx-1">|</span> بيت بيو
+              </span>
+              <p className="text-cream/70 leading-relaxed text-[0.95rem] font-light">
+                Retrouvez une sélection de produits naturels choisis avec soin pour accompagner votre quotidien.
+              </p>
+            </div>
+
+            {/* Côté Droit : Slogan Arabe */}
+            <div className="text-right shrink-0" dir="rtl">
+              <p className="font-arabic text-[1.25rem] font-medium leading-none text-cream/90 tracking-wide md:mb-1">
+                خيرات بلادي، توصل حتى لعندك عادي
+              </p>
+            </div>
+
+          </div>
         </Reveal>
       </div>
 
-      <Reveal direction="right" className="flex flex-col gap-3.5 shrink-0 max-md:flex-row max-md:flex-wrap">
+      <Reveal direction="right" className="flex flex-col gap-3.5 shrink-0 max-md:flex-row max-md:flex-wrap w-full md:w-auto">
         <a
           href={WHATSAPP_URL}
           target="_blank"
@@ -53,7 +66,7 @@ export default function CTASection() {
           href="#all-products"
           className="inline-block px-10 py-[18px] bg-transparent text-cream border border-cream/30 font-sans text-[0.85rem] tracking-[0.1em] uppercase rounded-[2px] transition-all duration-300 hover:border-cream hover:bg-cream/10 text-center whitespace-nowrap max-md:flex-1 max-[480px]:flex-none max-[480px]:w-full"
         >
-          Voir nos produits →
+          Voir nos produits &rarr;
         </a>
       </Reveal>
     </section>

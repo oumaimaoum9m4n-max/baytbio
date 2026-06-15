@@ -83,41 +83,41 @@ const NAV: NavGroup[] = [
       },
     ],
   },
-  {
-    label: "Finance",
-    items: [
-      {
-        label: "Revenus",
-        href: "/dashboard/revenue",
-        icon: <DollarSign size={17} />,
-      },
-      {
-        label: "Analytiques",
-        href: "/dashboard/analytics",
-        icon: <BarChart2 size={17} />,
-      },
-    ],
-  },
-  {
-    label: "Ressources",
-    items: [
-      {
-        label: "Centre d'aide",
-        href: "/dashboard/help",
-        icon: <BookOpen size={17} />,
-      },
-      {
-        label: "Support",
-        href: "/dashboard/support",
-        icon: <HelpCircle size={17} />,
-      },
-      {
-        label: "Paramètres",
-        href: "/dashboard/settings",
-        icon: <Settings size={17} />,
-      },
-    ],
-  },
+  // {
+  //   label: "Finance",
+  //   items: [
+  //     {
+  //       label: "Revenus",
+  //       href: "/dashboard/revenue",
+  //       icon: <DollarSign size={17} />,
+  //     },
+  //     {
+  //       label: "Analytiques",
+  //       href: "/dashboard/analytics",
+  //       icon: <BarChart2 size={17} />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   label: "Ressources",
+  //   items: [
+  //     {
+  //       label: "Centre d'aide",
+  //       href: "/dashboard/help",
+  //       icon: <BookOpen size={17} />,
+  //     },
+  //     {
+  //       label: "Support",
+  //       href: "/dashboard/support",
+  //       icon: <HelpCircle size={17} />,
+  //     },
+  //     {
+  //       label: "Paramètres",
+  //       href: "/dashboard/settings",
+  //       icon: <Settings size={17} />,
+  //     },
+  //   ],
+  // },
 ];
 
 /* ══════════════════════════════════════════

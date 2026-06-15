@@ -1,124 +1,57 @@
-import Image from "next/image";
 import Reveal from "./Reveal";
-
-const rightCells = [
-  {
-    src: "/images/about/vaches_ferme.png",
-    alt: "Nos vaches",
-    caption: "Nos vaches laitières",
-    bg: "linear-gradient(145deg,#d4883c,#2c2c2c)",
-    delay: 0,
-  },
-  {
-    src: "/images/about/poules_ferme.png",
-    alt: "Nos poules",
-    caption: "Nos poules en plein air",
-    bg: "linear-gradient(145deg,#163b26,#2c2c2c)",
-    delay: 100,
-  },
-  {
-    src: "/images/about/fromage_ferme.png",
-    alt: "La cave d'affinage",
-    caption: "Cave d'affinage · fromages",
-    bg: "linear-gradient(145deg,#3d7a55,#2c2c2c)",
-    delay: 100,
-  },
-  {
-    src: "/images/about/prairies_ferme.png",
-    alt: "Les prairies",
-    caption: "Les prairies verdoyantes",
-    bg: "linear-gradient(145deg,#163b26,#2c2c2c)",
-    delay: 200,
-  },
-];
 
 export default function FarmMosaic() {
   return (
-    <section className="pt-[112px] bg-cream max-md:pt-16">
-      {/* Header */}
-      <div className="px-[72px] pb-16 grid grid-cols-2 gap-20 items-end max-md:grid-cols-1 max-md:px-6 max-md:pb-10 max-md:gap-5">
-        <div>
-          <Reveal>
-            <p className="text-[0.72rem] tracking-[0.22em] uppercase text-terracotta flex items-center gap-3.5 mb-5 before:content-[''] before:w-7 before:h-px before:bg-terracotta before:shrink-0">
-              Notre ferme
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <h2
-              className="font-cormorant font-light leading-[1.06] text-brown"
-              style={{ fontSize: "clamp(2.4rem,3.5vw,3.8rem)" }}
-            >
-              3 hectares de{" "}
-              <em className="italic text-terracotta">nature vraie.</em>
-            </h2>
-          </Reveal>
-        </div>
-        <Reveal delay={200}>
-          <p className="font-sans text-[0.92rem] font-light leading-[1.88] text-sand">
-            Située aux abords de Casablanca, notre ferme s&apos;étend sur
-            plusieurs hectares de terrain verdoyant. Nos poules{" "}
-            <strong className="text-brown font-normal">
-              picorent librement
-            </strong>{" "}
-            sous le soleil marocain. Nos vaches{" "}
-            <strong className="text-brown font-normal">
-              paissent dans des prairies fraîches
-            </strong>
-            , loin de tout produit chimique. La nature fait le travail — nous,
-            on l&apos;accompagne avec soin.
-          </p>
-        </Reveal>
-      </div>
+    <section className="relative bg-cream pt-20 overflow-hidden">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-8 md:px-16">
 
-      {/* Mosaic — full bleed */}
-      <div
-        className="grid gap-[3px] max-md:grid-cols-1 max-md:[grid-template-rows:auto]"
-        style={{
-          gridTemplateColumns: "1.4fr 1fr 1fr",
-          gridTemplateRows: "360px 260px",
-        }}
-      >
-        {/* Tall left cell — wrapper handles the gridRow span */}
-        <div
-          className="relative overflow-hidden bg-linen group max-md:h-[240px] max-md:row-auto"
-          style={{ gridRow: "1/3" }}
-        >
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(145deg,#163b26,#2c2c2c)" }}
-          />
-          <Image
-            src="/images/about/hectares_ferme.png"
-            alt="La prairie"
-            fill
-            className="object-cover [filter:saturate(0.78)_contrast(1.08)_brightness(0.96)] transition duration-[1200ms] group-hover:scale-[1.06] group-hover:[filter:saturate(0.92)_brightness(1)]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(28,18,8,0.7)] to-transparent pointer-events-none z-10" />
-          <span className="absolute bottom-5 left-5 z-20 font-cormorant text-[1.2rem] font-light text-cream italic">
-            La prairie · 3 hectares
-          </span>
+        {/* Le Conteneur Monolithe */}
+        <div className="relative bg-brown text-cream rounded-3xl p-8 sm:p-12 md:p-20 lg:p-28 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          {/* Effet de texture géométrique en arrière-plan */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+
+          {/* Colonne Gauche : Surtitre et Titre Impactant (Lg: 7 colonnes) */}
+          <div className="lg:col-span-7 space-y-6 relative z-10">
+            <Reveal delay={100}>
+              <h2 className="font-cormorant text-[clamp(3rem,6vw,5.8rem)] font-light leading-[1.1] text-cream">
+                 Là où <em className="italic text-terra-light">tout</em>,
+                <br />
+                commence.
+              </h2>
+            </Reveal>
+
+          
+          </div>
+
+          {/* Colonne Droite : Le Bloc Narratif (Lg: 5 colonnes) */}
+          <div className="lg:col-span-5 space-y-8 relative z-10 border-t lg:border-t-0 lg:border-l border-cream/10 pt-8 lg:pt-0 lg:pl-12">
+            <Reveal delay={200}>
+              <div className="space-y-4 font-sans text-[0.95rem] font-light leading-[1.75] text-linen/80">
+                <p>
+                  Avant d'arriver chez vous, chaque produit suit un parcours unique guidé par le{" "}
+                  <strong className="text-white font-normal underline decoration-terracotta decoration-2 underline-offset-4">
+                    respect du naturel
+                  </strong>.
+                </p>
+                <p>
+                  La terre, le temps et le savoir-faire restent ancrés comme les piliers de notre démarche.
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Citation en exergue style Manifeste */}
+            <Reveal delay={300}>
+              <div className="bg-cream/5 border-l-2 border-terracotta p-4 rounded-r-lg">
+                <p className="font-cormorant text-[1.15rem] italic text-cream/90 leading-relaxed">
+                  « Parce que la qualité ne se crée pas à la fin du parcours — elle commence à l'origine. »
+                </p>
+              </div>
+            </Reveal>
+          </div>
+
         </div>
 
-        {/* Right cells */}
-        {rightCells.map((cell) => (
-          <Reveal
-            key={cell.alt}
-            delay={cell.delay}
-            className="relative overflow-hidden bg-linen group max-md:h-[240px]"
-          >
-            <div className="absolute inset-0" style={{ background: cell.bg }} />
-            <Image
-              src={cell.src}
-              alt={cell.alt}
-              fill
-              className="object-cover [filter:saturate(0.78)_contrast(1.08)_brightness(0.96)] transition duration-[1200ms] group-hover:scale-[1.06] group-hover:[filter:saturate(0.92)_brightness(1)]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(28,18,8,0.7)] to-transparent pointer-events-none z-10" />
-            <span className="absolute bottom-5 left-5 z-20 font-cormorant text-[1.2rem] font-light text-cream italic">
-              {cell.caption}
-            </span>
-          </Reveal>
-        ))}
       </div>
     </section>
   );
