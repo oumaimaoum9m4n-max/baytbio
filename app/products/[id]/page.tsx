@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   return (
     <main className="overflow-x-hidden bg-cream font-sans text-brown">
-      <Navbar linksTone="brown" />
+      <Navbar linksTone="default" variant="olive" />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ProductDetailClient
           productId={id}

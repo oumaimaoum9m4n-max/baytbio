@@ -4,12 +4,12 @@ const GENERIC_FAQ: FaqItem[] = [
   {
     question: "Comment commander ?",
     answer:
-      "Ajoutez le produit à votre panier ou contactez-nous directement sur WhatsApp. Nous confirmons votre commande et organisons la livraison à Casablanca ou Rabat.",
+      "Ajoutez le produit à votre panier ou commandez directement via WhatsApp. Notre équipe vous accompagne pour finaliser votre commande rapidement.",
   },
   {
     question: "Quelle est la fraîcheur garantie ?",
     answer:
-      "Nos produits sont préparés et livrés dans la journée selon les disponibilités. Chaque lot est contrôlé avant expédition depuis notre ferme.",
+      "Nos œufs sont sélectionnés régulièrement afin de garantir une fraîcheur optimale et une qualité constante.",
   },
 ];
 
