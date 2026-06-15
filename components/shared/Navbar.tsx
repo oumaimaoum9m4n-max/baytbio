@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import { WHATSAPP_URL } from "@/components/landing/constants";
 import Link from "next/link";
+import Image from "next/image";
 
 const links = [
+  { path: "/", label: "Accueil" },
   { path: "/products", label: "Nos Produits" },
   { path: "/about", label: "Notre Histoire" },
   { path: "/delivery", label: "Livraison" },
@@ -28,8 +30,8 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
 
-  const onLightBg = linksTone === "brown" || scrolled || menuOpen;
-  const linkColorClass = onLightBg ? "text-brown" : "text-cream";
+  const linkColorClass =
+    linksTone === "brown" || scrolled || menuOpen ? "text-brown" : "text-cream";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -58,11 +60,17 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
               : "px-5 md:px-12 py-4"
           }`}
       >
-        <Link
-          href="/"
-          className={`font-cormorant text-2xl font-semibold  tracking-[0.02em] no-underline ${linkColorClass}`}
-        >
-          Bayt<strong>Bio</strong>
+        {/* LOGO */}
+        <Link href="/" className="flex items-center">
+          <Image
+            src={logoSrc}
+            alt="BaytBio"
+            width={scrolled ? 140 : 140}
+            height={scrolled ? 70 : 70}
+            priority
+            className={`object-contain transition-all duration-300 ${scrolled ? "scale-100" : "scale-110"
+              }`}
+          />
         </Link>
 
         {/* LINKS */}
