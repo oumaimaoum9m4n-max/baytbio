@@ -93,7 +93,7 @@ export default function StorySection() {
         </Reveal>
 
         {/* Floating stat cards */}
-        <Reveal
+        {/* <Reveal
           direction="right"
           className="absolute top-16 -right-5 max-md:hidden"
         >
@@ -105,8 +105,8 @@ export default function StorySection() {
               Familles fidèles
             </div>
           </div>
-        </Reveal>
-        <Reveal
+        </Reveal> */}
+        {/* <Reveal
           direction="right"
           delay={200}
           className="absolute bottom-20 -right-5 max-md:hidden"
@@ -119,7 +119,7 @@ export default function StorySection() {
               D'expérience
             </div>
           </div>
-        </Reveal>
+        </Reveal> */}
       </div>
     </section>
   );

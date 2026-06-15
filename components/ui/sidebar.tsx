@@ -338,7 +338,7 @@ export function Sidebar() {
           </div>
           {!collapsed && (
             <span className="font-display text-[17px] font-medium text-default-900 leading-none">
-              Ferme<span className="text-primary">Beldi</span>
+              Bayt<span className="text-primary">Bio</span>
             </span>
           )}
         </div>

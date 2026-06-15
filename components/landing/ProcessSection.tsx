@@ -17,7 +17,7 @@ export default function ProcessSection() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-cormorant text-[22vw] font-light text-white/[0.02] pointer-events-none whitespace-nowrap select-none tracking-[0.05em]"
         aria-hidden="true"
       >
-        BELDI
+        BaytBio
       </span>
 
       {/* Header */}
