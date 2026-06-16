@@ -17,15 +17,9 @@ const links = [
 interface NavbarProps {
   linksTone?: "default" | "brown";
   variant?: "default" | "olive";
-
 }
 
-interface NavbarProps {
-  linksTone?: "default" | "brown";
-  variant?: "default" | "olive";
-}
-
-export default function Navbar({ linksTone = "default",variant = "default", }: NavbarProps) {
+export default function Navbar({ linksTone = "default", variant = "default" }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
@@ -53,13 +47,13 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between transition-all duration-500 ${scrolled
-            // ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px] border-b border-terracotta/[0.12]"
-              ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px]"
+        className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between transition-all duration-500 ${
+          scrolled
+            ? "px-5 md:px-12 py-3 md:py-4 bg-cream/[0.88] backdrop-blur-[12px]"
             : variant === "olive"
-              ? "px-5 md:px-12 py-4 bg-olive"
-              : "px-5 md:px-12 py-4"
-          }`}
+            ? "px-5 md:px-12 py-4 bg-olive"
+            : "px-5 md:px-12 py-4"
+        }`}
       >
         {/* LOGO */}
         <Link href="/" className="flex items-center">
@@ -69,8 +63,9 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
             width={scrolled ? 140 : 140}
             height={scrolled ? 70 : 70}
             priority
-            className={`object-contain transition-all duration-300 ${scrolled ? "scale-100" : "scale-110"
-              }`}
+            className={`object-contain transition-all duration-300 ${
+              scrolled ? "scale-100" : "scale-110"
+            }`}
           />
         </Link>
 
@@ -90,9 +85,12 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-6">
+          {/* PANIER - Masqué uniquement quand le menu mobile est ouvert (menuOpen) */}
           <Link
             href="/cart"
-            className={`flex items-center gap-2 text-[0.82rem] tracking-[0.08em] uppercase cursor-pointer font-sans relative ${linkColorClass}`}
+            className={`items-center gap-2 text-[0.82rem] tracking-[0.08em] uppercase cursor-pointer font-sans relative ${linkColorClass} ${
+              menuOpen ? "hidden" : "flex"
+            }`}
             aria-label="Panier"
           >
             <svg
@@ -130,16 +128,19 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
             onClick={() => setMenuOpen((o) => !o)}
           >
             <span
-              className={`block w-5 h-px bg-current transition-transform duration-300 origin-center ${menuOpen ? "translate-y-[6px] rotate-45" : ""
-                } ${linkColorClass}`}
+              className={`block w-5 h-px bg-current transition-transform duration-300 origin-center ${
+                menuOpen ? "translate-y-[6px] rotate-45" : ""
+              } ${linkColorClass}`}
             />
             <span
-              className={`block w-5 h-px bg-current transition-opacity duration-300 ${menuOpen ? "opacity-0" : ""
-                } ${linkColorClass}`}
+              className={`block w-5 h-px bg-current transition-opacity duration-300 ${
+                menuOpen ? "opacity-0" : ""
+              } ${linkColorClass}`}
             />
             <span
-              className={`block w-5 h-px bg-current transition-transform duration-300 origin-center ${menuOpen ? "-translate-y-[6px] -rotate-45" : ""
-                } ${linkColorClass}`}
+              className={`block w-5 h-px bg-current transition-transform duration-300 origin-center ${
+                menuOpen ? "-translate-y-[6px] -rotate-45" : ""
+              } ${linkColorClass}`}
             />
           </button>
         </div>
@@ -147,10 +148,9 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 z-[99] flex flex-col bg-olive transition-opacity duration-300 md:hidden ${menuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-          }`}
+        className={`fixed inset-0 z-[99] flex flex-col bg-olive transition-opacity duration-300 md:hidden ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
       >
         <div className="flex flex-col items-center justify-center flex-1 gap-8 px-8">
           {links.map((item) => (
@@ -158,7 +158,8 @@ export default function Navbar({ linksTone = "default",variant = "default", }: N
               key={item.path}
               href={item.path}
               onClick={() => setMenuOpen(false)}
-className="font-cormorant text-3xl font-semibold text-cream md:text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"            >
+              className="font-cormorant text-3xl font-semibold text-cream md:text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"
+            >
               {item.label}
             </Link>
           ))}

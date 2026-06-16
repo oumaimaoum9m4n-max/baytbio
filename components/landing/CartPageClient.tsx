@@ -32,7 +32,8 @@ export default function CartPageClient() {
   };
 
   return (
-    <div className="pt-[80px] min-h-screen animate-fade-slide">
+    /* MODIFICATION : Ajout de bg-olive pour que l'espace sous la navbar soit de la même couleur que le header */
+    <div className="bg-olive pt-[80px] min-h-screen animate-fade-slide">
       {/* Page Header */}
       <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
         <div
@@ -69,7 +70,8 @@ export default function CartPageClient() {
       </header>
 
       {/* Cart Layout */}
-      <div className="grid grid-cols-[1fr_400px] items-start max-lg:grid-cols-1">
+      {/* MODIFICATION : Ajout de bg-white (ou la couleur de fond de votre site) ici pour que le reste du panier reprenne sa couleur normale */}
+      <div className="bg-white grid grid-cols-[1fr_400px] items-start max-lg:grid-cols-1">
         {/* Items column */}
         <div className="px-[72px] py-12 border-r border-[#EBD9B8] max-lg:border-r-0 max-md:px-6">
           {/* Column header */}
