@@ -81,7 +81,7 @@ export default function DayInLife() {
 
                 {/* CONTENT */}
                 <div>
-                  <span className="block font-cormorant italic text-[0.85rem] text-terracotta/50 mb-2 transition-colors duration-200 group-hover:text-terracotta">
+                  <span className="block font-cormorant italic text-[1.25rem] text-terracotta/50 mb-2 transition-colors duration-200 group-hover:text-terracotta">
                     {step.num}
                   </span>
 

@@ -48,7 +48,7 @@ export default function StatsBand() {
           <Reveal key={e.label} delay={e.delay}>
             <div className="group px-10 first:pl-0 last:pr-0 py-2 flex flex-col gap-5 transition-all duration-300 max-md:px-0 max-md:py-8">
               {/* Index discret */}
-              <span className="font-cormorant text-[0.85rem] italic text-terracotta/50 tracking-wide transition-colors duration-300 group-hover:text-terracotta">
+              <span className="font-cormorant text-[2rem] italic text-terracotta/50 tracking-wide transition-colors duration-300 group-hover:text-terracotta">
                 0{idx + 1}
               </span>
               {/* Label */}

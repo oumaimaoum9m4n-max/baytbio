@@ -51,7 +51,7 @@ export default function OriginStory() {
           <p className="font-sans text-[0.92rem] font-light leading-[1.92] text-sand mb-5 text-justify">
             Dans un monde où tout va plus vite, nous avons choisi de revenir à l'essentiel.
           {" "}
-            <strong className="text-brown font-normal">test </strong>,
+            <strong className="text-brown font-normal"> </strong>
           
           </p>
         </Reveal>

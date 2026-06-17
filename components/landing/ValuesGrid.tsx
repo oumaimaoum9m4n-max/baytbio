@@ -29,7 +29,7 @@ const values = [
 
 export default function ValuesGrid() {
   return (
-    <section className="bg-cream py-[112px] px-[72px] max-md:px-6 max-md:py-16">
+    <section className="bg-cream py-[60px] px-[72px] max-md:px-6 max-md:py-16">
 
       {/* HEADER WITH DECORATION */}
       <div className="flex items-center justify-center mb-16 max-md:flex-col max-md:gap-5 max-md:mb-10">
