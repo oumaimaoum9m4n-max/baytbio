@@ -908,7 +908,7 @@ const ProductForm = ({
             {/* Live preview */}
             <div>
               <p className="text-[0.68rem] tracking-[0.12em] uppercase text-[#888880] font-semibold mb-2">
-                Aperçu boutique
+                Aperçu
               </p>
               <div className="bg-white border border-[#E8E4DC] rounded-xl overflow-hidden shadow-sm">
                 <div className="h-40 bg-[#FAF8F5] flex items-center justify-center relative border-b border-[#E8E4DC] overflow-hidden">
@@ -957,14 +957,14 @@ const ProductForm = ({
                     >
                       {watchedPrice ? formatPrice(watchedPrice) : "— DH"}
                     </span>
-                    <Button
+                    {/* <Button
                       size="sm"
                       color="primary"
                       variant="solid"
                       className="h-7 text-[0.72rem] cursor-default pointer-events-none"
                     >
                       Ajouter
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>
