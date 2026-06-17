@@ -23,7 +23,7 @@ export default function StoryAccordion({ items }: StoryAccordionProps) {
             <button
               type="button"
               onClick={() => setOpenIndex(open ? null : i)}
-              className="flex w-full items-center justify-between border-none bg-transparent p-0 font-sans text-[0.82rem] font-normal uppercase tracking-[0.1em] text-brown transition-colors hover:text-terracotta"
+              className="flex cursor-pointer  w-full items-center justify-between border-none bg-transparent p-0 font-sans text-[0.82rem] font-normal uppercase tracking-[0.1em] text-brown transition-colors hover:text-terracotta"
             >
               <span>{item.question}</span>
               <span

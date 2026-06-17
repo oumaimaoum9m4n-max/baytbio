@@ -175,25 +175,26 @@ export default function ProductRow({
           </span>
         </div>
         {product.stock > 0 ? (
-          <button
-            type="button"
-            onClick={() =>
-              onAddToCart({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                unit: product.unit,
-                mainImage: product.images[0] ?? "",
-              })
-            }
-            className="group/btn flex items-center gap-2 rounded-[2px] border-none px-8 py-3.5 font-sans text-[0.78rem] font-normal uppercase tracking-[0.12em] text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:-translate-y-0.5"
-            style={{ background: isPack ? "var(--color-terracotta)" : accent }}
-          >
-            <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white/25 text-base leading-none transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(0.22,0.68,0,1.2)] group-hover/btn:rotate-90">
-              +
-            </span>
-            {isPack ? "Commander le pack" : "Ajouter au panier"}
-          </button>
+         <button
+  type="button"
+  onClick={() =>
+    onAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      unit: product.unit,
+      mainImage: product.images[0] ?? "",
+    })
+  }
+  className="group/btn flex cursor-pointer items-center gap-2 rounded-[2px] border-none px-8 py-3.5 font-sans text-[0.78rem] font-normal uppercase tracking-[0.12em] text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:-translate-y-0.5 active:scale-95"
+  style={{ background: isPack ? "var(--color-terracotta)" : accent }}
+>
+  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white/25 text-base leading-none transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(0.22,0.68,0,1.2)] group-hover/btn:rotate-90">
+    +
+  </span>
+
+  {isPack ? "Commander le pack" : "Ajouter au panier"}
+</button>
         ) : (
           <></>
         )}

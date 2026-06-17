@@ -84,7 +84,7 @@ export default function CheckoutSummary({ items, subtotal, total }: CheckoutSumm
       <div className="mt-7 flex flex-col gap-2.5">
         <button
           onClick={() => router.back()}
-          className="w-full bg-transparent border-[1.5px] border-[#EBD9B8] h-[46px] font-sans text-[0.73rem] tracking-[0.1em] uppercase text-[#7A6648] rounded-[3px] transition-all duration-[250ms] flex items-center justify-center gap-2 hover:border-[#1C1208] hover:text-[#1C1208]"
+          className="cursor-pointer w-full bg-transparent border-[1.5px] border-[#EBD9B8] h-[46px] font-sans text-[0.73rem] tracking-[0.1em] uppercase text-[#7A6648] rounded-[3px] transition-all duration-[250ms] flex items-center justify-center gap-2 hover:border-[#1C1208] hover:text-[#1C1208]"
         >
           ← Retour au panier
         </button>

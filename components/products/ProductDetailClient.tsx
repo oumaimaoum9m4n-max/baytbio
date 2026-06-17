@@ -109,9 +109,9 @@ export default function ProductDetailClient({
             {lead}
             {emphasis && <em className="text-terracotta"> {emphasis}</em>}
           </h1>
-          <p className="mb-5 font-sans text-[0.74rem] font-light uppercase tracking-[0.14em] text-sand">
+          {/* <p className="mb-5 font-sans text-[0.74rem] font-light uppercase tracking-[0.14em] text-sand">
             {product.unit}
-          </p>
+          </p> */}
 
           <div className="mb-7 flex flex-wrap items-center gap-2.5">
             <span className="text-terracotta tracking-[2px]">
@@ -160,7 +160,7 @@ export default function ProductDetailClient({
             />
           )}
 
-          <div className="mb-9 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+          {/* <div className="mb-9 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {trustItems.map((item) => (
               <div key={item.text} className="flex items-start gap-2.5">
                 <span
@@ -174,7 +174,7 @@ export default function ProductDetailClient({
                 </span>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {product.stock > 0 && (
             <>
@@ -183,7 +183,7 @@ export default function ProductDetailClient({
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="flex flex-1 items-center justify-center gap-2.5 rounded-[2px] border-none px-7 py-4 font-sans text-[0.82rem] uppercase tracking-[0.12em] text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:-translate-y-0.5"
+                  className="flex cursor-pointer  flex-1 items-center justify-center gap-2.5 rounded-[2px] border-none px-7 py-4 font-sans text-[0.82rem] uppercase tracking-[0.12em] text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] hover:-translate-y-0.5"
                   style={{ background: accent }}
                 >
                   Ajouter au panier
@@ -193,7 +193,7 @@ export default function ProductDetailClient({
               <button
                 type="button"
                 onClick={handleWhatsAppOrder}
-                className="flex w-full items-center justify-center gap-2 rounded-[2px] border-none bg-[#25D366] px-4 py-[15px] font-sans text-[0.8rem] uppercase tracking-[0.1em] text-white transition-all duration-300 hover:-translate-y-px hover:bg-[#1cbf5a] hover:shadow-[0_10px_28px_rgba(37,211,102,0.3)]"
+                className="flex cursor-pointer  w-full items-center justify-center gap-2 rounded-[2px] border-none bg-[#25D366] px-4 py-[15px] font-sans text-[0.8rem] uppercase tracking-[0.1em] text-white transition-all duration-300 hover:-translate-y-px hover:bg-[#1cbf5a] hover:shadow-[0_10px_28px_rgba(37,211,102,0.3)]"
               >
                 <svg
                   width="17"

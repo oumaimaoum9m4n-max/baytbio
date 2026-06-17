@@ -60,7 +60,7 @@ export default function CartItemRow({ item, onQtyChange, onRemove }: CartItemRow
           <div className="flex items-center border-[1.5px] border-[#EBD9B8] rounded-[3px] overflow-hidden bg-[#FAF6ED]">
             <button
               onClick={() => onQtyChange(item.id, item.quantity - 1)}
-              className="w-[34px] h-9 bg-transparent border-none text-base text-[#1C1208] flex items-center justify-center transition-colors duration-200 hover:bg-[#EBD9B8]"
+              className="cursor-pointer w-[34px] h-9 bg-transparent border-none text-base text-[#1C1208] flex items-center justify-center transition-colors duration-200 hover:bg-[#EBD9B8]"
               aria-label="Diminuer la quantité"
             >
               −
@@ -70,7 +70,7 @@ export default function CartItemRow({ item, onQtyChange, onRemove }: CartItemRow
             </span>
             <button
               onClick={() => onQtyChange(item.id, item.quantity + 1)}
-              className="w-[34px] h-9 bg-transparent border-none text-base text-[#1C1208] flex items-center justify-center transition-colors duration-200 hover:bg-[#EBD9B8]"
+              className="cursor-pointer w-[34px] h-9 bg-transparent border-none text-base text-[#1C1208] flex items-center justify-center transition-colors duration-200 hover:bg-[#EBD9B8]"
               aria-label="Augmenter la quantité"
             >
               +
@@ -79,7 +79,7 @@ export default function CartItemRow({ item, onQtyChange, onRemove }: CartItemRow
 
           <button
             onClick={() => onRemove(item.id)}
-            className="w-[30px] h-[30px] border-none bg-transparent text-[#A89070] flex items-center justify-center rounded-full transition-all duration-200 hover:bg-[#F0E0D4] hover:text-[#B85A28]"
+            className="cursor-pointer w-[30px] h-[30px] border-none bg-transparent text-[#A89070] flex items-center justify-center rounded-full transition-all duration-200 hover:bg-[#F0E0D4] hover:text-[#B85A28]"
             aria-label={`Retirer ${item.name} du panier`}
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -210,7 +210,7 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
         <button
           type="submit"
           disabled={mutation.isPending}
-          className="w-full h-14 bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(184,90,40,0.35)] disabled:opacity-60 disabled:pointer-events-none"
+          className="cursor-pointer w-full h-14 bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(184,90,40,0.35)] disabled:opacity-60 disabled:pointer-events-none"
         >
           {mutation.isPending ? (
             "Confirmation en cours…"

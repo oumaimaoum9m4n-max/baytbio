@@ -64,7 +64,7 @@ export default function CheckoutPageClient() {
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
       {/* Page Header */}
-      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6">
+      <header className="relative overflow-hidden bg-olive px-[72px] pb-12 pt-[52px] max-md:px-6 -mt-px">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
