@@ -114,7 +114,7 @@ function DashboardNavbar({ onMenuToggle }: { onMenuToggle: () => void }) {
               key="profile"
               startContent={<UserCircle size={14} className="text-[#555550]" />}
               className="text-[#555550]"
-              onPress={() => router.push("/dashboard/settings")}
+              
             >
               {session?.user?.name ?? "Profil"}
             </DropdownItem>
