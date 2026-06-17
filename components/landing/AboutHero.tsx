@@ -26,7 +26,7 @@ export default function AboutHero() {
       {/* Fond olive plein — pas de gradient ici */}
       <div
         ref={heroLeftRef}
-        className="flex flex-col justify-center md:justify-end px-[72px] py-20 relative overflow-hidden max-md:px-6 max-md:pb-[72px]"
+        className="flex flex-col justify-center md:justify-end px-[72px] py-10 relative overflow-hidden max-md:px-6 max-md:pb-[72px]"
         style={{ backgroundColor: "#163b26" }}
       >
         {/* Arabic watermark */}
