@@ -7,6 +7,8 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
+import Image from "next/image";
+
 
 // ── HeroUI v2.8 ─────────────────────────────────────────────
 import {
@@ -504,20 +506,17 @@ function Sidebar({
     >
       {/* Brand */}
       <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-5">
-        <div
-          className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-          style={{ background: "#D4883C" }}
-        >
-          <Leaf size={15} color="#fff" />
-        </div>
+       
         {!collapsed && (
           <div className="overflow-hidden flex-1">
-            <div
-              className="text-white text-[1.08rem] leading-tight truncate"
-              style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
-            >
-              Bayt Bio
-            </div>
+            <Image
+                        src={logoSrc}
+                        alt="BaytBio"
+                        width={170}
+                        height={70}
+                        priority
+                        className="object-contain"
+                      />
             <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
               Admin Dashboard
             </div>
@@ -644,7 +643,7 @@ interface PageHeaderProps {
   breadcrumb?: string[];
   actions?: React.ReactNode;
 }
-
+  const logoSrc = "/images/logo/logo_baytbio.png";
 // ============================================================
 // STATUS CHIP
 // ============================================================

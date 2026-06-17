@@ -114,18 +114,17 @@ function DashboardNavbar({ onMenuToggle }: { onMenuToggle: () => void }) {
               key="profile"
               startContent={<UserCircle size={14} className="text-[#555550]" />}
               className="text-[#555550]"
-              
+
             >
               {session?.user?.name ?? "Profil"}
             </DropdownItem>
-            
+
           </DropdownSection>
           <DropdownSection>
             <DropdownItem
               key="logout"
               startContent={<LogOut size={14} />}
-              className="text-danger"
-              color="danger"
+              className="text-terra-dark data-[hover=true]:bg-olive data-[hover=true]:text-terra-light"
               onPress={() => signOut({ callbackUrl: "/admin-login" })}
             >
               Se déconnecter
@@ -155,9 +154,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         />
 
         <div
-          className={`flex flex-col transition-[margin] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${
-            isCollapsed ? "md:ml-16" : "md:ml-60"
-          }`}
+          className={`flex flex-col transition-[margin] duration-300 ease-[cubic-bezier(.25,.46,.45,.94)] ${isCollapsed ? "md:ml-16" : "md:ml-60"
+            }`}
         >
           <DashboardNavbar onMenuToggle={() => setMobileOpen((v) => !v)} />
 

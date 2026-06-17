@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Tooltip, Avatar } from "@heroui/react";
+import Image from "next/image";
+
 import {
   Leaf,
   LayoutDashboard,
@@ -183,6 +185,8 @@ export function Sidebar({ isCollapsed, onToggle, mobileOpen, onMobileClose }: Si
       .slice(0, 2)
       .toUpperCase() ?? "";
 
+        const logoSrc = "/images/logo/logo_baytbio_white.png";
+
   return (
     <>
       {/* Backdrop — mobile only */}
@@ -201,20 +205,17 @@ export function Sidebar({ isCollapsed, onToggle, mobileOpen, onMobileClose }: Si
       >
         {/* ── Brand ── */}
         <div className="flex items-center gap-2.5 border-b border-white/10 px-4 py-5">
-          <div
-            className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: "#D4883C" }}
-          >
-            <Leaf size={15} color="#fff" />
-          </div>
+         
           {!isCollapsed && (
             <div className="overflow-hidden flex-1">
-              <div
-                className="text-white text-[1.08rem] leading-tight truncate"
-                style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
-              >
-                Bayt Bio
-              </div>
+                <Image
+                                      src={logoSrc}
+                                      alt="BaytBio"
+                                      width={120}
+                                      height={70}
+                                      priority
+                                      className="object-contain"
+                                    />
               <div className="text-white/40 text-[0.54rem] tracking-[0.15em] uppercase font-semibold mt-0.5">
                 Admin Dashboard
               </div>
