@@ -38,19 +38,7 @@ export default function HeroSection() {
 
       {/* Hero content */}
       <div className="relative z-[3] w-full max-w-[720px] px-20 pb-[100px] max-md:px-6 max-md:pt-25">
-        {/* Arabic subtitle */}
-        <p
-          className="font-arabic text-[1.1rem] text-[rgba(201,180,138,0.8)] tracking-[0.05em] mb-5"
-          style={{
-            opacity: 0,
-            transform: "translateY(20px)",
-            animation: "fadeUp 1s 0.3s forwards",
-          }}
-          dir="rtl"
-        >
-        خيرات بلادي، توصل حتى لعندك عادي
-
-        </p>
+        
 
         {/* Headline */}
         <h1 className="font-cormorant text-[clamp(3.5rem,6vw,6.5rem)] font-light leading-[1.02] text-cream mb-8 max-md:text-[clamp(2.4rem,10vw,3.5rem)]">
@@ -92,6 +80,20 @@ export default function HeroSection() {
         >
           Des produits naturels, frais et soigneusement sélectionnés pour
           retrouver le vrai goût du quotidien.
+        </p>
+
+        {/* Arabic subtitle */}
+        <p
+          className="font-arabic text-[1.1rem] text-[rgba(201,180,138,0.8)] tracking-[0.05em] mb-5"
+          style={{
+            opacity: 0,
+            transform: "translateY(20px)",
+            animation: "fadeUp 1s 0.3s forwards",
+          }}
+          dir="rtl"
+        >
+        خيرات بلادي، توصل حتى لعندك عادي
+
         </p>
 
         {/* CTAs */}
