@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/shared/CartContext";
-import { DELIVERY_FEE } from "@/features/orders/utils/order.utils";
 import CheckoutForm from "./CheckoutForm";
 import type { CheckoutSuccessData } from "./CheckoutForm";
 import CheckoutSummary from "./CheckoutSummary";
@@ -16,9 +15,10 @@ export default function CheckoutPageClient() {
   const { items, clearCart } = useCart();
   const isNavigatingToOrder = useRef(false);
   const [confirmedOrder, setConfirmedOrder] = useState<StoredOrder | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState(0);
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal + deliveryFee;
 
   useEffect(() => {
     if (items.length === 0 && !isNavigatingToOrder.current) {
@@ -41,6 +41,8 @@ export default function CheckoutPageClient() {
       phoneNumber: data.phoneNumber,
       email: data.email,
       fullAddress: data.fullAddress,
+      deliveryCity: data.deliveryCity,
+      deliveryDate: data.deliveryDate,
       items: items.map((i) => ({
         productId: i.id,
         name: i.name,
@@ -50,8 +52,8 @@ export default function CheckoutPageClient() {
         mainImage: i.mainImage,
       })),
       subtotal,
-      deliveryFee: DELIVERY_FEE,
-      total,
+      deliveryFee: data.deliveryFee,
+      total: subtotal + data.deliveryFee,
       createdAt: new Date().toISOString(),
       status: "pending",
     };
@@ -116,8 +118,17 @@ export default function CheckoutPageClient() {
 
       {/* Two-column layout */}
       <div className="grid grid-cols-[1fr_380px] items-start max-lg:grid-cols-1">
-        <CheckoutForm items={items} onSuccess={handleSuccess} />
-        <CheckoutSummary items={items} subtotal={subtotal} total={total} />
+        <CheckoutForm
+          items={items}
+          onSuccess={handleSuccess}
+          onDeliveryFeeChange={setDeliveryFee}
+        />
+        <CheckoutSummary
+          items={items}
+          subtotal={subtotal}
+          deliveryFee={deliveryFee}
+          total={total}
+        />
       </div>
     </div>
   );

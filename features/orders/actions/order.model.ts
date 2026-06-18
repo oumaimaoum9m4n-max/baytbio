@@ -23,6 +23,10 @@ const OrderSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true },
     email: { type: String, default: "" },
     fullAddress: { type: String, required: true },
+    deliveryCity: { type: String, default: "" },
+    deliveryFee: { type: Number, default: 0, min: 0 },
+    // Chosen delivery date, ISO "YYYY-MM-DD".
+    deliveryDate: { type: String, default: "" },
     status: {
       type: String,
       enum: ["pending", "confirmed", "delivered", "cancelled"],

@@ -39,6 +39,9 @@ export const CreateOrUpdateOrderSchema = z.object({
     .optional()
     .default(""),
   fullAddress: z.string().min(1, "L'adresse est obligatoire"),
+  deliveryCity: z.string().min(1, "La ville de livraison est obligatoire"),
+  deliveryFee: z.number().min(0).default(0),
+  deliveryDate: z.string().min(1, "La date de livraison est obligatoire"),
   status: z.enum(ORDER_STATUSES).default("pending"),
   items: z
     .array(OrderItemSchema)
@@ -54,6 +57,9 @@ export type GetAllOrdersDto = Pick<
   | "phoneNumber"
   | "email"
   | "fullAddress"
+  | "deliveryCity"
+  | "deliveryFee"
+  | "deliveryDate"
   | "status"
   | "createdAt"
 > & {

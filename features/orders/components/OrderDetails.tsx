@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip, Divider } from "@heroui/react";
-import { Package, Wallet, XCircle } from "lucide-react";
+import { Package, Wallet, XCircle, Truck, CalendarDays } from "lucide-react";
 import type { GetSingleOrderDto } from "../types/order.dto";
 import { ORDER_STATUS_LABELS } from "../types/order.dto";
 import { ORDER_STATUS_STYLE } from "../utils/order.utils";
@@ -12,6 +12,16 @@ type Props = { order: GetSingleOrderDto };
 
 const OrderDetails = ({ order }: Props) => {
   const status = ORDER_STATUS_STYLE[order.status];
+  const grandTotal = order.total + (order.deliveryFee ?? 0);
+  const deliveryDateLabel = order.deliveryDate
+    ? formatDate(order.deliveryDate, {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      })
+    : "—";
 
   return (
     <div
@@ -101,6 +111,14 @@ const OrderDetails = ({ order }: Props) => {
               {order.itemsCount}
             </span>
           </div>
+          <div className="flex justify-between text-[0.76rem]">
+            <span className="text-[#888880] font-light">
+              Livraison{order.deliveryCity ? ` · ${order.deliveryCity}` : ""}
+            </span>
+            <span className="text-[#2C2C2C] font-medium font-mono">
+              {formatPrice(order.deliveryFee ?? 0)}
+            </span>
+          </div>
           <Divider className="bg-[#E8E4DC]" />
           <div className="flex justify-between items-baseline">
             <span className="text-[0.7rem] tracking-[0.1em] uppercase text-[#888880] font-semibold">
@@ -110,9 +128,29 @@ const OrderDetails = ({ order }: Props) => {
               className="text-[1.4rem] font-normal text-[#2C2C2C]"
               style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
             >
-              {formatPrice(order.total)}
+              {formatPrice(grandTotal)}
             </span>
           </div>
+        </div>
+      </section>
+
+      {/* ── Livraison ── */}
+      <section>
+        <p className="text-[0.65rem] tracking-[0.12em] uppercase text-[#888880] font-semibold pb-1 border-b border-[#E8E4DC] mb-3 flex items-center gap-1.5">
+          <Truck size={12} /> Livraison
+        </p>
+        <div className="flex flex-col">
+          <DetailRow label="Ville" value={order.deliveryCity || "—"} />
+          <DetailRow
+            label="Date de livraison"
+            value={deliveryDateLabel}
+            icon={<CalendarDays size={13} className="text-[#2D5A3D]" />}
+          />
+          <DetailRow
+            label="Frais de livraison"
+            value={formatPrice(order.deliveryFee ?? 0)}
+            mono
+          />
         </div>
       </section>
 
@@ -147,7 +185,7 @@ const OrderDetails = ({ order }: Props) => {
             Paiement à la livraison
           </p>
           <p className="text-[0.7rem] text-[#3D7A54] font-light">
-            Préparer <strong>{formatPrice(order.total)}</strong> en espèces
+            Préparer <strong>{formatPrice(grandTotal)}</strong> en espèces
           </p>
         </div>
       </section>
@@ -159,10 +197,12 @@ function DetailRow({
   label,
   value,
   mono,
+  icon,
 }: {
   label: string;
   value: string;
   mono?: boolean;
+  icon?: React.ReactNode;
 }) {
   return (
     <div className="flex justify-between items-start gap-3 py-2 border-b border-[#E8E4DC] last:border-b-0">
@@ -170,10 +210,11 @@ function DetailRow({
         {label}
       </span>
       <span
-        className={`text-[0.8rem] text-[#2C2C2C] font-medium text-right break-words max-w-[260px] ${
+        className={`flex items-center gap-1.5 text-[0.8rem] text-[#2C2C2C] font-medium text-right break-words max-w-[260px] ${
           mono ? "font-mono" : ""
         }`}
       >
+        {icon}
         {value}
       </span>
     </div>

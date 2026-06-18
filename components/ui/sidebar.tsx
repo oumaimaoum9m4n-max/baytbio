@@ -63,13 +63,9 @@ const NAV: NavGroup[] = [
         badge: 12,
       },
       {
-        label: "Livraisons",
+        label: "Livraison",
+        href: "/dashboard/delivery",
         icon: <Truck size={17} />,
-        children: [
-          { label: "Aujourd'hui",    href: "/dashboard/deliveries/today",    badge: 8 },
-          { label: "Planification",  href: "/dashboard/deliveries/planning" },
-          { label: "Historique",     href: "/dashboard/deliveries/history" },
-        ],
       },
       {
         label: "Produits",

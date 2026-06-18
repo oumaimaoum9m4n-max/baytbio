@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Spinner } from "@heroui/react";
-import { Check, Package, Minus, Plus, Wallet } from "lucide-react";
+import { Check, Package, Minus, Plus, Wallet, Truck } from "lucide-react";
 
 import { FormInput } from "@/components/ui";
 import { useGetAllProducts } from "@/features/products/apis/getAllProducts";
+import { useGetDeliveryOptions } from "@/features/delivery/apis/getDeliveryOptions";
 import { useShowFormError } from "@/hooks/use-show-form-error";
 import formatPrice from "@/utils/format-price";
 import {
@@ -49,6 +50,9 @@ const OrderForm = ({
       phoneNumber: defaultValues?.phoneNumber ?? "",
       email: defaultValues?.email ?? "",
       fullAddress: defaultValues?.fullAddress ?? "",
+      deliveryCity: defaultValues?.deliveryCity ?? "",
+      deliveryFee: defaultValues?.deliveryFee ?? 0,
+      deliveryDate: defaultValues?.deliveryDate ?? "",
       status: defaultValues?.status ?? "pending",
       items:
         defaultValues?.items?.map((it) => ({
@@ -72,6 +76,43 @@ const OrderForm = ({
     products.forEach((p) => map.set(p.id, p));
     return map;
   }, [products]);
+
+  /* ── Delivery options (cities + selectable dates) ── */
+  const { data: deliveryOptions, isLoading: isLoadingDelivery } =
+    useGetDeliveryOptions();
+  const cities = deliveryOptions?.cities ?? [];
+  const watchedCity = watch("deliveryCity");
+  const watchedDeliveryFee = watch("deliveryFee") ?? 0;
+
+  const cityOptions = useMemo(
+    () =>
+      cities.map((c) => ({
+        key: c.cityName,
+        label: `${c.cityName} — ${c.deliveryTax} DH`,
+      })),
+    [cities],
+  );
+
+  // Existing order may carry a past delivery date no longer in the options.
+  const dateOptions = useMemo(() => {
+    const opts = (deliveryOptions?.deliveryDates ?? []).map((d) => ({
+      key: d.date,
+      label: d.label,
+    }));
+    const existing = defaultValues?.deliveryDate;
+    if (existing && !opts.some((o) => o.key === existing)) {
+      opts.unshift({ key: existing, label: existing });
+    }
+    return opts;
+  }, [deliveryOptions, defaultValues?.deliveryDate]);
+
+  // Keep the delivery fee in sync with the chosen city.
+  useEffect(() => {
+    const city = cities.find((c) => c.cityName === watchedCity);
+    if (city && city.deliveryTax !== watchedDeliveryFee) {
+      setValue("deliveryFee", city.deliveryTax, { shouldValidate: true });
+    }
+  }, [watchedCity, cities, watchedDeliveryFee, setValue]);
 
   const getQty = (productId: string) =>
     watchedItems.find((it) => it.productId === productId)?.quantity ?? 0;
@@ -165,6 +206,46 @@ const OrderForm = ({
               }))}
             />
           )}
+
+          {/* ── Livraison ── */}
+          <div className="text-[0.65rem] tracking-[0.12em] uppercase text-[#888880] font-semibold pb-1 border-b border-[#E8E4DC] mt-2 flex items-center gap-1.5">
+            <Truck size={12} /> Livraison
+          </div>
+
+          {isLoadingDelivery ? (
+            <div className="flex items-center justify-center py-3">
+              <Spinner size="sm" color="primary" />
+            </div>
+          ) : cities.length === 0 ? (
+            <p className="text-[0.75rem] text-[#C44B3C] font-light">
+              Aucune ville de livraison configurée.
+            </p>
+          ) : (
+            <FormInput
+              control={control}
+              name="deliveryCity"
+              type="select"
+              label="Ville de livraison *"
+              placeholder="Sélectionner une ville"
+              options={cityOptions}
+            />
+          )}
+
+          {!isLoadingDelivery &&
+            (dateOptions.length === 0 ? (
+              <p className="text-[0.75rem] text-[#C44B3C] font-light">
+                Aucune date de livraison disponible pour le moment.
+              </p>
+            ) : (
+              <FormInput
+                control={control}
+                name="deliveryDate"
+                type="select"
+                label="Date de livraison *"
+                placeholder="Sélectionner une date"
+                options={dateOptions}
+              />
+            ))}
         </div>
 
         {/* ── RIGHT — Products + summary ── */}
@@ -269,6 +350,12 @@ const OrderForm = ({
                 {formatPrice(subtotal)}
               </span>
             </div>
+            <div className="flex justify-between text-[0.78rem]">
+              <span className="text-[#888880] font-light">Livraison</span>
+              <span className="text-[#2C2C2C] font-medium font-mono">
+                {formatPrice(watchedDeliveryFee)}
+              </span>
+            </div>
             <div className="flex justify-between items-baseline pt-2 mt-1 border-t border-[#E8E4DC]">
               <span className="text-[0.72rem] tracking-[0.1em] uppercase text-[#888880] font-semibold">
                 Total
@@ -277,7 +364,7 @@ const OrderForm = ({
                 className="text-[1.5rem] font-normal text-[#2C2C2C]"
                 style={{ fontFamily: "Instrument Serif, Georgia, serif" }}
               >
-                {formatPrice(subtotal)}
+                {formatPrice(subtotal + watchedDeliveryFee)}
               </span>
             </div>
           </div>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import customFetch from "@/utils/custom-fetch";
 import type { CartItem } from "@/components/shared/CartContext";
 import { CreateOrUpdateOrderSchema } from "@/features/orders/types/order.dto";
 import type { CreateOrUpdateOrderDto } from "@/features/orders/types/order.dto";
+import { useGetDeliveryOptions } from "@/features/delivery/apis/getDeliveryOptions";
 
 export type CheckoutSuccessData = {
   orderId: string;
@@ -14,11 +15,16 @@ export type CheckoutSuccessData = {
   phoneNumber: string;
   email: string;
   fullAddress: string;
+  deliveryCity: string;
+  deliveryFee: number;
+  deliveryDate: string;
 };
 
 interface CheckoutFormProps {
   items: CartItem[];
   onSuccess: (data: CheckoutSuccessData) => void;
+  /** Notifies the parent so the summary can reflect the chosen city's fee. */
+  onDeliveryFeeChange?: (fee: number) => void;
 }
 
 interface FieldErrors {
@@ -26,6 +32,8 @@ interface FieldErrors {
   phoneNumber?: string;
   email?: string;
   fullAddress?: string;
+  deliveryCity?: string;
+  deliveryDate?: string;
 }
 
 const inputBase =
@@ -46,13 +54,36 @@ function textareaCls(hasError?: string) {
     : `${textareaBase} border-[#EBD9B8]`;
 }
 
-export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
+export default function CheckoutForm({
+  items,
+  onSuccess,
+  onDeliveryFeeChange,
+}: CheckoutFormProps) {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [fullAddress, setFullAddress] = useState("");
+  const [deliveryCity, setDeliveryCity] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [apiError, setApiError] = useState("");
+
+  const { data: deliveryOptions, isLoading: isLoadingDelivery } =
+    useGetDeliveryOptions();
+  const cities = useMemo(
+    () => deliveryOptions?.cities ?? [],
+    [deliveryOptions],
+  );
+  const deliveryDates = deliveryOptions?.deliveryDates ?? [];
+
+  const deliveryFee = useMemo(
+    () => cities.find((c) => c.cityName === deliveryCity)?.deliveryTax ?? 0,
+    [cities, deliveryCity],
+  );
+
+  useEffect(() => {
+    onDeliveryFeeChange?.(deliveryFee);
+  }, [deliveryFee, onDeliveryFeeChange]);
 
   const mutation = useMutation({
     mutationFn: async (dto: CreateOrUpdateOrderDto) => {
@@ -69,6 +100,9 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
         phoneNumber: phoneNumber.trim(),
         email: email.trim(),
         fullAddress: fullAddress.trim(),
+        deliveryCity,
+        deliveryFee,
+        deliveryDate,
       });
     },
     onError: (err: AxiosError<{ msg?: string }>) => {
@@ -87,6 +121,9 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
       phoneNumber: phoneNumber.trim(),
       email: email.trim(),
       fullAddress: fullAddress.trim(),
+      deliveryCity,
+      deliveryFee,
+      deliveryDate,
       status: "pending" as const,
       items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
     };
@@ -197,6 +234,80 @@ export default function CheckoutForm({ items, onSuccess }: CheckoutFormProps) {
               <span className="text-[0.7rem] text-[#B85A28]">{errors.fullAddress}</span>
             )}
           </div>
+        </div>
+
+        {/* Section 3 — Livraison */}
+        <div className="mb-9">
+          <h2 className="font-cormorant text-[1.5rem] font-light text-[#1C1208] mb-5 flex items-center gap-3 after:flex-1 after:h-px after:bg-[#EBD9B8] after:content-['']">
+            <span className="w-7 h-7 rounded-full bg-terra-dark text-white flex items-center justify-center text-[0.7rem] font-medium flex-shrink-0">
+              3
+            </span>
+            Livraison
+          </h2>
+
+          {isLoadingDelivery ? (
+            <p className="text-[0.82rem] text-[#7A6648] font-light">
+              Chargement des options de livraison…
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[0.68rem] tracking-[0.14em] uppercase text-[#7A6648] font-normal">
+                  Ville <span className="text-[#B85A28]">*</span>
+                </label>
+                <select
+                  value={deliveryCity}
+                  onChange={(e) => setDeliveryCity(e.target.value)}
+                  className={fieldCls(errors.deliveryCity)}
+                >
+                  <option value="">Sélectionner une ville</option>
+                  {cities.map((c) => (
+                    <option key={c.id} value={c.cityName}>
+                      {c.cityName} — {c.deliveryTax} DH
+                    </option>
+                  ))}
+                </select>
+                {cities.length === 0 && (
+                  <span className="text-[0.7rem] text-[#B85A28]">
+                    Aucune ville de livraison disponible.
+                  </span>
+                )}
+                {errors.deliveryCity && (
+                  <span className="text-[0.7rem] text-[#B85A28]">
+                    {errors.deliveryCity}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[0.68rem] tracking-[0.14em] uppercase text-[#7A6648] font-normal">
+                  Jour de livraison <span className="text-[#B85A28]">*</span>
+                </label>
+                <select
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  className={fieldCls(errors.deliveryDate)}
+                >
+                  <option value="">Sélectionner une date</option>
+                  {deliveryDates.map((d) => (
+                    <option key={d.date} value={d.date}>
+                      {d.label}
+                    </option>
+                  ))}
+                </select>
+                {deliveryDates.length === 0 && (
+                  <span className="text-[0.7rem] text-[#B85A28]">
+                    Aucune date de livraison disponible pour le moment.
+                  </span>
+                )}
+                {errors.deliveryDate && (
+                  <span className="text-[0.7rem] text-[#B85A28]">
+                    {errors.deliveryDate}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* API error */}
