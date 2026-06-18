@@ -23,11 +23,14 @@ export default function ProductCard({ product }: { product: Product }) {
       id: product.id,
       name: product.name,
       price: product.price,
+      stock: product.stock,
       unit: product.unit,
       mainImage: product.image,
     });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1400);
+    if (product.stock > 0) {
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1400);
+    }
   }
 
   return (

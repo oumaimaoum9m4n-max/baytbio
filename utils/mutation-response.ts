@@ -14,7 +14,7 @@ export const onMutationError = (error: AxiosError) => {
   console.log(msg);
 
   toast.error({
-    title : 'Succ',
+    title : 'Erreur',
     description : msg.msg
   });
 };

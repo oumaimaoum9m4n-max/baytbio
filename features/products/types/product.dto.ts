@@ -52,6 +52,7 @@ export type GetTopProductsDto = {
   id: string;
   name: string;
   price: number;
+  stock: number;
   unit: string;
   images: string[];
   shortDescription: string;

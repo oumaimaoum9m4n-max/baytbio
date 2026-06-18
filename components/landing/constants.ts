@@ -14,6 +14,7 @@ export interface Product {
   arabic?: string;
   tagline: string;
   price: number;
+  stock: number;
   unit: string;
   badge: { label: string; variant: BadgeVariant };
   image: string;
@@ -26,6 +27,7 @@ export const PRODUCTS: Product[] = [
     arabic: "بيض بلدي",
     tagline: "Pour les petites familles. Goût authentique garanti.",
     price: 18,
+    stock: 100,
     unit: "boîte de 6",
     badge: { label: "Frais", variant: "olive" },
     image: "/images/oeufs.png",
@@ -36,6 +38,7 @@ export const PRODUCTS: Product[] = [
     arabic: "حليب",
     tagline: "Tout le goût du lait de ferme, avec moins de matière grasse.",
     price: 10,
+    stock: 100,
     unit: "litre",
     badge: { label: "Léger", variant: "terracotta" },
     image: "/images/lait.png",
@@ -45,6 +48,7 @@ export const PRODUCTS: Product[] = [
     name: "Fromage Blanc Frais",
     tagline: "Parfait pour le petit-déjeuner ou vos recettes.",
     price: 20,
+    stock: 100,
     unit: "200g",
     badge: { label: "Onctueux", variant: "sand" },
     image: "/images/fromage.png",

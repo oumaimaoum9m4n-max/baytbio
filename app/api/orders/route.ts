@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { orderRouter } from "@/features/orders/actions/order.router";
+import { CustomAPIError } from "@/errors";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -23,7 +24,19 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const result = await orderRouter.create(body);
-  return NextResponse.json(result);
+  try {
+    const body = await req.json();
+    const result = await orderRouter.create(body);
+    return NextResponse.json(result);
+  } catch (err) {
+    console.error("[POST /api/orders]", err);
+    if (err instanceof CustomAPIError) {
+      return NextResponse.json({ msg: err.message }, { status: err.statusCode });
+    }
+    
+    return NextResponse.json(
+      { msg: "Une erreur est survenue lors de la création de la commande." },
+      { status: 500 },
+    );
+  }
 }
