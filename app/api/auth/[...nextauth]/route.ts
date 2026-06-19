@@ -12,10 +12,10 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",   // use JWT so Credentials provider works alongside OAuth
   },
 
-  pages: {
-    signIn:  "/auth/login",
-    error:   "/auth/error",
-  },
+  // pages: {
+  //   signIn:  "/auth/login",
+  //   error:   "/auth/error",
+  // },
 
   providers: [
     // ── Google OAuth ──────────────────────────────────────────────────────────

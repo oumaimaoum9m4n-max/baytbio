@@ -50,6 +50,8 @@ import {
 import { USER_ROLE_STYLE } from "../utils/user.utils";
 import formatDate from "@/utils/format-date";
 
+const HIDDEN_EMAILS = ["admin@baytbio.com"];
+
 const UsersList = () => {
   const [filters, setFilters] = useState({
     page: 1,
@@ -143,6 +145,15 @@ const UsersList = () => {
   };
 
   const activeFiltersCount = filters.role !== "" ? 1 : 0;
+
+  /* ── Filtered rows (masque admin@baytbio.com) ── */
+  const filteredRows = useMemo(
+    () =>
+      (data?.data ?? []).filter(
+        (user) => !HIDDEN_EMAILS.includes(user.email),
+      ),
+    [data?.data],
+  );
 
   /* ── Columns ── */
   const columns = useMemo<Column<GetAllUsersDto>[]>(
@@ -261,7 +272,7 @@ const UsersList = () => {
       <DataTable
         label="Utilisateurs"
         columns={columns}
-        rows={data?.data ?? []}
+        rows={filteredRows}
         isLoading={isLoading}
         showRowCount
         search={{
@@ -431,7 +442,7 @@ const UsersList = () => {
                 startContent={<Pencil size={13} />}
               >
                 Modifier
-              </Button>
+          </Button>
               <Button
                 size="sm"
                 variant="light"

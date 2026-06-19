@@ -4,7 +4,7 @@ import type { User, UserRole } from "./user";
 export const USER_ROLES = ["USER", "ADMIN"] as const;
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
-  USER: "Utilisateur",
+  USER: "",
   ADMIN: "Administrateur",
 };
 
