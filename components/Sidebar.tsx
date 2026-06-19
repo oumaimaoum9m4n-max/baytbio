@@ -62,6 +62,12 @@ const NAV: NavSection[] = [
         icon: ClipboardList,
       },
       {
+        label: "Livraison",
+        title: "Livraison",
+        path: "/dashboard/delivery",
+        icon: Truck,
+      },
+      {
         label: "Utilisateurs",
         title: "Utilisateurs",
         path: "/dashboard/users",

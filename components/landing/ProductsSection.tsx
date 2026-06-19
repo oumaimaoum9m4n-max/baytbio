@@ -16,6 +16,7 @@ function toProductCardProps(p: GetTopProductsDto, index: number): Product {
     name: p.name,
     tagline: p.shortDescription,
     price: p.price,
+    stock: p.stock,
     unit: p.unit,
     image: p.images[0] ?? "",
     badge: {
@@ -31,7 +32,7 @@ export default function ProductsSection() {
   return (
     <section
       id="all-products"
-      className="py-[10px] px-20 bg-[#faf8f5] max-md:py-16 max-md:px-5"
+      className="py-16 px-20 bg-[#faf8f5] max-md:py-16 max-md:px-5"
     >
       <div className="flex justify-between items-end mb-16 max-md:flex-col max-md:items-start max-md:gap-4">
         <div>

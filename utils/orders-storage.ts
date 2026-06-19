@@ -15,6 +15,8 @@ export type StoredOrder = {
   phoneNumber: string;
   email: string;
   fullAddress: string;
+  deliveryCity: string;
+  deliveryDate: string;
   items: StoredOrderItem[];
   subtotal: number;
   deliveryFee: number;

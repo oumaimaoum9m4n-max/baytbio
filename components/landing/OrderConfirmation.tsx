@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { StoredOrder } from "@/utils/orders-storage";
 import { WHATSAPP_NUMBER } from "./constants";
+import formatDate from "@/utils/format-date";
 
 interface OrderConfirmationProps {
   order: StoredOrder;
@@ -12,6 +13,16 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
   const waMessage = encodeURIComponent(
     `Bonjour Bayt Bio, j'ai passé la commande #${order.id} pour un total de ${order.total} DH. Merci !`,
   );
+
+  const deliveryDateLabel = order.deliveryDate
+    ? formatDate(order.deliveryDate, {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      })
+    : "";
 
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
@@ -172,6 +183,40 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
               </div>
             </div>
 
+            {/* Delivery */}
+            <div className="flex items-start gap-3.5">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-[rgba(90,106,56,0.12)]">
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#5A6A38"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="1" y="3" width="15" height="13" rx="1" />
+                  <path d="M16 8h4l3 3v5h-7V8z" />
+                  <circle cx="5.5" cy="18.5" r="2.5" />
+                  <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+              </div>
+              <div>
+                <div className="text-[0.68rem] tracking-[0.1em] uppercase text-[#7A6648] mb-1">
+                  Livraison
+                </div>
+                <div className="text-[0.9rem] text-[#1C1208] leading-relaxed">
+                  {order.deliveryCity || "—"}
+                  {deliveryDateLabel && (
+                    <span className="block text-[0.82rem] text-[#7A6648] font-light capitalize">
+                      {deliveryDateLabel}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
             {/* Total */}
             <div className="flex items-start gap-3.5">
               <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-[rgba(28,18,8,0.06)]">
@@ -191,6 +236,9 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
               <div>
                 <div className="text-[0.68rem] tracking-[0.1em] uppercase text-[#7A6648] mb-1">
                   Montant à préparer
+                </div>
+                <div className="text-[0.78rem] text-[#7A6648] font-light mb-0.5">
+                  Sous-total {order.subtotal} DH · Livraison {order.deliveryFee} DH
                 </div>
                 <div className="text-[0.9rem] text-[#1C1208]">
                   <strong>{order.total} DH</strong>{" "}

@@ -3,9 +3,18 @@
 interface QtySelectorProps {
   value: number;
   onChange: (value: number) => void;
+  /** Upper bound (e.g. available stock). Defaults to 20. */
+  max?: number;
+  /** Called when the user tries to go above `max`. */
+  onExceedMax?: (max: number) => void;
 }
 
-export default function QtySelector({ value, onChange }: QtySelectorProps) {
+export default function QtySelector({
+  value,
+  onChange,
+  max = 20,
+  onExceedMax,
+}: QtySelectorProps) {
   return (
     <div className="flex items-center overflow-hidden rounded-[2px] border-[1.5px] border-linen">
       <button
@@ -24,7 +33,9 @@ export default function QtySelector({ value, onChange }: QtySelectorProps) {
       />
       <button
         type="button"
-        onClick={() => onChange(Math.min(20, value + 1))}
+        onClick={() =>
+          value >= max ? onExceedMax?.(max) : onChange(Math.min(max, value + 1))
+        }
         className="flex h-12 w-[42px] items-center justify-center border-none bg-transparent text-xl text-brown transition-colors hover:bg-linen"
         aria-label="Augmenter la quantité"
       >

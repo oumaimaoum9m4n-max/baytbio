@@ -3,15 +3,15 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { CartItem } from "@/components/shared/CartContext";
-import { DELIVERY_FEE } from "@/features/orders/utils/order.utils";
 
 interface CheckoutSummaryProps {
   items: CartItem[];
   subtotal: number;
+  deliveryFee: number;
   total: number;
 }
 
-export default function CheckoutSummary({ items, subtotal, total }: CheckoutSummaryProps) {
+export default function CheckoutSummary({ items, subtotal, deliveryFee, total }: CheckoutSummaryProps) {
   const router = useRouter();
 
   return (
@@ -69,7 +69,9 @@ export default function CheckoutSummary({ items, subtotal, total }: CheckoutSumm
         </div>
         <div className="flex justify-between items-center">
           <span className="text-[0.8rem] text-[#7A6648] font-light">Livraison</span>
-          <span className="text-[0.88rem] text-[#1C1208]">{DELIVERY_FEE} DH</span>
+          <span className="text-[0.88rem] text-[#1C1208]">
+            {deliveryFee > 0 ? `${deliveryFee} DH` : "—"}
+          </span>
         </div>
         <div className="flex justify-between items-baseline pt-[18px] border-t border-[#EBD9B8] mt-1">
           <span className="text-[0.7rem] tracking-[0.14em] uppercase text-[#7A6648]">Total</span>

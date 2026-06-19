@@ -182,6 +182,7 @@ export default function ProductRow({
       id: product.id,
       name: product.name,
       price: product.price,
+      stock: product.stock,
       unit: product.unit,
       mainImage: product.images[0] ?? "",
     })

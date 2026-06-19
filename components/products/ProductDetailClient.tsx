@@ -30,7 +30,7 @@ export default function ProductDetailClient({
   productIndex,
   totalProducts,
 }: ProductDetailClientProps) {
-  const { addToCart } = useCart();
+  const { addToCart, notify } = useCart();
   const [qty, setQty] = useState(1);
   const { data: product } = useGetSingleProduct(productId);
 
@@ -48,15 +48,17 @@ export default function ProductDetailClient({
 
   function handleAddToCart() {
     if (!product) return;
-    for (let i = 0; i < qty; i++) {
-      addToCart({
+    addToCart(
+      {
         id: product.id,
         name: product.name,
         price: product.price,
+        stock: product.stock,
         unit: product.unit,
         mainImage: product.images[0] ?? "",
-      });
-    }
+      },
+      qty,
+    );
   }
 
   function handleWhatsAppOrder() {
@@ -179,7 +181,16 @@ export default function ProductDetailClient({
           {product.stock > 0 && (
             <>
               <div className="mb-4 flex flex-wrap items-center gap-4">
-                <QtySelector value={qty} onChange={setQty} />
+                <QtySelector
+                  value={qty}
+                  onChange={setQty}
+                  max={product.stock}
+                  onExceedMax={(max) =>
+                    notify(
+                      `Stock insuffisant : ${max} unité(s) maximum disponible(s) pour ${product.name}.`,
+                    )
+                  }
+                />
                 <button
                   type="button"
                   onClick={handleAddToCart}

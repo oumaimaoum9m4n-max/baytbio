@@ -11,6 +11,10 @@ export type Order = {
   phoneNumber: string;
   email: string;
   fullAddress: string;
+  deliveryCity: string;
+  deliveryFee: number;
+  /** ISO "YYYY-MM-DD". */
+  deliveryDate: string;
   status: OrderStatus;
   items: OrderItem[];
   createdAt: string;

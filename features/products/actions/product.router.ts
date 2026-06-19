@@ -143,6 +143,7 @@ export const productRouter = {
       id: p._id.toString(),
       name: p.name,
       price: p.price,
+      stock: p.stock ?? 0,
       unit: p.unit,
       images: p.images ?? [],
       shortDescription: p.shortDescription ?? "",
