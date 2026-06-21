@@ -100,14 +100,14 @@ export default function CartSummaryCard({
       </div>
 
       {/* Trust grid */}
-      <div className="grid grid-cols-2 gap-2.5 px-7 py-4 border-t border-[#EBD9B8]">
+      {/* <div className="grid grid-cols-2 gap-2.5 px-7 py-4 border-t border-[#EBD9B8]">
         {TRUST_ITEMS.map(({ icon, text }) => (
           <div key={text} className="flex items-center gap-2 text-[0.7rem] text-[#7A6648] font-light">
             {icon}
             {text}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* CTA buttons */}
       <div className="px-7 py-5 flex flex-col gap-2.5">
