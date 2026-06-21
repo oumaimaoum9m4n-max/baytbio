@@ -50,7 +50,7 @@ import {
 import { USER_ROLE_STYLE } from "../utils/user.utils";
 import formatDate from "@/utils/format-date";
 
-const HIDDEN_EMAILS = ["admin1@baytbio.com"];
+const HIDDEN_EMAILS = ["admin@baytbio.com"];
 
 const UsersList = () => {
   const [filters, setFilters] = useState({
