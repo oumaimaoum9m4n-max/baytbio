@@ -307,21 +307,19 @@ const ProductForm = ({
   const mainPreview =
     images.find((i) => i.status === "done")?.preview ?? images[0]?.preview;
   const anyUploading = images.some((i) => i.status === "uploading");
-  console.log(watch("images"), images);
 
   return (
     <div className="bg-[#FAF8F5]" style={{ fontFamily: "DM Sans, sans-serif" }}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {/* ── 2-column layout ── */}
         <div
-          className="grid"
+          className="grid grid-cols-1 lg:grid-cols-[1fr_340px]"
           style={{
-            gridTemplateColumns: "1fr 340px",
             minHeight: "calc(100vh - 60px)",
           }}
         >
           {/* ════ LEFT COLUMN ════ */}
-          <div className="pr-6 border-r border-[#E8E4DC] pb-28">
+          <div className="lg:pr-6 lg:border-r border-[#E8E4DC] pb-28">
             {pageHeader && <div className="mb-7">{pageHeader}</div>}
 
             {/* ─── Section: Images ─── */}
@@ -386,7 +384,7 @@ const ProductForm = ({
               )}
 
               {images.length > 0 && (
-                <div className="grid grid-cols-4 gap-2.5 mt-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mt-4">
                   {images.map((item, i) => (
                     <div
                       key={item.preview}
@@ -900,9 +898,9 @@ const ProductForm = ({
             </FormSection>
           </div>
 
-          {/* ════ RIGHT COLUMN — sticky ════ */}
+          {/* ════ RIGHT COLUMN — sticky on desktop, stacked on mobile ════ */}
           <div
-            className="sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto p-5 flex flex-col gap-4"
+            className="py-5 lg:p-5 lg:sticky lg:top-[60px] lg:h-[calc(100vh-60px)] lg:overflow-y-auto flex flex-col gap-4"
             style={{ scrollbarWidth: "thin" }}
           >
             {/* Live preview */}
@@ -1024,10 +1022,10 @@ const ProductForm = ({
 
         {/* ── Sticky action bar ── */}
         <div
-          className="fixed bottom-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#E8E4DC] px-7 py-3.5 flex items-center justify-between z-50 transition-[left] duration-300"
-          style={{ left: sidebarW }}
+          className="fixed bottom-0 right-0 left-0 md:left-[var(--sidebar-w)] bg-white/95 backdrop-blur-md border-t border-[#E8E4DC] px-4 md:px-7 py-3.5 flex items-center justify-between gap-3 z-50 transition-[left] duration-300"
+          style={{ ["--sidebar-w"]: `${sidebarW}px` } as React.CSSProperties}
         >
-          <div className="flex items-center gap-2 text-[0.76rem] text-[#888880]">
+          <div className="flex items-center gap-2 text-[0.76rem] text-[#888880] min-w-0">
             <div
               className={`w-2 h-2 rounded-full flex-shrink-0 ${
                 anyUploading
@@ -1037,13 +1035,15 @@ const ProductForm = ({
                     : "bg-[#C8C8C0] animate-pulse"
               }`}
             />
-            {anyUploading
-              ? "Téléchargement des images…"
-              : images.length > 0
-                ? "Formulaire prêt"
-                : "En cours de rédaction…"}
+            <span className="truncate">
+              {anyUploading
+                ? "Téléchargement des images…"
+                : images.length > 0
+                  ? "Formulaire prêt"
+                  : "En cours de rédaction…"}
+            </span>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 shrink-0">
             <Button
               as={Link}
               href="/dashboard/products"

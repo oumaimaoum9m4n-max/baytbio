@@ -3,14 +3,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@heroui/react";
-import { Check, Shield, User as UserIcon, Lock, Mail } from "lucide-react";
+import { Check, User as UserIcon, Lock, Mail } from "lucide-react";
 
 import { FormInput } from "@/components/ui";
 import { useShowFormError } from "@/hooks/use-show-form-error";
 import {
   CreateOrUpdateUserSchema,
-  USER_ROLES,
-  USER_ROLE_LABELS,
   type CreateOrUpdateUserDto,
   type GetSingleUserDto,
 } from "../types/user.dto";
@@ -43,7 +41,7 @@ const UserForm = ({
       name: defaultValues?.name ?? "",
       email: defaultValues?.email ?? "",
       password: "",
-      role: defaultValues?.role ?? "USER",
+      role: defaultValues?.role ?? "ADMIN",
       image: defaultValues?.image ?? "",
     },
   });
@@ -131,29 +129,6 @@ const UserForm = ({
           />
         </div>
 
-        {/* ── Section: Rôle ── */}
-        <div>
-          <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.12em] uppercase text-[#888880] font-semibold pb-1 border-b border-[#E8E4DC] mb-3">
-            <Shield size={12} />
-            <span>Rôle & Permissions</span>
-          </div>
-
-          <FormInput
-            control={control}
-            name="role"
-            type="select"
-            label="Rôle"
-            options={USER_ROLES.map((r) => ({
-              key: r,
-              label: USER_ROLE_LABELS[r],
-            }))}
-          />
-
-          <p className="text-[0.7rem] text-[#888880] mt-2 font-light">
-            Les administrateurs ont accès au tableau de bord. Les utilisateurs
-            standards n'ont accès qu'à la boutique.
-          </p>
-        </div>
       </div>
 
       {/* ── Footer actions ── */}
