@@ -36,7 +36,7 @@ export default function Footer() {
           <p className="font-arabic text-[0.95rem] text-brown mt-1">
 خيرات بلادي، توصل حتى لعندك عادي
           </p>
-          <a
+          {/* <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -44,7 +44,7 @@ export default function Footer() {
           >
             <WhatsAppSVG />
             Commander via WhatsApp
-          </a>
+          </a> */}
         </div>
 
         {/* Produits */}

@@ -5,12 +5,12 @@ import { useCart } from "./CartContext";
 import { WHATSAPP_URL } from "@/components/landing/constants";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation"; 
 
 const links = [
   { path: "/", label: "Accueil" },
   { path: "/products", label: "Nos Produits" },
   { path: "/about", label: "Notre Histoire" },
-  // { path: "/delivery", label: "Livraison" },
   { path: "/contact", label: "Contact" },
 ];
 
@@ -19,13 +19,25 @@ interface NavbarProps {
   variant?: "default" | "olive";
 }
 
-export default function Navbar({ linksTone = "default", variant = "default" }: NavbarProps) {
+export default function Navbar({
+  linksTone = "default",
+  variant = "default",
+}: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const pathname = usePathname(); 
+
   const { count } = useCart();
 
+  // 👇 AJOUT
+  const hideWhatsappButton =
+    pathname === "/cart" || pathname === "/checkout";
+
   const linkColorClass =
-    linksTone === "brown" || scrolled || menuOpen ? "text-brown" : "text-cream";
+    linksTone === "brown" || scrolled || menuOpen
+      ? "text-brown"
+      : "text-cream";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -41,8 +53,8 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
   }, [menuOpen]);
 
   const logoSrc = scrolled
-    ? "/images/logo/logo_baytbio.png" // après scroll
-    : "/images/logo/logo_baytbio_white.png"; // initial
+    ? "/images/logo/logo_baytbio.png"
+    : "/images/logo/logo_baytbio_white.png";
 
   return (
     <>
@@ -60,8 +72,8 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           <Image
             src={logoSrc}
             alt="BaytBio"
-            width={scrolled ? 140 : 140}
-            height={scrolled ? 70 : 70}
+            width={140}
+            height={70}
             priority
             className={`object-contain transition-all duration-300 ${
               scrolled ? "scale-100" : "scale-110"
@@ -85,7 +97,7 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-6">
-          {/* PANIER - Masqué uniquement quand le menu mobile est ouvert (menuOpen) */}
+          {/* PANIER */}
           <Link
             href="/cart"
             className={`items-center gap-2 text-[0.82rem] tracking-[0.08em] uppercase cursor-pointer font-sans relative ${linkColorClass} ${
@@ -111,14 +123,17 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
             </span>
           </Link>
 
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-block px-[14px] md:px-[22px] py-2 md:py-[9px] bg-olive text-cream font-sans text-[0.7rem] md:text-[0.78rem] tracking-[0.1em] uppercase rounded-[2px] transition-all duration-300 hover:bg-olive-light hover:-translate-y-px"
-          >
-            Commander via WhatsApp
-          </a>
+          {/* WHATSAPP */}
+          {!hideWhatsappButton && (
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-block px-[14px] md:px-[22px] py-2 md:py-[9px] bg-olive text-cream font-sans text-[0.7rem] md:text-[0.78rem] tracking-[0.1em] uppercase rounded-[2px] transition-all duration-300 hover:bg-olive-light hover:-translate-y-px"
+            >
+              Commander via WhatsApp
+            </a>
+          )}
 
           {/* HAMBURGER */}
           <button
@@ -145,36 +160,7 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           </button>
         </div>
       </nav>
-
-      {/* MOBILE MENU */}
-      <div
-        className={`fixed inset-0 z-[99] flex flex-col bg-olive transition-opacity duration-300 md:hidden ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex flex-col items-center justify-center flex-1 gap-8 px-8">
-          {links.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              onClick={() => setMenuOpen(false)}
-              className="font-cormorant text-3xl font-semibold text-cream md:text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"
-            >
-              {item.label}
-            </Link>
-          ))}
-
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-            className="mt-4 px-8 py-3 bg-olive text-cream font-sans text-[0.78rem] tracking-[0.1em] uppercase rounded-[2px] transition-all duration-300 hover:bg-olive-light"
-          >
-            Commander via WhatsApp
-          </a>
-        </div>
-      </div>
     </>
   );
 }
+
