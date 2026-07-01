@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useGetOrdersByIds } from "@/features/orders/apis/getOrdersByIds";
 import { getOrders } from "@/utils/orders-storage";
 import type { StoredOrder } from "@/utils/orders-storage";
 
@@ -29,6 +30,19 @@ function formatDate(iso: string) {
   }).format(new Date(iso));
 }
 
+/** Formats a date-only "YYYY-MM-DD" string without timezone drift. */
+function formatDeliveryDate(dateStr: string) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  if (!y || !m || !d) return dateStr;
+  return new Intl.DateTimeFormat("fr-MA", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(y, m - 1, d)));
+}
+
 export default function OrdersPageClient() {
   const [orders, setOrders] = useState<StoredOrder[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -37,6 +51,16 @@ export default function OrdersPageClient() {
     setOrders(getOrders());
     setLoaded(true);
   }, []);
+
+  // Hydrate the locally-stored orders with their current server-side state
+  // (status + delivery date) in a single request.
+  const orderIds = useMemo(() => orders.map((o) => o.id), [orders]);
+  const { data: serverOrders } = useGetOrdersByIds(orderIds);
+
+  const serverById = useMemo(
+    () => new Map((serverOrders ?? []).map((o) => [o.id, o])),
+    [serverOrders],
+  );
 
   return (
     <div className="pt-[80px] min-h-screen animate-fade-slide">
@@ -93,7 +117,10 @@ export default function OrdersPageClient() {
         ) : (
           <div className="flex flex-col gap-5">
             {orders.map((order) => {
-              const s = STATUS_STYLES[order.status];
+              const server = serverById.get(order.id);
+              const status = server?.status ?? order.status;
+              const deliveryDate = server?.deliveryDate ?? order.deliveryDate;
+              const s = STATUS_STYLES[status];
               const itemCount = order.items.reduce((n, i) => n + i.quantity, 0);
 
               return (
@@ -111,7 +138,7 @@ export default function OrdersPageClient() {
                         className={`flex items-center gap-1.5 text-[0.63rem] tracking-[0.12em] uppercase px-3 py-1.5 rounded-full font-medium ${s.bg} ${s.text}`}
                       >
                         <span className={`w-[6px] h-[6px] rounded-full flex-shrink-0 ${s.dot}`} />
-                        {STATUS_LABELS[order.status]}
+                        {STATUS_LABELS[status]}
                       </span>
                     </div>
                     <span className="text-[0.75rem] text-brown font-light">
@@ -146,9 +173,19 @@ export default function OrdersPageClient() {
 
                       <div className="mt-4 pt-4 border-t border-[#EBD9B8] flex flex-col gap-1">
                         <div className="text-[0.7rem] text-[#A89070] font-light">
-                          <span className="text-[#7A6648]">Livraison :</span>{" "}
+                          <span className="text-[#7A6648]">Adresse :</span>{" "}
                           {order.fullAddress}
                         </div>
+                        {deliveryDate && (
+                          <div className="text-[0.7rem] text-[#A89070] font-light">
+                            <span className="text-[#7A6648]">
+                              Date de livraison :
+                            </span>{" "}
+                            <span className="capitalize">
+                              {formatDeliveryDate(deliveryDate)}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
 

@@ -11,17 +11,31 @@ interface CartSummaryCardProps {
 
 const TRUST_ITEMS = [
   {
-    text: "Paiement sécurisé",
+    text: "Paiement à la livraison",
     icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B85A28" strokeWidth="1.8">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#B85A28"
+        strokeWidth="1.8"
+      >
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
     ),
   },
   {
-    text: "Livraison à domicile partout au Maroc",
+    text: "Livraison à domicile",
     icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B85A28" strokeWidth="1.8">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#B85A28"
+        strokeWidth="1.8"
+      >
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
         <circle cx="12" cy="10" r="3" />
       </svg>
@@ -30,18 +44,16 @@ const TRUST_ITEMS = [
   {
     text: "Satisfait ou remboursé",
     icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B85A28" strokeWidth="1.8">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#B85A28"
+        strokeWidth="1.8"
+      >
         <polyline points="1 4 1 10 7 10" />
         <path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
-      </svg>
-    ),
-  },
-  {
-    text: "Commande avant 14h",
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B85A28" strokeWidth="1.8">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 8v4l3 3" />
       </svg>
     ),
   },
@@ -70,13 +82,27 @@ export default function CartSummaryCard({
       {/* Body rows */}
       <div className="px-7 py-6">
         <div className="flex justify-between items-center py-2.5 border-b border-[#EBD9B8]">
-          <span className="text-[0.8rem] font-light text-[#7A6648]">Sous-total</span>
-          <span className="text-[0.88rem] text-[#1C1208] font-normal">{subtotal} DH</span>
+          <span className="text-[0.8rem] font-light text-[#7A6648]">
+            Sous-total
+          </span>
+          <span className="text-[0.88rem] text-[#1C1208] font-normal">
+            {subtotal} DH
+          </span>
         </div>
         <div className="flex justify-between items-center py-2.5">
-          <span className="text-[0.8rem] font-light text-[#7A6648]">Livraison</span>
-          <span className="text-[0.88rem] text-[#1C1208] font-normal">{delivery} DH</span>
+          <span className="text-[0.8rem] font-light text-[#7A6648]">
+            Livraison
+          </span>
+          <span className="text-[0.88rem] text-[#1C1208] font-normal">
+            {delivery > 0 ? `${delivery} DH` : "Selon la ville"}
+          </span>
         </div>
+        {delivery <= 0 && (
+          <p className="text-[0.72rem] font-light text-[#A89070] leading-snug -mt-1">
+            Des frais de livraison s'appliquent selon votre ville, calculés à
+            l'étape suivante.
+          </p>
+        )}
       </div>
 
       {/* Total row */}
@@ -86,13 +112,22 @@ export default function CartSummaryCard({
         </span>
         <div className="font-cormorant text-[2.4rem] font-normal text-olive leading-none">
           {total}{" "}
-          <span className="text-[0.85rem] font-light font-sans text-cream">DH</span>
+          <span className="text-[0.85rem] font-light font-sans text-cream">
+            DH
+          </span>
         </div>
       </div>
 
       {/* Payment chip */}
       <div className="flex items-center gap-2 px-7 py-2.5 bg-[#E8EDDE] border-t border-[#EBD9B8] text-[0.72rem] text-[#5A6A38] tracking-[0.06em]">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
           <rect x="2" y="5" width="20" height="14" rx="2" />
           <path d="M2 10h20" />
         </svg>
@@ -102,7 +137,10 @@ export default function CartSummaryCard({
       {/* Trust grid */}
       <div className="grid grid-cols-2 gap-2.5 px-7 py-4 border-t border-[#EBD9B8]">
         {TRUST_ITEMS.map(({ icon, text }) => (
-          <div key={text} className="flex items-center gap-2 text-[0.7rem] text-[#7A6648] font-light">
+          <div
+            key={text}
+            className="flex items-center gap-2 text-[0.7rem] text-[#7A6648] font-light"
+          >
             {icon}
             {text}
           </div>
@@ -116,7 +154,14 @@ export default function CartSummaryCard({
           disabled={isEmpty}
           className="cursor-pointer w-full h-[54px] bg-terracotta text-[#F5EDD8] border-none font-sans text-[0.82rem] tracking-[0.14em] uppercase rounded-[3px] transition-all duration-300 flex items-center justify-center gap-2.5 hover:bg-terra-dark hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(184,90,40,0.35)] disabled:bg-terracotta disabled:cursor-not-allowed disabled:hover:bg-terra-dark disabled:hover:shadow-none"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          >
             <rect x="1" y="3" width="15" height="13" />
             <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
             <circle cx="5.5" cy="18.5" r="2.5" />
@@ -136,7 +181,10 @@ export default function CartSummaryCard({
         </button>
 
         <p className="text-center text-[0.72rem] text-[#A89070] flex items-center justify-center gap-2">
-          <a href="/products" className="text-[#B85A28] font-normal no-underline hover:underline">
+          <a
+            href="/products"
+            className="text-[#B85A28] font-normal no-underline hover:underline"
+          >
             ← Continuer mes achats
           </a>
         </p>

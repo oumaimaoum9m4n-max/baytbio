@@ -8,6 +8,7 @@ import type { CartItem } from "@/components/shared/CartContext";
 import { CreateOrUpdateOrderSchema } from "@/features/orders/types/order.dto";
 import type { CreateOrUpdateOrderDto } from "@/features/orders/types/order.dto";
 import { useGetDeliveryOptions } from "@/features/delivery/apis/getDeliveryOptions";
+import DeliveryDatePicker from "./DeliveryDatePicker";
 
 export type CheckoutSuccessData = {
   orderId: string;
@@ -107,7 +108,8 @@ export default function CheckoutForm({
     },
     onError: (err: AxiosError<{ msg?: string }>) => {
       setApiError(
-        err.response?.data?.msg ?? "Une erreur est survenue. Veuillez réessayer.",
+        err.response?.data?.msg ??
+          "Une erreur est survenue. Veuillez réessayer.",
       );
     },
   });
@@ -167,7 +169,9 @@ export default function CheckoutForm({
                 className={fieldCls(errors.fullName)}
               />
               {errors.fullName && (
-                <span className="text-[0.7rem] text-[#B85A28]">{errors.fullName}</span>
+                <span className="text-[0.7rem] text-[#B85A28]">
+                  {errors.fullName}
+                </span>
               )}
             </div>
 
@@ -183,7 +187,9 @@ export default function CheckoutForm({
                 className={fieldCls(errors.phoneNumber)}
               />
               {errors.phoneNumber && (
-                <span className="text-[0.7rem] text-[#B85A28]">{errors.phoneNumber}</span>
+                <span className="text-[0.7rem] text-[#B85A28]">
+                  {errors.phoneNumber}
+                </span>
               )}
             </div>
           </div>
@@ -204,7 +210,9 @@ export default function CheckoutForm({
                 className={fieldCls(errors.email)}
               />
               {errors.email && (
-                <span className="text-[0.7rem] text-[#B85A28]">{errors.email}</span>
+                <span className="text-[0.7rem] text-[#B85A28]">
+                  {errors.email}
+                </span>
               )}
             </div>
           </div>
@@ -231,7 +239,9 @@ export default function CheckoutForm({
               className={textareaCls(errors.fullAddress)}
             />
             {errors.fullAddress && (
-              <span className="text-[0.7rem] text-[#B85A28]">{errors.fullAddress}</span>
+              <span className="text-[0.7rem] text-[#B85A28]">
+                {errors.fullAddress}
+              </span>
             )}
           </div>
         </div>
@@ -283,22 +293,17 @@ export default function CheckoutForm({
                 <label className="text-[0.68rem] tracking-[0.14em] uppercase text-[#7A6648] font-normal">
                   Jour de livraison <span className="text-[#B85A28]">*</span>
                 </label>
-                <select
-                  value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
-                  className={fieldCls(errors.deliveryDate)}
-                >
-                  <option value="">Sélectionner une date</option>
-                  {deliveryDates.map((d) => (
-                    <option key={d.date} value={d.date}>
-                      {d.label}
-                    </option>
-                  ))}
-                </select>
-                {deliveryDates.length === 0 && (
+                {deliveryDates.length === 0 ? (
                   <span className="text-[0.7rem] text-[#B85A28]">
                     Aucune date de livraison disponible pour le moment.
                   </span>
+                ) : (
+                  <DeliveryDatePicker
+                    value={deliveryDate || null}
+                    onChange={setDeliveryDate}
+                    selectableDates={deliveryDates}
+                    hasError={!!errors.deliveryDate}
+                  />
                 )}
                 {errors.deliveryDate && (
                   <span className="text-[0.7rem] text-[#B85A28]">
@@ -327,7 +332,14 @@ export default function CheckoutForm({
             "Confirmation en cours…"
           ) : (
             <>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Confirmer ma commande

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/shared/CartContext";
 import { WHATSAPP_NUMBER } from "@/components/landing/constants";
-import { DELIVERY_FEE } from "@/features/orders/utils/order.utils";
 import CartItemRow from "./CartItemRow";
 import CartSummaryCard from "./CartSummaryCard";
 
@@ -12,7 +11,7 @@ export default function CartPageClient() {
   const { items, count, removeItem, updateQuantity, clearCart } = useCart();
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal;
 
   const handleWhatsApp = () => {
     const lines = items.map(
@@ -22,8 +21,8 @@ export default function CartPageClient() {
       "Bonjour, je voudrais commander :",
       ...lines,
       `Sous-total : ${subtotal} DH`,
-      `Livraison : ${DELIVERY_FEE} DH`,
-      `Total : ${total} DH`,
+      "Livraison : à déterminer selon la ville",
+      `Total (hors livraison) : ${subtotal} DH`,
     ].join("\n");
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,
@@ -56,7 +55,7 @@ export default function CartPageClient() {
         </h1>
         <p className="relative z-[1] mt-2.5 font-sans text-[0.83rem] font-light text-[rgba(212,200,160,0.5)]">
           {count > 0
-            ? `${count} article${count > 1 ? "s" : ""} · Livraison ${DELIVERY_FEE} DH`
+            ? `${count} article${count > 1 ? "s" : ""} · Livraison selon la ville`
             : "Votre panier est vide"}
         </p>
         {count > 0 && (
@@ -152,7 +151,7 @@ export default function CartPageClient() {
         <div className="px-11 py-12 sticky top-[68px] max-lg:px-6 max-lg:border-t max-lg:border-[#EBD9B8]">
           <CartSummaryCard
             subtotal={subtotal}
-            delivery={DELIVERY_FEE}
+            delivery={0}
             total={total}
             onCheckout={() => router.push("/checkout")}
             onWhatsApp={handleWhatsApp}

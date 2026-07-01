@@ -132,17 +132,20 @@ const formatDateLabel = (weekday: Weekday, day: number, month: number) =>
   `${WEEKDAY_LABELS[weekday]} ${day} ${MONTHS_FR[month - 1]}`;
 
 /**
- * Returns the two soonest selectable delivery dates.
+ * Returns every selectable delivery date within the current display window.
  *
  * A configured delivery weekday produces an upcoming calendar date; that date
  * is selectable only while the cut-off (the day before, at `cutoffHour`) has
- * not passed in Morocco time. The next date is dropped once its cut-off is
- * surpassed, so the earliest selectable becomes the following delivery date.
+ * not passed in Morocco time.
+ *
+ * The window spans from today through the end of the current month. When today
+ * falls within the last full (Monday–Sunday) week of the month, the window is
+ * extended through the end of the next month so late-month customers can still
+ * book early deliveries.
  */
 export const computeSelectableDeliveryDates = (
   days: { deliveryDay: number; cutoffHour: number }[],
   now: MoroccoTime,
-  limit = 2,
 ): SelectableDeliveryDate[] => {
   const cutoffByWeekday = new Map<number, number>();
   for (const d of days) cutoffByWeekday.set(d.deliveryDay, d.cutoffHour);
@@ -151,14 +154,39 @@ export const computeSelectableDeliveryDates = (
   const baseUTC = Date.UTC(now.year, now.month - 1, now.day);
   const nowMinutes = now.hour * 60 + now.minute;
 
+  // Number of days in the current month.
+  const daysInMonth = new Date(Date.UTC(now.year, now.month, 0)).getUTCDate();
+
+  // The last *full* Monday–Sunday week is the one ending on the month's last
+  // Sunday. Its Monday is that Sunday minus 6 days. We're "in the last week"
+  // once today reaches that Monday (Sun = 0 … Sat = 6).
+  const lastDayWeekday = new Date(
+    Date.UTC(now.year, now.month - 1, daysInMonth),
+  ).getUTCDay();
+  const lastSunday = daysInMonth - lastDayWeekday;
+  const lastFullWeekStart = lastSunday - 6;
+  const inLastWeek = now.day >= lastFullWeekStart;
+
+  // Last day of the display window: end of the current month, or end of the
+  // next month when we're in the last week (Date.UTC(y, m, 0) → last day of
+  // month m, where m is 1-indexed here).
+  const windowEndUTC = inLastWeek
+    ? Date.UTC(now.year, now.month + 1, 0)
+    : Date.UTC(now.year, now.month, 0);
+
   const result: SelectableDeliveryDate[] = [];
-  for (let offset = 0; offset < 21 && result.length < limit; offset++) {
-    const dt = new Date(baseUTC + offset * 86_400_000);
+  for (
+    let cursor = baseUTC;
+    cursor <= windowEndUTC;
+    cursor += 86_400_000
+  ) {
+    const dt = new Date(cursor);
     const weekday = dt.getUTCDay() as Weekday;
     const cutoffHour = cutoffByWeekday.get(weekday);
     if (cutoffHour === undefined) continue;
 
-    // Cut-off is the day before delivery (offset-1) at `cutoffHour`.
+    // Cut-off is the day before delivery at `cutoffHour`.
+    const offset = (cursor - baseUTC) / 86_400_000;
     const cutoffMinutes = (offset - 1) * 1440 + cutoffHour * 60;
     if (nowMinutes >= cutoffMinutes) continue; // cut-off passed → not selectable
 

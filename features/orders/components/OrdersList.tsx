@@ -231,10 +231,28 @@ const OrdersList = () => {
       },
       {
         key: "total",
-        label: "MONTANT",
+        label: "SOUS-TOTAL",
         render: (v) => (
-          <span className="font-mono font-semibold text-[0.83rem] text-[#2C2C2C]">
+          <span className="font-mono text-[0.8rem] text-[#555550]">
             {formatPrice(v as number)}
+          </span>
+        ),
+      },
+      {
+        key: "deliveryFee",
+        label: "LIVRAISON",
+        render: (v) => (
+          <span className="font-mono text-[0.8rem] text-[#555550]">
+            {formatPrice((v as number) ?? 0)}
+          </span>
+        ),
+      },
+      {
+        key: "grandTotal",
+        label: "TOTAL",
+        render: (_, row) => (
+          <span className="font-mono font-semibold text-[0.83rem] text-[#2C2C2C]">
+            {formatPrice(row.total + (row.deliveryFee ?? 0))}
           </span>
         ),
       },

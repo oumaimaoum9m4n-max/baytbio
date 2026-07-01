@@ -293,6 +293,25 @@ export const orderRouter = {
     return toOrderDetailDto(order);
   },
 
+  /**
+   * Fetches multiple orders in a single query. Used by the customer-facing
+   * "Mes commandes" page to hydrate the locally-stored orders with their
+   * current server-side status. Empty ids are ignored.
+   */
+  async getByIds(ids: string[]): Promise<GetAllOrdersDto[]> {
+    // Order `_id` is a custom string (see order.model.ts), not an ObjectId,
+    // so we only drop empty/duplicate values rather than validating ObjectIds.
+    const validIds = [
+      ...new Set(ids.filter((id) => typeof id === "string" && id.length > 0)),
+    ];
+    if (validIds.length === 0) return [];
+
+    const orders = await OrderModel.find({ _id: { $in: validIds } })
+      .populate("items.productId")
+      .lean();
+    return orders.map(toOrderDto);
+  },
+
   async create(input: CreateOrUpdateOrderDto): Promise<MutationResponse & { id: string }> {
     const session = await mongoose.startSession();
     try {

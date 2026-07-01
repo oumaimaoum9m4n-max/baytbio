@@ -70,9 +70,14 @@ export default function CheckoutSummary({ items, subtotal, deliveryFee, total }:
         <div className="flex justify-between items-center">
           <span className="text-[0.8rem] text-[#7A6648] font-light">Livraison</span>
           <span className="text-[0.88rem] text-[#1C1208]">
-            {deliveryFee > 0 ? `${deliveryFee} DH` : "—"}
+            {deliveryFee > 0 ? `${deliveryFee} DH` : "Selon la ville"}
           </span>
         </div>
+        {deliveryFee <= 0 && (
+          <p className="text-[0.72rem] text-[#A89070] font-light leading-snug -mt-1">
+            Des frais de livraison s'appliquent selon votre ville.
+          </p>
+        )}
         <div className="flex justify-between items-baseline pt-[18px] border-t border-[#EBD9B8] mt-1">
           <span className="text-[0.7rem] tracking-[0.14em] uppercase text-[#7A6648]">Total</span>
           <div className="font-cormorant text-[2.2rem] font-normal text-[#1C1208]">
