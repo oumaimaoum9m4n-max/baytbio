@@ -32,7 +32,7 @@ export default function Navbar({
 
   // 👇 AJOUT
   const hideWhatsappButton =
-    pathname === "/cart" || pathname === "/checkout";
+    pathname === "/cart" || pathname === "/checkout" || pathname === "/products";
 
   const linkColorClass =
     linksTone === "brown" || scrolled || menuOpen
