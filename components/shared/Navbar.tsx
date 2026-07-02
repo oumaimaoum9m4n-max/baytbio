@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,12 +6,12 @@ import { useCart } from "./CartContext";
 import { WHATSAPP_URL } from "@/components/landing/constants";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const links = [
   { path: "/", label: "Accueil" },
   { path: "/products", label: "Nos Produits" },
   { path: "/about", label: "Notre Histoire" },
-  // { path: "/delivery", label: "Livraison" },
   { path: "/contact", label: "Contact" },
 ];
 
@@ -19,30 +20,47 @@ interface NavbarProps {
   variant?: "default" | "olive";
 }
 
-export default function Navbar({ linksTone = "default", variant = "default" }: NavbarProps) {
+export default function Navbar({
+  linksTone = "default",
+  variant = "default",
+}: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const pathname = usePathname();
+
   const { count } = useCart();
 
+  // Masquer WhatsApp sur panier, checkout et pages produit dynamiques
+  const hideWhatsappButton =
+    pathname === "/cart" ||
+    pathname === "/checkout" ||
+    pathname.startsWith("/products/");
+
   const linkColorClass =
-    linksTone === "brown" || scrolled || menuOpen ? "text-brown" : "text-cream";
+    linksTone === "brown" || scrolled || menuOpen
+      ? "text-brown"
+      : "text-cream";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
+
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
   const logoSrc = scrolled
-    ? "/images/logo/logo_baytbio.png" // après scroll
-    : "/images/logo/logo_baytbio_white.png"; // initial
+    ? "/images/logo/logo_baytbio.png"
+    : "/images/logo/logo_baytbio_white.png";
 
   return (
     <>
@@ -60,8 +78,8 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           <Image
             src={logoSrc}
             alt="BaytBio"
-            width={scrolled ? 140 : 140}
-            height={scrolled ? 70 : 70}
+            width={140}
+            height={70}
             priority
             className={`object-contain transition-all duration-300 ${
               scrolled ? "scale-100" : "scale-110"
@@ -69,7 +87,7 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           />
         </Link>
 
-        {/* LINKS */}
+        {/* DESKTOP LINKS */}
         <ul className="hidden md:flex gap-10 list-none m-0 p-0">
           {links.map((item) => (
             <li key={item.path}>
@@ -85,12 +103,12 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-6">
-          {/* PANIER - Masqué uniquement quand le menu mobile est ouvert (menuOpen) */}
+          {/* CART */}
           <Link
             href="/cart"
-            className={`items-center gap-2 text-[0.82rem] tracking-[0.08em] uppercase cursor-pointer font-sans relative ${linkColorClass} ${
+            className={`items-center gap-2 text-[0.82rem] tracking-[0.08em] uppercase cursor-pointer font-sans relative ${
               menuOpen ? "hidden" : "flex"
-            }`}
+            } ${linkColorClass}`}
             aria-label="Panier"
           >
             <svg
@@ -111,7 +129,9 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
             </span>
           </Link>
 
-          <a
+          {/* DESKTOP WHATSAPP */}
+          {!hideWhatsappButton && (
+            <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -119,6 +139,7 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           >
             Commander via WhatsApp
           </a>
+          )}
 
           {/* HAMBURGER */}
           <button
@@ -132,11 +153,13 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
                 menuOpen ? "translate-y-[6px] rotate-45" : ""
               } ${linkColorClass}`}
             />
+
             <span
               className={`block w-5 h-px bg-current transition-opacity duration-300 ${
                 menuOpen ? "opacity-0" : ""
               } ${linkColorClass}`}
             />
+
             <span
               className={`block w-5 h-px bg-current transition-transform duration-300 origin-center ${
                 menuOpen ? "-translate-y-[6px] -rotate-45" : ""
@@ -149,7 +172,9 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
       {/* MOBILE MENU */}
       <div
         className={`fixed inset-0 z-[99] flex flex-col bg-olive transition-opacity duration-300 md:hidden ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="flex flex-col items-center justify-center flex-1 gap-8 px-8">
@@ -158,13 +183,15 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
               key={item.path}
               href={item.path}
               onClick={() => setMenuOpen(false)}
-              className="font-cormorant text-3xl font-semibold text-cream md:text-brown tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"
+              className="font-cormorant text-3xl font-semibold text-cream tracking-[0.06em] no-underline transition-colors duration-200 hover:text-terracotta"
             >
               {item.label}
             </Link>
           ))}
 
-          <a
+          {/* MOBILE WHATSAPP */}
+          {!hideWhatsappButton && (
+              <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -173,6 +200,7 @@ export default function Navbar({ linksTone = "default", variant = "default" }: N
           >
             Commander via WhatsApp
           </a>
+          )}
         </div>
       </div>
     </>
