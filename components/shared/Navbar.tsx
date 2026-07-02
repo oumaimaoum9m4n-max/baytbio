@@ -34,7 +34,8 @@ export default function Navbar({
   const hideWhatsappButton =
     pathname === "/cart" ||
     pathname === "/checkout" ||
-    pathname.startsWith("/products/");
+    (pathname.startsWith("/products/")  ||
+    pathname === "/products");
 
   const linkColorClass =
     linksTone === "brown" || scrolled || menuOpen
